@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:400,500');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
+
+#wrapper {
+    border: 1px solid blueviolet;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-color: #f8faff;
+}
+    #block {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        border: 1px solid red;
+    }
+        #Landing_signSentence {
+            margin: 5vh auto 10vh auto;
+            cursor: pointer;
+            color: #1a0049;
+            font-family: 'Roboto', sans-serif;
+        }
+            #Landing_signWord {
+                font-family: 'Encode Sans Semi Expanded', sans-serif;
+                font-weight: 600;
+                background: linear-gradient(170deg,#25126d 10%,#3426f8 70%,#25095a 90%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+
+            }
+    #img {
+        display: none;
+        border: 1px solid black;
+        width: 50%;
+        background-image: url('ressources/computer+iphone.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 50vw;
+        
+    }
