@@ -2,18 +2,19 @@
 #Logo {
     margin: auto;
     display: flex;
+    text-decoration: none;
 }
     #Logo_img {
         background-image: url('ressources/logo.png');
         background-position: center;
         background-size: cover;
-        width: 50px;
-        height: 50px;
+        width: 7vh;
+        height: 7vh;
     }
     #Logo_text {
         margin: auto;
         font-family: 'Encode Sans Semi Expanded', sans-serif;
-        font-size: 35px;
+        font-size: 5vh;
         font-weight: 500;
         color: #1a0049;
     }

@@ -1,26 +1,32 @@
 @import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:400,500');
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
 
-#wrapper {
-    border: 1px solid blueviolet;
+body {
+    background-color: #f8faff;
+}
+
+#Landing_wrapper {
     width: 100vw;
     height: 100vh;
     display: flex;
-    background-color: #f8faff;
 }
-    #block {
+    #Landing_block {
         margin: auto;
         display: flex;
         flex-direction: column;
         width: 100vw;
         height: 100vh;
-        border: 1px solid red;
     }
+        #Landing_baseline {
+            display: none;
+        }
         #Landing_signSentence {
-            margin: 5vh auto 10vh auto;
+            margin: 4.5vh auto auto auto;
             cursor: pointer;
             color: #1a0049;
             font-family: 'Roboto', sans-serif;
+            font-size: 2.8vh;
+            text-align: center;
         }
             #Landing_signWord {
                 font-family: 'Encode Sans Semi Expanded', sans-serif;
@@ -30,13 +36,34 @@
                 -webkit-text-fill-color: transparent;
 
             }
-    #img {
+    #Landing_img {
         display: none;
-        border: 1px solid black;
-        width: 50%;
-        background-image: url('ressources/computer+iphone.jpg');
-        background-size: cover;
-        background-position: center;
-        height: 50vw;
-        
     }
+
+
+@media screen and (min-width: 760px) {
+    #Landing_block {
+        min-width: 40vw;
+    }
+        #Logo {
+            margin: 2vh auto 2vh calc(-2vw + 11.8%);
+        }
+        #Landing_baseline {
+            display: flex;
+            margin: auto;
+            color: #1a0049;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+            font-size: 5vh;
+            text-align: center;
+            line-height: 7vh;
+        }
+
+    #Landing_img {
+        display: flex;
+        margin: auto 0 auto auto;
+        width: auto;
+        height: 80vh;
+    }
+
+}

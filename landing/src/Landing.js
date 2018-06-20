@@ -3,6 +3,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Logo from './Logo';
 import './Landing.css';
+import Landing_img from './ressources/computer+iphone.png';
 
 
 class Landing extends React.Component {
@@ -29,15 +30,19 @@ class Landing extends React.Component {
       signInUp = <div id='Landing_signSentence' onClick={this.changeSign}>Already member ? <span id='Landing_signWord'>SIGN IN</span></div>;
     else
       signInUp = <div id='Landing_signSentence' onClick={this.changeSign}>Not member yet ? <span id='Landing_signWord'>SIGN UP</span></div>;
+    
     return (
-      <div id='wrapper'>
-        <div id='block'>
+      <div id='Landing_wrapper'>
+        <div id='Landing_block'>
           <Logo/>
+          <div id='Landing_baseline'>
+            We find your match<br/>
+            You close the deal
+          </div>
           {this.state.signIn ? <SignIn/> : <SignUp/>}
           {signInUp}
         </div>
-        <div id='img'>
-        </div>
+        <img id='Landing_img' src={Landing_img} alt=""/>
       </div>
     );
   }

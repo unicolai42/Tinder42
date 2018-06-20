@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './SignIn.css';
+
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -22,12 +24,11 @@ class SignIn extends React.Component {
   
     render() {
       return (
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name:
+        <form id='SignIn_form' onSubmit={this.handleSubmit}>
+            <div id='SignIn_emptyInput'></div>
             <input type="text" placeholder="Username" value={this.state.value} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
+            <input type="password" placeholder="Password" value={this.state.value} onChange={this.handleChange} />
+            <input id='submit' type="submit" value="SIGN IN" />
         </form>
       );
     }

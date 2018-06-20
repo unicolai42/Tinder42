@@ -18,13 +18,13 @@ class SignUp extends React.Component {
     }
   
     handleSubmit(event) {
-      alert('A name was submitted: ' + this.state.value);
-      event.preventDefault();
+      // alert('A name was submitted: ' + this.state.value);
+      // event.preventDefault();
     }
   
     render() {
       return (
-        <form id='form' onSubmit={this.handleSubmit}>
+        <form id='SignUp_form' onSubmit={this.handleSubmit}>
             <input type="text" placeholder="Mail" value={this.state.value} onChange={this.handleChange} />
             <input type="password" placeholder="Password" value={this.state.value} onChange={this.handleChange} />
             <input type="text" placeholder="Username" value={this.state.value} onChange={this.handleChange} />

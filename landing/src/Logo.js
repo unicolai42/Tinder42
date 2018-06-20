@@ -5,13 +5,13 @@ import './Logo.css';
 class Logo extends React.Component {
   render() {
     return (
-      <div id='Logo'>
+      <a href='/' id='Logo'>
         <div id='Logo_img'>
         </div>
         <div id='Logo_text'>
           tinder
         </div>
-      </div>
+      </a>
     );
   }
 }
