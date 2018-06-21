@@ -20,22 +20,7 @@ body {
         #Landing_baseline {
             display: none;
         }
-        #Landing_signSentence {
-            margin: 4.5vh auto auto auto;
-            cursor: pointer;
-            color: #1a0049;
-            font-family: 'Roboto', sans-serif;
-            font-size: 2.8vh;
-            text-align: center;
-        }
-            #Landing_signWord {
-                font-family: 'Encode Sans Semi Expanded', sans-serif;
-                font-weight: 600;
-                background: linear-gradient(170deg,#25126d 10%,#3426f8 70%,#25095a 90%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
 
-            }
     #Landing_img {
         display: none;
     }

@@ -2,16 +2,6 @@
     display: flex;
     flex-direction: column;
 }
-    #SignUp_validMail {
-        position: absolute;
-        border: 1px solid red;
-        margin-top: 11vh;
-        margin-left: calc(-2vw + 11.8%);
-        font-family: 'Roboto', sans-serif;
-        font-size: 2vh;
-        font-weight: 300;
-
-    }
     #SignUp_form input {
         border: none;
         border-radius: 2px;
@@ -45,4 +35,66 @@
     #submit:active {
         box-shadow: 0px 1px 4px 0 rgba(69, 79, 221, 0.49) !important;
     }
-    
+
+
+#SignUp_signSentence {
+    margin: 4.5vh auto 7vh auto;
+    cursor: pointer;
+    color: #1a0049;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.8vh;
+    text-align: center;
+}
+    #SignUp_signWord {
+        font-family: 'Encode Sans Semi Expanded', sans-serif;
+        font-weight: 600;
+        background: linear-gradient(170deg,#25126d 10%,#3426f8 70%,#25095a 90%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    #SignUp_validMail {
+        position: relative;
+        margin-top: -44vh;
+        font-family: 'Roboto', sans-serif;
+        font-size: 2vh;
+        font-weight: 300;
+        font-style: italic;
+        white-space: nowrap;
+    }
+    #SignUp_validPassword {
+        position: relative;
+        margin-top: 9.8vh;
+        font-family: 'Roboto', sans-serif;
+        font-size: 2vh;
+        font-weight: 300;
+        font-style: italic;
+        white-space: nowrap;
+    }
+    #SignUp_validUsername {
+        position: relative;
+        margin-top: 10vh;
+        font-family: 'Roboto', sans-serif;
+        font-size: 2vh;
+        font-weight: 300;
+        font-style: italic;
+        white-space: nowrap;
+    }
+    .SignUp_validGreen {
+        background: linear-gradient(170deg,#68efc6 20%,#3be961 70%,#18e23a 90%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .SignUp_validOrange {
+        background: linear-gradient(170deg,#ffe346 20%,#ffbd43 60%,#ff9c19 80%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .SignUp_validRed {
+        background: linear-gradient(170deg,#fc7263 20%,#fa2b2b 60%,#f72770 80%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .SignUp_validNone {
+        color: transparent;
+    }
+        

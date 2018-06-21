@@ -56,12 +56,15 @@ class SignIn extends React.Component {
   
     render() {
       return (
-        <form id='SignIn_form' onSubmit={this.submitForm}>
-            <div id='SignIn_emptyInput'></div>
-            <input type="text" placeholder="Username" value={this.state.valueUsername} onChange={this.changeUsername} />
-            <input type="password" placeholder="Password" value={this.state.valuePassword} onChange={this.changePassword} />
-            <input id='submit' type="submit" value="SIGN IN" />
-        </form>
+        <div id='SignIn'>
+          <form id='SignIn_form' onSubmit={this.submitForm}>
+              <div id='SignIn_emptyInput'></div>
+              <input type="text" placeholder="Username" value={this.state.valueUsername} onChange={this.changeUsername} />
+              <input type="password" placeholder="Password" value={this.state.valuePassword} onChange={this.changePassword} />
+              <input id='submit' type="submit" value="SIGN IN" />
+          </form>
+          <div id='SignIn_signSentence' onClick={this.props.changeForSignUp}>Not member yet ? <span id='SignIn_signWord'>SIGN UP</span></div>
+        </div>
       );
     }
   }

@@ -3,7 +3,7 @@
     flex-direction: column;
 }
     #SignIn_emptyInput {
-        height: 8.3vh;
+        height: 8.4vh;
         margin: 2vh auto;
     }
     #SignIn_form input {
@@ -38,4 +38,20 @@
     }
     #submit:active {
         box-shadow: 0px 1px 4px 0 rgba(69, 79, 221, 0.49) !important;
+    }
+
+#SignIn_signSentence {
+    margin: 4.5vh auto 7vh auto;
+    cursor: pointer;
+    color: #1a0049;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.8vh;
+    text-align: center;
+}
+    #SignIn_signWord {
+        font-family: 'Encode Sans Semi Expanded', sans-serif;
+        font-weight: 600;
+        background: linear-gradient(170deg,#25126d 10%,#3426f8 70%,#25095a 90%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
