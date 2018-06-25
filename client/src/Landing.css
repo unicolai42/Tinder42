@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:400,500');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
+
+body {
+    background-color: #f8faff;
+}
+
+#Landing_wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+    #Landing_block {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+    }
+        #Landing_baseline {
+            display: none;
+        }
+
+    #Landing_img {
+        display: none;
+    }
+
+
+@media screen and (min-width: 800px) {
+    #Landing_block {
+        min-width: 40vw;
+    }
+        #Logo {
+            margin: 2vh auto 2vh calc(-2vw + 11.8%);
+        }
+        #Landing_baseline {
+            display: flex;
+            margin: auto;
+            color: #1a0049;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+            font-size: 5vh;
+            text-align: center;
+            line-height: 7vh;
+        }
+
+    #Landing_img {
+        display: flex;
+        margin: auto 0 auto auto;
+        width: auto;
+        height: 80vh;
+    }
+
+}

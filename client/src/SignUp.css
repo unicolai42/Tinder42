@@ -1,0 +1,104 @@
+#SignUp_form {
+    display: flex;
+    flex-direction: column;
+}
+    #SignUp_form input {
+        border: none;
+        border-radius: 2px;
+        box-shadow: 1px 1px 7px 0 #eeeeee inset;
+        margin: 2vh auto;
+        width: 80%;
+        height: 8vh;
+        font-family: 'Roboto', sans-serif;
+        font-size: 3vh;
+        font-weight: 300;
+        padding-left: 5%;
+        color: #1a0049;
+    }
+    #SignUp_form input:focus {
+        outline: none;
+    }
+    #SignUp_form input::placeholder {
+        color: rgb(205, 212, 233);
+    }
+    #submit {
+        color: white !important;
+        background: linear-gradient(40deg,#25126D 20%,#2681f8 50%,#25095a 90%);
+        box-shadow: 0px 5px 9px 0 rgba(69, 79, 221, 0.49) !important;
+        cursor: pointer;
+        font-family: 'Encode Sans Semi Expanded', sans-serif !important;
+        font-weight: 400 !important;
+        width: 85% !important;
+        padding-left: 0 !important;
+        margin: 2vh auto auto auto !important;
+    }
+    #submit:active {
+        box-shadow: 0px 1px 4px 0 rgba(69, 79, 221, 0.49) !important;
+    }
+
+#SignUp_validAndSentence {
+    margin: 4.5vh auto 7vh auto;
+    text-align: center;  
+}
+    #SignUp_signSentence {
+        cursor: pointer;
+        color: #1a0049;
+        font-family: 'Roboto', sans-serif;
+        font-size: 2.8vh;
+    }
+        #SignUp_signWord {
+            font-family: 'Encode Sans Semi Expanded', sans-serif;
+            font-weight: 600;
+            background: linear-gradient(170deg,#25126d 10%,#3426f8 70%,#25095a 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    #SignUp_validMail {
+        position: relative;
+        margin-top: -44vh;
+        font-family: 'Roboto', sans-serif;
+        font-size: 2vh;
+        font-weight: 300;
+        font-style: italic;
+        white-space: nowrap;
+        cursor: default;
+    }
+    #SignUp_validPassword {
+        position: relative;
+        margin-top: 9.8vh;
+        font-family: 'Roboto', sans-serif;
+        font-size: 2vh;
+        font-weight: 300;
+        font-style: italic;
+        white-space: nowrap;
+        cursor: default;
+    }
+    #SignUp_validUsername {
+        position: relative;
+        margin-top: 10vh;
+        font-family: 'Roboto', sans-serif;
+        font-size: 2vh;
+        font-weight: 300;
+        font-style: italic;
+        white-space: nowrap;
+        cursor: default;
+    }
+    .SignUp_validGreen {
+        background: linear-gradient(170deg,#68efc6 20%,#3be961 70%,#18e23a 90%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .SignUp_validOrange {
+        background: linear-gradient(170deg,#ffe346 20%,#ffbd43 60%,#ff9c19 80%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .SignUp_validRed {
+        background: linear-gradient(170deg,#fc7263 20%,#fa2b2b 60%,#f72770 80%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .SignUp_validNone {
+        color: transparent;
+    }
+        
