@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Logo from './Logo';
@@ -10,15 +10,17 @@ class Landing extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      signIn: false
+      signIn: false,
+      activateMail: ''
     }
     this.changeSign = this.changeSign.bind(this);
   }
 
-  changeSign() {
+  changeSign(activateMail) {
     this.setState(
       (prevState) => ({
-        signIn: !prevState.signIn
+        signIn: !prevState.signIn,
+        activateMail: activateMail
       })
     );
   }
@@ -32,7 +34,7 @@ class Landing extends React.Component {
             We find your match<br/>
             You close the deal
           </div>
-          {this.state.signIn ? <SignIn changeForSignUp={this.changeSign}/> : <SignUp changeForSignIn={this.changeSign}/>}
+          {this.state.signIn ? <SignIn activateMail={this.state.activateMail} changeForSignUp={this.changeSign}/> : <SignUp changeForSignIn={this.changeSign}/>}
         </div>
         <img id='Landing_img' src={Landing_img} alt=""/>
       </div>

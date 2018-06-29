@@ -59,7 +59,17 @@
         }
     #SignIn_validLog {
         position: relative;
-        margin-top: -31.8vh;
+        margin-top: -31.3vh;
+        font-family: 'Roboto', sans-serif;
+        font-size: 2vh;
+        font-weight: 300;
+        font-style: italic;
+        white-space: nowrap;
+        cursor: default;
+    }
+    #SignIn_validMessage {
+        position: relative;
+        margin-top: -15.8vh;
         font-family: 'Roboto', sans-serif;
         font-size: 2vh;
         font-weight: 300;
@@ -69,6 +79,20 @@
     }
     .SignIn_validRed {
         background: linear-gradient(170deg,#fc7263 20%,#fa2b2b 60%,#f72770 80%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .SignIn_validNone {
+        color: transparent;
+    }
+    .SignIn_validBlack {
+        color: #1a0049;
+        font-style: normal !important;
+        cursor: pointer !important;
+        text-decoration: underline;
+    }
+    .SignIn_validBlue {
+        background: linear-gradient(170deg,#25126d 10%,#3426f8 70%,#25095a 90%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
