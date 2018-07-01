@@ -26,10 +26,11 @@ class Landing extends React.Component {
   }
 
   render() {
+    console.log(document.cookie)
     return (
       <div id='Landing_wrapper'>
         <div id='Landing_block'>
-          <Logo/>
+          <Logo className='Landing_logo'/>
           <div id='Landing_baseline'>
             We find your match<br/>
             You close the deal

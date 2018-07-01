@@ -30,8 +30,8 @@ body {
     #Landing_block {
         min-width: 40vw;
     }
-        #Logo {
-            margin: 2vh auto 2vh calc(-2vw + 11.8%);
+        .Landing_logo {
+            margin: 2vh auto 2vh calc(-2vw + 11.8%) !important;
         }
         #Landing_baseline {
             display: flex;

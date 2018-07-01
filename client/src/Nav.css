@@ -1,0 +1,21 @@
+#Nav_wrapper {
+    display: flex;
+    border: 1px solid red;
+    justify-content: space-between;
+}
+    .Nav_logo {
+        margin-left: 1vw !important;
+    }
+    .Nav_menu {
+        text-decoration: none;
+        color: #1a0049;
+        font-family: 'Roboto', sans-serif;
+        font-size: 2.8vh;
+        border: 1px solid green;
+        margin: auto 10px;
+    }
+    .Nav_clicked {
+        background: linear-gradient(170deg,#25126d 10%,#3426f8 70%,#25095a 90%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
