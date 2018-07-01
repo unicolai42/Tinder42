@@ -1,6 +1,5 @@
 import React from 'react'
 import './Home.css'
-import Nav from './Nav'
 
 
 class Home extends React.Component {
@@ -13,14 +12,11 @@ class Home extends React.Component {
 
   render() {
     return (
-        <div>
-            <Nav/>
-            <div id='Home_wrapper'>
-                <div id='Home_block'>
-                    {this.state.test}
-                </div>
-            </div>
+        <div id='Home_wrapper'>
+        <div id='Home_block'>
+            {this.state.test}
         </div>
+      </div>
     );
   }
 }

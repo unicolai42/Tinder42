@@ -1,7 +1,5 @@
 import React from 'react';
 import './Profil.css';
-import Nav from './Nav'
-
 
 class Profil extends React.Component {
   constructor(props) {
@@ -14,7 +12,6 @@ class Profil extends React.Component {
   render() {
     return (
       <div id='Profil_wrapper'>
-        <Nav/>
         <div id='Profil_block'>
             {this.state.test}
         </div>
