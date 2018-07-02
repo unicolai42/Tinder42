@@ -1,26 +1,19 @@
 #Nav_wrapper {
-    display: flex;
-    border: 1px solid red;
-    justify-content: space-between;
+    margin: auto;
+    display:  flex;
+    width: 100%;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    padding: 1vh 0;
+    background-color: white;
+    box-shadow: 0 2px 14px 0 rgba(0,0,0,.17);
 }
-    .Nav_logo {
-        margin-left: 1vw !important;
+
+
+@media screen and (min-width: 800px) {
+    #Nav_wrapper {
+        bottom: initial;
     }
-    #Nav_trigram {
-        margin: auto 10px
-    }
-        .Nav_menu {
-            text-decoration: none;
-            color: #1a0049;
-            font-family: 'Roboto', sans-serif;
-            border: 1px solid green;
-            margin: auto 10px;
-        }
-        .Nav_hide {
-            display: none;
-        }
-        .Nav_clicked {
-            background: linear-gradient(170deg,#25126d 10%,#3426f8 70%,#25095a 90%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    
+}

@@ -34,12 +34,14 @@ class App extends React.Component {
             <Router>
                 <div>
                     {(Cookies.get('username')) ? (
-                    <Nav />
+                    <div>
+                        <Nav />
+                        <Route exact path='/' component={homePage}></Route>
+                        <Route path='/profil' component={Profil}></Route>
+                    </div>
                     ) : (
                     <Landing/>
                     )}
-                    <Route exact path='/' component={homePage}></Route>
-                    <Route path='/profil' component={Profil}></Route>
                 </div>
             </Router>
         )

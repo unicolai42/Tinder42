@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:400,500');
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
 
-body {
-    background-color: #f8faff;
-}
-
 #Landing_wrapper {
     width: 100vw;
     height: 100vh;

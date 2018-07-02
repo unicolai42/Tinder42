@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:500');
+#NavNotification {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+}
+    #NavNotification_img {
+        margin: auto;
+        background-position: center;
+        background-size: cover;
+        width: 6vh;
+        height: 6vh;
+    }
+    #NavNotification_text {
+        margin: 0.5vh auto auto auto;
+        font-family: 'Encode Sans Semi Expanded', sans-serif;
+        font-size: 1.8vh;
+        font-weight: 400;
+    }
+
+    .NavNotification_textColor {
+        background: linear-gradient(170deg,#96bac9 10%,#dfefff 70%,#aadaff 90%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .NavNotification_imgColor {
+        background-image: url('ressources/notification_white.png');
+    }
+
+    .NavNotification_textColorSelect {
+        background: linear-gradient(170deg,#25126d 10%,#3426f8 70%,#25095a 90%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .NavNotification_imgColorSelect {
+        background-image: url('ressources/notification.png');
+    }
+
+
+@media screen and (min-width: 800px) {
+    #NavNotification {
+        flex-direction: initial;
+        order: 4;
+        margin: auto 40px auto auto;
+    }
+        #NavNotification_img {
+            width: 3.5vh;
+            height: 3.5vh;
+        }
+        #NavNotification_text {
+            display: none;
+        }
+}

@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:500');
+#NavSettings {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+}
+    #NavSettings_img {
+        margin: auto;
+        background-position: center;
+        background-size: cover;
+        width: 6vh;
+        height: 6vh;
+    }
+    #NavSettings_text {
+        margin: 0.5vh auto auto auto;
+        font-family: 'Encode Sans Semi Expanded', sans-serif;
+        font-size: 1.8vh;
+        font-weight: 400;
+    }
+
+    .NavSettings_textColor {
+        background: linear-gradient(170deg,#96bac9 10%,#dfefff 70%,#aadaff 90%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .NavSettings_imgColor {
+        background-image: url('ressources/settings_white.png');
+    }
+
+    .NavSettings_textColorSelect {
+        background: linear-gradient(170deg,#25126d 10%,#3426f8 70%,#25095a 90%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .NavSettings_imgColorSelect {
+        background-image: url('ressources/settings.png');
+    }
+
+
+@media screen and (min-width: 800px) {
+    #NavSettings {
+        flex-direction: initial;
+        order: 5;
+        margin: auto 40px auto 0;
+    }
+        #NavSettings_img {
+            width: 3.5vh;
+            height: 3.5vh;
+        }
+        #NavSettings_text {
+            display: none
+        }
+}
