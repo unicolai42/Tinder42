@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:500');
+
+#Profile_wrapper {
+    border: 1px solid red;
+    display: flex;
+    height: 89vh;
+    overflow: scroll;
+}
+    #Profile_block {
+        border: 1px solid green;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        width: 80vw;
+        max-width: 65vh;
+    }
+        #Profile_firstPicture {
+            margin: 0 auto;
+            background-image: url('./ressources/picture1.jpg');
+            background-position: center;
+            background-size: cover;
+            width: 80vw;
+            height: 80vw;
+            max-height: 65vh;
+            max-width: 65vh;
+            border-radius: 10px;
+        }
+        #Profile_secondPicture {
+            margin: 2vw auto;
+            display: flex;
+            width: 100%;
+            height: 17vw;
+            min-height: 10vh;
+            max-height: 12.5vh;
+        }
+            .Profile_pictures {
+                background-position: center;
+                background-size: cover;
+                width: 15.5vw;
+                height: 15.5vw;
+                max-width: 12.5vh;
+                max-height: 12.5vh;
+                margin: auto;
+                border-radius: 2vh;
+            }
+            #Profile_picture1 {
+                background-image: url('./ressources/picture1.jpg');
+                margin-left: 0;
+            }
+            #Profile_picture2 {
+                background-image: url('./ressources/picture2.jpg');
+            }
+            #Profile_picture3 {
+                background-image: url('./ressources/picture3.jpg');
+            }
+            #Profile_picture4 {
+                background-image: url('./ressources/picture4.jpg');
+            }
+            #Profile_picture5 {
+                background-image: url('./ressources/picture5.jpg');
+                margin-right: 0;
+            }
+        #Profile_about {
+            margin: 0 2px;
+            font-family: 'Encode Sans Semi Expanded', sans-serif;
+            border: 1px solid saddlebrown;
+            font-size: 2.2vh;
+        }
+            .Profile_box {
+                display: flex;
+                justify-content: space-between;
+                /* border: 1px solid royalblue; */
+                margin: 1vh 0;
+            }
+            #Profile_NameAgeText {
+                font-size: 4.5vh;
+                background: linear-gradient(210deg,#68efc6 40%,#3be961 70%,#18e23a 90%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            #Profile_NameAgeEdit {
+                margin: auto 0;
+            }
+            #Profile_aboutDescription {
+                margin-top: 2.5vh;
+                width: 93%;
+            }
+                .Profile_aboutText {
+                    margin: auto 0;
+                }
+                .Profile_aboutImg {
+                    width: 3.5vh;
+                    height: 3.5vh;
+                    background-position: center;
+                    background-size: cover;
+                    border: 1px solid darkcyan;
+                }
+                #Profile_aboutLocation {
+                    background-image: url('./ressources/location.png');
+                }
+                #Profile_aboutWork {
+                    background-image: url('./ressources/work.png');
+                }
+                #Profile_aboutInterest {
+                    background-image: url('./ressources/interest.png');
+                }
+                #Profile_aboutLanguage {
+                    background-image: url('./ressources/language.png');
+                }
