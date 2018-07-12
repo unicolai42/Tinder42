@@ -1,18 +1,20 @@
-@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:500');
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:300');
 
 #Profile_wrapper {
-    border: 1px solid red;
     display: flex;
     height: 89vh;
     overflow: scroll;
 }
     #Profile_block {
-        border: 1px solid green;
-        margin: auto;
+        margin: auto auto 5vh auto;
         display: flex;
         flex-direction: column;
         width: 80vw;
         max-width: 65vh;
+        background-color: white;
+        border-radius: 2vh;
+        box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77);
+
     }
         #Profile_firstPicture {
             margin: 0 auto;
@@ -23,7 +25,9 @@
             height: 80vw;
             max-height: 65vh;
             max-width: 65vh;
-            border-radius: 10px;
+            border-radius: 2vh 2vh 0 0;
+            box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77);
+
         }
         #Profile_secondPicture {
             margin: 2vw auto;
@@ -42,6 +46,8 @@
                 max-height: 12.5vh;
                 margin: auto;
                 border-radius: 2vh;
+                box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77);
+
             }
             #Profile_picture1 {
                 background-image: url('./ressources/picture1.jpg');
@@ -61,39 +67,54 @@
                 margin-right: 0;
             }
         #Profile_about {
-            margin: 0 2px;
+            margin: 0 5px;
             font-family: 'Encode Sans Semi Expanded', sans-serif;
-            border: 1px solid saddlebrown;
             font-size: 2.2vh;
+            font-weight: 300;
         }
             .Profile_box {
                 display: flex;
                 justify-content: space-between;
-                /* border: 1px solid royalblue; */
-                margin: 1vh 0;
+                margin: 2vh;
+            }
+            .Profile_line {
+                width: 88%;
+                margin: auto;
+                border-top: 1px solid;
+                border-image: linear-gradient(210deg,#68efc6 40%,#3be961 70%,#18e23a 90%) 10;
             }
             #Profile_NameAgeText {
-                font-size: 4.5vh;
+                font-size: 3.5vh;
                 background: linear-gradient(210deg,#68efc6 40%,#3be961 70%,#18e23a 90%);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
+                margin-right: 20px;
             }
             #Profile_NameAgeEdit {
                 margin: auto 0;
+                display: flex;
+            }
+            #Profile_NameAgeEditText {
+                margin: auto;
+            }
+            #Profile_NameAgeEditImg {
+                background-image: url('.//ressources/edit.png');
+                margin: auto auto auto 0.5vh;
+                width: 2.8vh;
+                height: 2.8vh;
             }
             #Profile_aboutDescription {
-                margin-top: 2.5vh;
-                width: 93%;
+                margin: 3vh auto;
+                width: 89%;
+                text-align: center;
+                display: inherit;
             }
-                .Profile_aboutText {
-                    margin: auto 0;
-                }
                 .Profile_aboutImg {
                     width: 3.5vh;
                     height: 3.5vh;
                     background-position: center;
                     background-size: cover;
-                    border: 1px solid darkcyan;
+                    margin: auto 0;
                 }
                 #Profile_aboutLocation {
                     background-image: url('./ressources/location.png');
@@ -107,3 +128,40 @@
                 #Profile_aboutLanguage {
                     background-image: url('./ressources/language.png');
                 }
+
+
+@media screen and (min-width: 800px) {
+    #Profile_wrapper {
+        margin-top: 6vh;
+        height: calc(100vh - 6vh);
+    }
+        #Profile_block {
+            flex-direction: initial;
+            margin: auto;
+            width: 80vw;
+            max-width: initial;
+        }
+                #Profile_firstPicture {
+                    border-radius: 2vh 2vh 2vh 0;
+                }
+                #Profile_secondPicture {
+                    margin: 0.7vh auto auto auto;
+                }
+            #Profile_about {
+                width: 100%;
+                margin: 0 5vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+                #Profile_aboutDescription {
+                    margin: auto;
+                    width: initial;
+                }
+                .Profile_box {
+                    margin: 4vh 0;
+                }
+                .Profile_line {
+                    width: 95%;
+                }
+}

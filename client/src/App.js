@@ -1,7 +1,7 @@
 import React from 'react';
 import Nav from './Nav'
 import Landing from './Landing';
-import Home from './Home';
+import Home from './Match';
 import Profile from './Profile';
 import Cookies from 'js-cookie'
 import {BrowserRouter as Router, Route} from 'react-router-dom'

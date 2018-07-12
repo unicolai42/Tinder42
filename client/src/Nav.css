@@ -14,6 +14,7 @@
 @media screen and (min-width: 800px) {
     #Nav_wrapper {
         bottom: initial;
+        top: 0;
     }
     
 }
