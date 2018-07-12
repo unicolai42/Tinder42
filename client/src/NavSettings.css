@@ -9,13 +9,13 @@
         margin: auto;
         background-position: center;
         background-size: cover;
-        width: 6vh;
-        height: 6vh;
+        width: 30px;
+        height: 30px;
     }
     #NavSettings_text {
-        margin: 0.5vh auto auto auto;
+        margin: 5px auto auto auto;
         font-family: 'Encode Sans Semi Expanded', sans-serif;
-        font-size: 1.8vh;
+        font-size: 12px;
         font-weight: 400;
     }
 
@@ -45,8 +45,8 @@
         margin: auto 40px auto 0;
     }
         #NavSettings_img {
-            width: 3.5vh;
-            height: 3.5vh;
+            width: 25px;
+            height: 25px;
         }
         #NavSettings_text {
             display: none

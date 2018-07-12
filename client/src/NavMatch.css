@@ -9,13 +9,13 @@
         margin: auto;
         background-position: center;
         background-size: cover;
-        width: 6vh;
-        height: 6vh;
+        width: 30px;
+        height: 30px;
     }
     #NavMatch_text {
-        margin: 0.5vh auto auto auto;
+        margin: 5px auto auto auto;
         font-family: 'Encode Sans Semi Expanded', sans-serif;
-        font-size: 1.8vh;
+        font-size: 12px;
         font-weight: 400;
     }
 
@@ -44,13 +44,9 @@
         order: 1;
         margin: auto 0 auto 40px;
     }
-        #NavMatch_img {
-            width: 4vh;
-            height: 4vh;
-        }
         #NavMatch_text {
             padding-left: 3px;
-            font-size: 2vh;
+            font-size: 14px;
             font-weight: 500;
             margin: auto;
         }

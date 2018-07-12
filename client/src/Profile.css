@@ -12,7 +12,7 @@
         width: 80vw;
         max-width: 65vh;
         background-color: white;
-        border-radius: 2vh;
+        border-radius: 15px;
         box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77);
 
     }
@@ -25,7 +25,7 @@
             height: 80vw;
             max-height: 65vh;
             max-width: 65vh;
-            border-radius: 2vh 2vh 0 0;
+            border-radius: 15px 15px 0 0;
             box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77);
 
         }
@@ -45,7 +45,7 @@
                 max-width: 12.5vh;
                 max-height: 12.5vh;
                 margin: auto;
-                border-radius: 2vh;
+                border-radius: 15px;
                 box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77);
 
             }
@@ -69,7 +69,7 @@
         #Profile_about {
             margin: 0 5px;
             font-family: 'Encode Sans Semi Expanded', sans-serif;
-            font-size: 2.2vh;
+            font-size: 2.2vw;
             font-weight: 300;
         }
             .Profile_box {
@@ -84,7 +84,7 @@
                 border-image: linear-gradient(210deg,#68efc6 40%,#3be961 70%,#18e23a 90%) 10;
             }
             #Profile_NameAgeText {
-                font-size: 3.5vh;
+                font-size: 3.5vw;
                 background: linear-gradient(210deg,#68efc6 40%,#3be961 70%,#18e23a 90%);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
@@ -142,7 +142,7 @@
             max-width: initial;
         }
                 #Profile_firstPicture {
-                    border-radius: 2vh 2vh 2vh 0;
+                    border-radius: 15px 15px 15px 0;
                 }
                 #Profile_secondPicture {
                     margin: 0.7vh auto auto auto;
