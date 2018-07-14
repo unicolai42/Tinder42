@@ -72,63 +72,6 @@
             font-size: 2.2vw;
             font-weight: 300;
         }
-            .Profile_box {
-                display: flex;
-                justify-content: space-between;
-                margin: 2vh;
-            }
-            .Profile_line {
-                width: 88%;
-                margin: auto;
-                border-top: 1px solid;
-                border-image: linear-gradient(210deg,#68efc6 40%,#3be961 70%,#18e23a 90%) 10;
-            }
-            #Profile_NameAgeText {
-                font-size: 3.5vw;
-                background: linear-gradient(210deg,#68efc6 40%,#3be961 70%,#18e23a 90%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                margin-right: 20px;
-            }
-            #Profile_NameAgeEdit {
-                margin: auto 0;
-                display: flex;
-            }
-            #Profile_NameAgeEditText {
-                margin: auto;
-            }
-            #Profile_NameAgeEditImg {
-                background-image: url('.//ressources/edit.png');
-                margin: auto auto auto 0.5vh;
-                width: 2.8vh;
-                height: 2.8vh;
-            }
-            #Profile_aboutDescription {
-                margin: 3vh auto;
-                width: 89%;
-                text-align: center;
-                display: inherit;
-            }
-                .Profile_aboutImg {
-                    width: 3.5vh;
-                    height: 3.5vh;
-                    background-position: center;
-                    background-size: cover;
-                    margin: auto 0;
-                }
-                #Profile_aboutLocation {
-                    background-image: url('./ressources/location.png');
-                }
-                #Profile_aboutWork {
-                    background-image: url('./ressources/work.png');
-                }
-                #Profile_aboutInterest {
-                    background-image: url('./ressources/interest.png');
-                }
-                #Profile_aboutLanguage {
-                    background-image: url('./ressources/language.png');
-                }
-
 
 @media screen and (min-width: 800px) {
     #Profile_wrapper {
@@ -154,14 +97,4 @@
                 flex-direction: column;
                 justify-content: space-between;
             }
-                #Profile_aboutDescription {
-                    margin: auto;
-                    width: initial;
-                }
-                .Profile_box {
-                    margin: 4vh 0;
-                }
-                .Profile_line {
-                    width: 95%;
-                }
 }

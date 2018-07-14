@@ -5,6 +5,7 @@
   "proxy": "http://localhost:3001",
   "dependencies": {
     "js-cookie": "^2.2.0",
+    "node-sass-chokidar": "^1.3.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-responsive": "^4.1.0",
@@ -12,6 +13,8 @@
     "react-scripts": "^1.1.4"
   },
   "scripts": {
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

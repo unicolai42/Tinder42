@@ -1,16 +1,8 @@
-import React from 'react';
-import './Profile.css';
+import React from 'react'
+import './Profile.css'
+import InfoUser from './InfoUser'
 
 class Profile extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: 'Ugo',
-      age: '24',
-      test: 'Fucking yes !!!'
-    }
-  }
-
   render() {
     return (
       <div id='Profile_wrapper'>
@@ -26,33 +18,7 @@ class Profile extends React.Component {
               </div>
             </div>
             <div id='Profile_about'>
-              <div className='Profile_box'>
-                <div id='Profile_NameAgeText'>{this.state.name}{(this.state.age) ? `, ${this.state.age}` : null}</div>
-                <div id='Profile_NameAgeEdit'><span id='Profile_NameAgeEditText'>Edit</span><span className='Profile_aboutImg' id='Profile_NameAgeEditImg'></span></div>
-              </div>
-              <div id='Profile_aboutDescription' className='Profile_box'>
-                Hello
-              </div>
-              <div className='Profile_line'></div>
-              <div className='Profile_box'>
-                <div className='Profile_aboutText'>Paris</div>
-                <div id='Profile_aboutLocation' className='Profile_aboutImg'></div>
-              </div>
-              <div className='Profile_line'></div>
-              <div className='Profile_box'>
-                <div className='Profile_aboutText'>42</div>
-                <div id='Profile_aboutWork' className='Profile_aboutImg'></div>
-              </div>
-              <div className='Profile_line'></div>
-              <div className='Profile_box'>
-                <div className='Profile_aboutText'>#Hacker<br/>#Self-taught<br/>#Growth</div>
-                <div id='Profile_aboutInterest' className='Profile_aboutImg'></div>
-              </div>
-              <div className='Profile_line'></div>
-              <div className='Profile_box'>
-                <div className='Profile_aboutText'>French</div>
-                <div id='Profile_aboutLanguage' className='Profile_aboutImg'></div>
-              </div>
+              <InfoUser/>
             </div>
         </div>
       </div>

@@ -29,7 +29,6 @@ class App extends React.Component {
 
     render() {
         let homePage = (Cookies.get('username')) ? Home : Landing
-        console.log(this.state.nav)
         return (
             <Router>
                 <div>
