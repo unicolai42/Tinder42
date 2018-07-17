@@ -21,8 +21,7 @@
       font-weight: 300;
       font-size: 18px;
       margin: auto; }
-  #Match_wrapper #Match_picture {
-    /* background-image: url('./ressources/picture1.jpg') */
+  #Match_wrapper #Match_actualFrame {
     box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77);
     background-position: center;
     background-size: cover;
@@ -35,48 +34,61 @@
     color: white;
     font-weight: 300;
     margin: auto;
+    position: relative;
     display: flex;
     flex-direction: column;
-    position: relative; }
-    #Match_wrapper #Match_picture #Match_arrows {
-      margin: auto 0;
+    flex-wrap: wrap;
+    overflow: auto; }
+    #Match_wrapper #Match_actualFrame .Match_actualPicture {
+      background-position: center;
+      background-size: cover;
+      border-radius: 8px;
+      width: 100%;
+      height: 100%;
+      transition: all 0.3s ease-out; }
+    #Match_wrapper #Match_actualFrame #Match_arrows {
       display: flex;
-      justify-content: space-between; }
-      #Match_wrapper #Match_picture #Match_arrows #Match_arrowLeft {
+      justify-content: space-between;
+      z-index: 1;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0; }
+      #Match_wrapper #Match_actualFrame #Match_arrows #Match_arrowLeft {
         background-image: url("./ressources/arrow_left.png");
         background-position: center;
         background-size: cover;
         width: 30px;
         height: 30px;
         cursor: pointer; }
-      #Match_wrapper #Match_picture #Match_arrows #Match_arrowRight {
+      #Match_wrapper #Match_actualFrame #Match_arrows #Match_arrowRight {
         background-image: url("./ressources/arrow_right.png");
         background-position: center;
         background-size: cover;
         width: 30px;
         height: 30px;
         cursor: pointer; }
-    #Match_wrapper #Match_picture #Match_informations {
+    #Match_wrapper #Match_actualFrame #Match_informations {
       display: flex;
       flex-direction: column;
       position: absolute;
       bottom: 30px;
       left: 20px; }
-      #Match_wrapper #Match_picture #Match_informations #Match_nameAge {
+      #Match_wrapper #Match_actualFrame #Match_informations #Match_nameAge {
         font-size: 22px;
         margin-bottom: 5px; }
-      #Match_wrapper #Match_picture #Match_informations #Match_location {
+      #Match_wrapper #Match_actualFrame #Match_informations #Match_location {
         display: flex; }
-        #Match_wrapper #Match_picture #Match_informations #Match_location #Match_locationLogo {
+        #Match_wrapper #Match_actualFrame #Match_informations #Match_location #Match_locationLogo {
           background-image: url("./ressources/location_white.png");
           background-position: center;
           background-size: cover;
           width: 24px;
           height: 24px; }
-        #Match_wrapper #Match_picture #Match_informations #Match_location #Match_locationText {
+        #Match_wrapper #Match_actualFrame #Match_informations #Match_location #Match_locationText {
           font-size: 17px;
           margin-left: 3px; }
-    #Match_wrapper #Match_picture #Match_about {
+    #Match_wrapper #Match_actualFrame #Match_about {
       background-image: url("./ressources/about.png");
       background-position: center;
       background-size: cover;
@@ -86,18 +98,20 @@
       top: 20px;
       right: 20px;
       cursor: pointer; }
-    #Match_wrapper #Match_picture #Match_moreInfo {
+    #Match_wrapper #Match_actualFrame #Match_moreInfo {
       background-color: rgba(255, 255, 255, 0.9);
       position: absolute;
       top: 0;
       bottom: 0;
       left: 0;
       right: 0;
-      z-index: 1;
+      z-index: 2;
       border-radius: 8px;
       flex-direction: column;
-      color: black; }
-      #Match_wrapper #Match_picture #Match_moreInfo #Match_close {
+      color: black;
+      overflow: auto;
+      padding: 10px; }
+      #Match_wrapper #Match_actualFrame #Match_moreInfo #Match_close {
         position: absolute;
         top: 20px;
         right: 20px;
@@ -107,15 +121,15 @@
         width: 24px;
         height: 24px;
         cursor: pointer; }
-      #Match_wrapper #Match_picture #Match_moreInfo #Match_frameInfo {
+      #Match_wrapper #Match_actualFrame #Match_moreInfo #Match_frameInfo {
         margin: auto 0; }
-    #Match_wrapper #Match_picture #Match_frameBulletpoint {
+    #Match_wrapper #Match_actualFrame #Match_frameBulletpoint {
       display: flex;
       position: absolute;
       bottom: 10px;
       left: 50%;
       transform: translate(-50%, -50%); }
-      #Match_wrapper #Match_picture #Match_frameBulletpoint .Match_bulletpoint {
+      #Match_wrapper #Match_actualFrame #Match_frameBulletpoint .Match_bulletpoint {
         margin: 0 3px;
         height: 10px;
         width: 10px;
@@ -125,11 +139,10 @@
         cursor: pointer;
         transition: background .3s linear; }
   #Match_wrapper #Match_button {
-    border: 1px solid darkcyan;
     margin: 20px auto 80px auto;
     display: flex;
     justify-content: center;
-    height: initial; }
+    height: 65px !important; }
     #Match_wrapper #Match_button #Match_like {
       background-image: url("./ressources/like.png");
       background-position: center;
@@ -138,7 +151,9 @@
       height: 65px;
       border-radius: 100%;
       box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77);
-      margin-left: 70px; }
+      margin-left: 70px;
+      border: 1px solid white;
+      cursor: pointer; }
     #Match_wrapper #Match_button #Match_dislike {
       background-image: url("./ressources/dislike.png");
       background-position: center;
@@ -146,10 +161,21 @@
       width: 65px;
       height: 65px;
       border-radius: 100%;
-      box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77); }
+      box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77);
+      border: 1px solid white;
+      cursor: pointer; }
 
 @media (max-height: 300px) {
   #Match_informations {
-    display: none; }
+    display: none !important; }
     #Match_informations #Match_frameBulletpoint {
-      bottom: 3px; } }
+      bottom: 3px !important; } }
+
+@media (min-width: 800px) {
+  #Match_number {
+    order: 3;
+    margin: auto; }
+  #Match_picture {
+    margin: 70px auto auto auto !important; }
+  #Match_button {
+    margin: auto !important; } }

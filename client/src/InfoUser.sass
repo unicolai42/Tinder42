@@ -1,0 +1,76 @@
+.InfoUser_line
+    width: 88%
+    margin: auto
+    border-top: 1px solid
+    border-image: linear-gradient(210deg,#68efc6 40%,#3be961 70%,#18e23a 90%) 10
+
+.InfoUser_box
+    display: flex
+    justify-content: space-between
+    margin: 2vh
+
+#InfoUser_NameAgeText
+    font-size: 3.5vw
+    background: linear-gradient(210deg,#68efc6 40%,#3be961 70%,#18e23a 90%)
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+    margin-right: 20px
+
+#InfoUser_NameAgeEdit
+    margin: auto 0
+    display: flex
+
+#InfoUser_NameAgeEditText
+    margin: auto
+
+#InfoUser_NameAgeEditImg
+    background-image: url('.//ressources/edit.png')
+    margin: auto auto auto 0.5vh
+    width: 2.8vh
+    height: 2.8vh
+
+#InfoUser_aboutDescription
+    margin: 3vh auto
+    width: 89%
+    text-align: center
+    display: inherit
+
+    .InfoUser_aboutImg
+        width: 25px
+        height: 25px
+        background-position: center
+        background-size: cover
+        margin: auto 0
+
+
+    #InfoUser_aboutLocation
+        background-image: url('./ressources/location.png')
+
+
+    #InfoUser_aboutWork
+        background-image: url('./ressources/work.png')
+
+
+    #InfoUser_aboutInterest
+        background-image: url('./ressources/interest.png')
+
+
+    #InfoUser_aboutLanguage
+        background-image: url('./ressources/language.png')
+
+
+
+
+@media screen and (min-width: 800px)
+    #InfoUser_aboutDescription
+        margin: auto
+        width: initial
+
+
+    .InfoUser_box
+        margin: 4vh 0
+
+
+    .InfoUser_line
+        width: 95%
+

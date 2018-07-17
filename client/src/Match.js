@@ -15,6 +15,7 @@ class Match extends React.Component {
     this.state = {
       pictures: [pic1, pic2, pic3, pic4, pic5],
       picturePrincipale: '',
+      changePicture: 0,
       clickedInfo: false,
       about: 'flex',
       info: 'none'
@@ -44,15 +45,21 @@ class Match extends React.Component {
   }
 
   previousPicture() {
-    let pictureIndex = this.state.pictures.findIndex((elem) => {
-      return elem === this.state.picturePrincipale
-    })
-    let previousPicture
-    if (pictureIndex !== 0)
-      previousPicture = this.state.pictures[pictureIndex - 1]
+    if (this.state.changePicture !== 0)
+      this.setState((prevState) => {
+        return {changePicture: prevState.changePicture -= 100 * -1}
+      })
     else
-      previousPicture = this.state.pictures[this.state.pictures.length - 1]
-    this.setState({picturePrincipale: previousPicture})
+      this.setState({changePicture: (this.state.pictures.length - 1) * 100 * -1})
+    // let pictureIndex = this.state.pictures.findIndex((elem) => {
+    //   return elem === this.state.picturePrincipale
+    // })
+    // let previousPicture
+    // if (pictureIndex !== 0)
+    //   previousPicture = this.state.pictures[pictureIndex - 1]
+    // else
+    //   previousPicture = this.state.pictures[this.state.pictures.length - 1]
+    // this.setState({picturePrincipale: previousPicture})
   }
 
   nextPicture() {
@@ -84,13 +91,21 @@ class Match extends React.Component {
   }
 
   render() {
+    let pictures = []
+    let i = 0
+    this.state.pictures.forEach((elem) => {
+      pictures.push(<div className='Match_actualPicture' style={{backgroundImage: `url(${this.state.pictures[i]})`, transform: `translateX(${this.state.changePicture}%)`}}></div>)
+      i++
+    })
     return (
         <div id='Match_wrapper'>
           <div id='Match_number'>
             <div id='Match_numberLogo'></div>
             <div id='Match_numberText'>15 more matches found</div>
           </div>
-          <div id='Match_picture' style={{backgroundImage: `url(${this.state.picturePrincipale})`}}>
+          <div id='Match_actualFrame'>
+            {pictures}
+            {/* <div id='Match_actualPicture' style={{backgroundImage: `url(${this.state.picturePrincipale})`}}></div> */}
             <div id='Match_arrows'>
               <div id='Match_arrowLeft' onClick={this.previousPicture}></div>
               <div id='Match_arrowRight' onClick={this.nextPicture}></div>
