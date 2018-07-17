@@ -51,32 +51,21 @@ class Match extends React.Component {
       })
     else
       this.setState({changePicture: (this.state.pictures.length - 1) * 100 * -1})
-    // let pictureIndex = this.state.pictures.findIndex((elem) => {
-    //   return elem === this.state.picturePrincipale
-    // })
-    // let previousPicture
-    // if (pictureIndex !== 0)
-    //   previousPicture = this.state.pictures[pictureIndex - 1]
-    // else
-    //   previousPicture = this.state.pictures[this.state.pictures.length - 1]
-    // this.setState({picturePrincipale: previousPicture})
   }
 
   nextPicture() {
-    let pictureIndex = this.state.pictures.findIndex((elem) => {
-      return elem === this.state.picturePrincipale
+    console.log(this.state.changePicture)
+    if (this.state.changePicture / -100 !== this.state.pictures.length - 1)
+    this.setState((prevState) => {
+      return {changePicture: prevState.changePicture += 100 * -1}
     })
-    let nextPicture
-    if (pictureIndex + 1 !== this.state.pictures.length)
-      nextPicture = this.state.pictures[pictureIndex + 1]
-    else
-      nextPicture = this.state.pictures[0]
-    this.setState({picturePrincipale: nextPicture})
+  else
+    this.setState({changePicture: 0})
   }
 
   clickBulletpoint(e) {
-
-    this.setState({picturePrincipale: e.target.dataset.id})
+    console.log(e.target)
+    this.setState({changePicture: e.target.dataset.id * -100})
     e.target.style.background = 'white';
   }
 
@@ -84,8 +73,8 @@ class Match extends React.Component {
     let bulletpoint = []
 
     for (let i = 0; i < this.state.pictures.length; i++) {
-      let whiteBullet = (this.state.pictures[i] === this.state.picturePrincipale) ? {background: 'white'} : null
-      bulletpoint.push(<div className='Match_bulletpoint' key={i} data-id={this.state.pictures[i]} style={whiteBullet} onClick={this.clickBulletpoint}></div>)
+      let whiteBullet = (i * -100 === this.state.changePicture) ? {background: 'white'} : null
+      bulletpoint.push(<div className='Match_bulletpoint' key={i} data-id={i} style={whiteBullet} onClick={this.clickBulletpoint}></div>)
     }
     return bulletpoint
   }
@@ -94,7 +83,7 @@ class Match extends React.Component {
     let pictures = []
     let i = 0
     this.state.pictures.forEach((elem) => {
-      pictures.push(<div className='Match_actualPicture' style={{backgroundImage: `url(${this.state.pictures[i]})`, transform: `translateX(${this.state.changePicture}%)`}}></div>)
+      pictures.push(<div className='Match_picture' key={i} style={{backgroundImage: `url(${this.state.pictures[i]})`, transform: `translateX(${this.state.changePicture}%)`}}></div>)
       i++
     })
     return (
@@ -105,7 +94,6 @@ class Match extends React.Component {
           </div>
           <div id='Match_actualFrame'>
             {pictures}
-            {/* <div id='Match_actualPicture' style={{backgroundImage: `url(${this.state.picturePrincipale})`}}></div> */}
             <div id='Match_arrows'>
               <div id='Match_arrowLeft' onClick={this.previousPicture}></div>
               <div id='Match_arrowRight' onClick={this.nextPicture}></div>
@@ -118,7 +106,6 @@ class Match extends React.Component {
               </div>
             </div>
             <div id='Match_about' onClick={this.clickedInfo} style={{display: this.state.about}}></div>
-            {console.log(this.state.info)}
             <div id='Match_moreInfo' style={{display: this.state.info}}>
               <div id='Match_close' onClick={this.clickedInfo}></div>
               <div id='Match_frameInfo'>

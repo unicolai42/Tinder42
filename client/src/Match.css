@@ -39,7 +39,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     overflow: auto; }
-    #Match_wrapper #Match_actualFrame .Match_actualPicture {
+    #Match_wrapper #Match_actualFrame .Match_picture {
       background-position: center;
       background-size: cover;
       border-radius: 8px;
