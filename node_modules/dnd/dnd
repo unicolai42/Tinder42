@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+var fs = require("fs");
+var exec = require('child_process').exec;
+
+// Get the arguments
+var args = process.argv;
+
+if(args.length > 2) {
+	var cmd = args[2];
+
+	if(cmd === "--add") {
+		if(args.length <= 3)
+			return console.log("at least one site has to be submitted");
+		
+		fs.readFile("/private/etc/hosts", "utf8", function(err, data) {
+			if(err)
+				console.log(err);
+
+			for(var i = 3; i < args.length; i++) {
+				data += "\n127.0.0.1 " + args[i];
+			}
+			
+			fs.writeFile("/private/etc/hosts", data, function(err) {
+				if(err)
+					return console.log(err);
+				exec("dscacheutil -flushcache");
+				console.log("to access these sites again, alter your /private/etc/hosts file");
+			});
+		});
+	} else {
+		console.log("No argument specified");
+	}
+} else {
+	console.log("Use dnd like this: dnd --add [sites to block]");
+}

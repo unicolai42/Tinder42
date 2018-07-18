@@ -55,7 +55,7 @@ class Match extends React.Component {
   likeClick() {
     if (this.state.actualUser === 'FirstUser')
       this.setState({styleThirdUser: {zIndex: '1'},
-                      styleFirstUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(1000px) rotate(20deg)'},
+                      styleFirstUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(20deg)'},
                       likedFirstUser: {display: 'initial'},
                       styleSecondUser: {zIndex: '2'},
                       likedThirdUser: {display: 'none'},
@@ -63,7 +63,7 @@ class Match extends React.Component {
                       actualUser: 'SecondUser'})
     else if (this.state.actualUser === 'SecondUser')
     this.setState({styleFirstUser: {zIndex: '1'},
-                    styleSecondUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(1000px) rotate(20deg)'},
+                    styleSecondUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(20deg)'},
                     likedSecondUser: {display: 'initial'},
                     styleThirdUser: {zIndex: '2'},
                     likedFirstUser: {display: 'none'},
@@ -71,7 +71,7 @@ class Match extends React.Component {
                     actualUser: 'ThirdUser'})
     else if (this.state.actualUser === 'ThirdUser')
     this.setState({styleSecondUser: {zIndex: '1'},
-                    styleThirdUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(1000px) rotate(20deg)'},
+                    styleThirdUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(20deg)'},
                     likedThirdUser: {display: 'initial'},
                     styleFirstUser: {zIndex: '2'},
                     likedSecondUser: {display: 'none'},
@@ -81,7 +81,7 @@ class Match extends React.Component {
   dislikeClick() {
     if (this.state.actualUser === 'FirstUser')
       this.setState({styleThirdUser: {zIndex: '1'},
-                      styleFirstUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(-1000px) rotate(-20deg)'},
+                      styleFirstUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(-2000px) rotate(-20deg)'},
                       dislikedFirstUser: {display: 'initial'},
                       styleSecondUser: {zIndex: '2'},
                       likedThirdUser: {display: 'none'},
@@ -89,7 +89,7 @@ class Match extends React.Component {
                       actualUser: 'SecondUser'})
     else if (this.state.actualUser === 'SecondUser')
     this.setState({styleFirstUser: {zIndex: '1'},
-                    styleSecondUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(-1000px) rotate(-20deg)'},
+                    styleSecondUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(-2000px) rotate(-20deg)'},
                     dislikedSecondUser: {display: 'initial'},
                     styleThirdUser: {zIndex: '2'},
                     likedFirstUser: {display: 'none'},
@@ -97,7 +97,7 @@ class Match extends React.Component {
                     actualUser: 'ThirdUser'})
     else if (this.state.actualUser === 'ThirdUser')
     this.setState({styleSecondUser: {zIndex: '1'},
-                    styleThirdUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(-1000px) rotate(-20deg)'},
+                    styleThirdUser: {transition: 'transform 0.5s ease-out 0.5s', zIndex: '3', transform: 'translateX(-2000px) rotate(-20deg)'},
                     dislikedThirdUser: {display: 'initial'},
                     styleFirstUser: {zIndex: '2'},
                     likedSecondUser: {display: 'none'},

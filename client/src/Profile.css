@@ -69,7 +69,7 @@
         #Profile_about {
             margin: 0 5px;
             font-family: 'Encode Sans Semi Expanded', sans-serif;
-            font-size: 2.2vw;
+            font-size: 17px;
             font-weight: 300;
         }
 
@@ -92,7 +92,7 @@
                 }
             #Profile_about {
                 width: 100%;
-                margin: 0 5vh;
+                margin: auto 5vh;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
