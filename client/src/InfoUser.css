@@ -10,7 +10,7 @@
   margin: 2vh; }
 
 #InfoUser_NameAgeText {
-  font-size: 3.5vw;
+  font-size: 35px;
   background: linear-gradient(210deg, #68efc6 40%, #3be961 70%, #18e23a 90%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -30,7 +30,6 @@
   height: 2.8vh; }
 
 #InfoUser_aboutDescription {
-  margin: 3vh auto;
   width: 89%;
   text-align: center;
   display: inherit; }
@@ -51,7 +50,6 @@
 
 @media screen and (min-width: 800px) {
   #InfoUser_aboutDescription {
-    margin: auto;
     width: initial; }
   .InfoUser_box {
     margin: 4vh 0; }
