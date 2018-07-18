@@ -2,17 +2,11 @@ import React from 'react'
 import './MatchUser.css'
 import InfoUser from './InfoUser';
 
-import pic1 from './ressources/picture1.jpg';
-import pic2 from './ressources/picture2.jpg';
-import pic3 from './ressources/picture3.jpg';
-import pic4 from './ressources/picture4.jpg';
-import pic5 from './ressources/picture5.jpg';
-
 class MatchUser extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            pictures: [pic1, pic2, pic3, pic4, pic5],
+            pictures: this.props.pictures,
             picturePrincipale: '',
             changePicture: 0,
             clickedInfo: false,
@@ -68,8 +62,8 @@ class MatchUser extends React.Component {
         let bulletpoint = []
     
         for (let i = 0; i < this.state.pictures.length; i++) {
-        let whiteBullet = (i * -100 === this.state.changePicture) ? {background: 'white'} : null
-        bulletpoint.push(<div className='MatchUser_bulletpoint' key={i} data-id={i} style={whiteBullet} onClick={this.clickBulletpoint}></div>)
+            let whiteBullet = (i * -100 === this.state.changePicture) ? {background: 'white'} : null
+            bulletpoint.push(<div className='MatchUser_bulletpoint' key={i} data-id={i} style={whiteBullet} onClick={this.clickBulletpoint}></div>)
         }
         return bulletpoint
     }
@@ -85,12 +79,14 @@ class MatchUser extends React.Component {
             <div id='MatchUser_frameAbsolute' style={this.props.addStyle}>
                 <div id='MatchUser_frame'>
                     {pictures}
+                    <div id='MatchUser_liked' style={this.props.liked}>LIKE</div>
+                    <div id='MatchUser_disliked' style={this.props.disliked}>NOPE</div>
                     <div id='MatchUser_arrows'>
                         <div id='MatchUser_arrowLeft' onClick={this.previousPicture}></div>
                         <div id='MatchUser_arrowRight' onClick={this.nextPicture}></div>
                     </div>
                     <div id='MatchUser_informations'>
-                        <div id='MatchUser_nameAge' style={{display: this.state.about}}>Ugo, 23</div>
+                        <div id='MatchUser_nameAge' style={{display: this.state.about}}>{this.props.name}, 23</div>
                         <div id='MatchUser_location' style={{display: this.state.about}}>
                             <div id='MatchUser_locationLogo'></div>
                             <div id='MatchUser_locationText'>Paris</div>  
