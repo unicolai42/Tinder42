@@ -1,9 +1,9 @@
 import React from 'react'
 import './Profile.css'
 import InfoUser from './InfoUser'
+import ProfilePicture from './ProfilePicture'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import ProfilePicture from './ProfilePicture'
 
 import pic1 from './ressources/picture1.jpg';
 import pic2 from './ressources/picture2.jpg';

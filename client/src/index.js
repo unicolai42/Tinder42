@@ -4,5 +4,9 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+import Board from './DnD/Board';
+
+
+ReactDOM.render(<Board knightPosition={[0, 0]}/>, document.getElementById('root'));
+
+// registerServiceWorker();
