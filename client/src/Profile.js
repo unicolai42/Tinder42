@@ -32,31 +32,28 @@ class Profile extends React.Component {
     let newOrderPictures = pictures
 
     if (hoverIndex < dragIndex) {
-      for (let y = hoverIndex; y < dragIndex; y++) {
-        for (let i = hoverIndex; i < dragIndex; i++) {
-          let swap = newOrderPictures[i]
-          newOrderPictures[i] = newOrderPictures[i + 1]
-          newOrderPictures[i + 1] = swap
-        }
+      console.log('inf')
+      for (let i = dragIndex; i > hoverIndex; i--) {
+        let swap = newOrderPictures[i]
+        newOrderPictures[i] = newOrderPictures[i - 1]
+        newOrderPictures[i - 1] = swap
+        console.log(newOrderPictures)
       }
     }
     else if (hoverIndex > dragIndex) {
-      for (let y = hoverIndex; y > dragIndex; y--) {
-        for (let i = hoverIndex; i > dragIndex; i--) {
-          let swap = newOrderPictures[i]
-          newOrderPictures[i] = newOrderPictures[i - 1]
-          newOrderPictures[i - 1] = swap
-        }
+      console.log('sup')
+      for (let i = dragIndex; i < hoverIndex; i++) {
+        let swap = newOrderPictures[i]
+        newOrderPictures[i] = newOrderPictures[i + 1]
+        newOrderPictures[i + 1] = swap
       }
     }
 
 		this.setState({
 				user: {
           pictures: newOrderPictures
-            // $splice: [[dragIndex, 1], [hoverIndex, 0, dragPicture]],
 				}
 			})
-    console.log(this.state.user.pictures)
 	}
 
   render() {

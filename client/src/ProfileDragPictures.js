@@ -20,13 +20,23 @@ function collectSource(connect, monitor) {
   }
 }
 
+let prevDraggedId
+let prevPropsId
+let draggedId
 const pictureTarget = {
-  drop(props, monitor) {
-    const draggedId = monitor.getItem().id;
-
-    if (draggedId !== props.id) {
-      props.movePicture(draggedId, props.id);
+  hover(props, monitor) {
+    if (draggedId === null)
+      draggedId = monitor.getItem().id
+      
+    if (prevDraggedId !== draggedId || prevPropsId !== props.id) {
+      props.movePicture(draggedId, props.id)
+      prevDraggedId = draggedId
+      prevPropsId = props.id
+      draggedId = props.id
     }
+  },
+  drop () {
+    draggedId = null
   }
 }
 
@@ -44,7 +54,7 @@ class ProfileDragPictures extends React.Component {
               style={{
                 opcacity: isDragging ? 0.5 : 1,
                 cursor: isDragging ? '-webkit-grabbing' : '-webkit-grab',
-                backgroundImage: isDragging ? null :`url(${this.props.picture})`,
+                backgroundImage: `url(${this.props.picture})`,
                 transform: 'translate(0, 0)'}}/>
     ))
   }
