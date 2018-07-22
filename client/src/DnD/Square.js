@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Knight from './Knight';
 
 export default class Square extends Component {
   render() {

@@ -5,6 +5,7 @@
   "proxy": "http://localhost:3001",
   "dependencies": {
     "js-cookie": "^2.2.0",
+    "lodash.flow": "^3.5.0",
     "node-sass-chokidar": "^1.3.0",
     "react": "^16.4.1",
     "react-dnd": "^5.0.0",

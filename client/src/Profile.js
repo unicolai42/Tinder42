@@ -1,7 +1,7 @@
 import React from 'react'
 import './Profile.css'
 import InfoUser from './InfoUser'
-import ProfilePicture from './ProfilePicture'
+import ProfileDragPictures from './ProfileDragPictures'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 
@@ -22,18 +22,54 @@ class Profile extends React.Component {
         pictures: [pic1, pic2, pic3, pic4, pic5]
       }
     }
+
+    this.movePicture = this.movePicture.bind(this)
   }
+
+  movePicture(dragIndex, hoverIndex) {
+    let { pictures } = this.state.user
+    // let dragPicture = pictures[dragIndex]
+    let newOrderPictures = pictures
+
+    if (hoverIndex < dragIndex) {
+      for (let y = hoverIndex; y < dragIndex; y++) {
+        for (let i = hoverIndex; i < dragIndex; i++) {
+          let swap = newOrderPictures[i]
+          newOrderPictures[i] = newOrderPictures[i + 1]
+          newOrderPictures[i + 1] = swap
+        }
+      }
+    }
+    else if (hoverIndex > dragIndex) {
+      for (let y = hoverIndex; y > dragIndex; y--) {
+        for (let i = hoverIndex; i > dragIndex; i--) {
+          let swap = newOrderPictures[i]
+          newOrderPictures[i] = newOrderPictures[i - 1]
+          newOrderPictures[i - 1] = swap
+        }
+      }
+    }
+
+		this.setState({
+				user: {
+          pictures: newOrderPictures
+            // $splice: [[dragIndex, 1], [hoverIndex, 0, dragPicture]],
+				}
+			})
+    console.log(this.state.user.pictures)
+	}
+
   render() {
 
+    let firstPicture = this.state.user.pictures[0]
     let pictures = []
-    for (let i = 1; i <= this.state.user.pictures.length; i++)
-      pictures.push(<ProfilePicture key={i} id={`Profile_picture${i}`}/>)
-    console.log(pictures)
+    for (let i = 0; i < this.state.user.pictures.length; i++)
+      pictures.push(<ProfileDragPictures picture={this.state.user.pictures[i]} key={i} id={i} movePicture={this.movePicture}/>)
     return (
       <div id='Profile_wrapper'>
         <div id='Profile_block'>
             <div id='Profile_picture'>
-              <div id='Profile_firstPicture'></div>
+              <div id='Profile_firstPicture' style={{backgroundImage: `url('${firstPicture}')`}}></div>
               <div id='Profile_secondPicture'>
                 {pictures}
               </div>
