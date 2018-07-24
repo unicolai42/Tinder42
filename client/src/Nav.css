@@ -7,7 +7,8 @@
   bottom: 0;
   padding: 5px 0 2px 0;
   background-color: white;
-  box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.17); }
+  box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.17);
+  z-index: 1; }
 
 @media (min-width: 800px) {
   #Nav_wrapper {

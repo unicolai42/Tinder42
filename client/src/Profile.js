@@ -32,16 +32,13 @@ class Profile extends React.Component {
     let newOrderPictures = pictures
 
     if (hoverIndex < dragIndex) {
-      console.log('inf')
       for (let i = dragIndex; i > hoverIndex; i--) {
         let swap = newOrderPictures[i]
         newOrderPictures[i] = newOrderPictures[i - 1]
         newOrderPictures[i - 1] = swap
-        console.log(newOrderPictures)
       }
     }
     else if (hoverIndex > dragIndex) {
-      console.log('sup')
       for (let i = dragIndex; i < hoverIndex; i++) {
         let swap = newOrderPictures[i]
         newOrderPictures[i] = newOrderPictures[i + 1]
@@ -60,7 +57,7 @@ class Profile extends React.Component {
 
     let firstPicture = this.state.user.pictures[0]
     let pictures = []
-    for (let i = 0; i < this.state.user.pictures.length; i++)
+    for (let i = 0; i < 5; i++)
       pictures.push(<ProfileDragPictures picture={this.state.user.pictures[i]} key={i} id={i} movePicture={this.movePicture}/>)
     return (
       <div id='Profile_wrapper'>

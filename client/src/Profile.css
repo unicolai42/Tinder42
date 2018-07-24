@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:300");
 #Profile_wrapper {
   display: flex;
-  height: 89vh;
+  height: calc(100vh - 57px);
   overflow: scroll; }
   #Profile_wrapper #Profile_block {
     margin: auto auto 5vh auto;
@@ -9,6 +9,7 @@
     flex-direction: column;
     width: 80vw;
     max-width: 65vh;
+    min-width: 40vw;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77); }
@@ -20,6 +21,8 @@
       height: 80vw;
       max-height: 65vh;
       max-width: 65vh;
+      min-height: 40vw;
+      min-width: 40vw;
       border-radius: 15px 15px 0 0;
       box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77); }
     #Profile_wrapper #Profile_block #Profile_secondPicture {
@@ -35,9 +38,11 @@
         width: 15.5vw;
         height: 15.5vw;
         max-width: 12.5vh;
+        min-width: 7.5vw;
         max-height: 12.5vh;
+        min-height: 7.5vw;
         margin: auto;
-        border-radius: 15px;
+        border-radius: 2vh;
         box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77);
         cursor: grab; }
         #Profile_wrapper #Profile_block #Profile_secondPicture .Profile_pictures:active {

@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300')
+@import url("https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:500")
+    
+#Chat_wrapper
+    display: flex
+    flex-direction: column
+    height: calc(100vh - 59px)
+    overflow: scroll
+
+    #Chat_header
+        background-color: white
+        height: 60px
+        width: 100vw
+        border-bottom: 1px solid #EAEAEA
+        display: flex
+        padding: 5px 0
+
+        #Chat_dropDown
+            width: 60px
+            cursor: pointer
+            background-position: center
+            background-size: cover
+
+        #Chat_strip
+            display: flex
+            width: 100%
+
+            #Chat_stripPicture
+                margin: auto
+                width: 50px
+                height: 50px
+                border-radius: 100px
+                background-position: center
+                background-size: cover
+                border: 2px solid white
+                box-shadow: 0 0 0.5px 1.5px #DBDBDB
+            
+    #Chat_conversation
+        overflow: auto
+        display: flex
+        flex-direction: column
+        height: calc(100vh - 120px)
+
+        .Chat_message
+            margin: 5px 10px
+            padding: 7px 10px
+            border-radius: 12px
+            font-family: 'Roboto'
+            font-weight: 300
+            font-size: 14px
+
+        #Chat_messageSent
+            background-color: #3ca4ff
+            color: white
+            align-self: flex-end
+
+        #Chat_messageReceived
+            background-color: #f1f1f1
+            align-self: flex-start
+
+    #Chat_form
+        border-top: 1px solid #EAEAEA
+        height: 60px
+        background-color: #FFF
+        display: flex
+        justify-content: space-between
+
+        #Chat_input
+            border: none
+            outline: none
+            margin-left: 30px
+            font-family: 'Roboto'
+            font-weight: 300
+            font-size: 15px
+            width: 80%
+            overflow: auto
+            resize: none
+            padding-top: 17px
+
+        #Chat_submit
+            border: none
+            outline: none
+            margin-right: 20px
+            font-family: 'Encode Sans Semi Expanded', sans-serif
+            font-weight: 500
+            font-size: 18px
+            -webkit-background-clip: text
+            -webkit-text-fill-color: transparent
+            transition: all 3s ease-out
+        
+        .Chat_submitColorGray
+            background: linear-gradient(170deg,#96bac9 10%,#dfefff 70%,#aadaff 90%)
+        .Chat_submitColorBlue
+            background: linear-gradient(170deg,#25126d 10%,#3426f8 70%,#25095a 90%)
+            cursor: pointer

@@ -2,7 +2,8 @@ import React from 'react';
 import Nav from './Nav'
 import Landing from './Landing';
 import Home from './Match';
-import Profile from './Profile';
+import Profile from './Profile'
+import Chat from './Chat';
 import Cookies from 'js-cookie'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 
@@ -37,6 +38,7 @@ class App extends React.Component {
                         <Nav />
                         <Route exact path='/' component={homePage}></Route>
                         <Route path='/profile' component={Profile}></Route>
+                        <Route path='/chat' component={Chat}></Route>
                     </div>
                     ) : (
                     <Landing/>
