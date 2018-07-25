@@ -1,10 +1,12 @@
 const bodyParser = require('body-parser')
 const express = require('express')
 const mysql = require('mysql')
-const routerDbQuery = require('./routes/dbQuery')
-const routerLogIn = require('./routes/logIn')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+
+const routerDbQuery = require('./routes/dbQuery')
+const routerLogIn = require('./routes/logIn')
+const routerChat = require('./routes/chat')
 
 const app = express()
 
@@ -24,6 +26,7 @@ app.use((req, res, next) => {
 
 app.use(routerDbQuery)
 app.use(routerLogIn)
+app.use(routerChat)
 
 
 app.set('port', (process.env.PORT || 3001))

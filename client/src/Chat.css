@@ -1,82 +1,112 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:300");
-@import url("https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:500");
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300");
+@import url("https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:200,500");
 #Chat_wrapper {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 59px);
-  overflow: scroll; }
-  #Chat_wrapper #Chat_header {
+  height: calc(100vh - 57px);
+  display: flex; }
+  #Chat_wrapper #Chat_blackOpacity {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    cursor: pointer; }
+  #Chat_wrapper #Chat_allMatchs {
+    width: 250px;
+    overflow: auto;
+    position: absolute;
+    left: -250px;
+    height: calc(100vh - 57px);
     background-color: white;
-    height: 60px;
-    width: 100vw;
-    border-bottom: 1px solid #EAEAEA;
+    transition: transform .3s ease-in-out; }
+  #Chat_wrapper #Chat_box {
     display: flex;
-    padding: 5px 0; }
-    #Chat_wrapper #Chat_header #Chat_dropDown {
-      width: 60px;
-      cursor: pointer;
-      background-position: center;
-      background-size: cover; }
-    #Chat_wrapper #Chat_header #Chat_strip {
+    flex-direction: column; }
+    #Chat_wrapper #Chat_box #Chat_header {
+      background-color: white;
+      height: 60px;
+      width: 100vw;
+      border-bottom: 1px solid #EAEAEA;
       display: flex;
-      width: 100%; }
-      #Chat_wrapper #Chat_header #Chat_strip #Chat_stripPicture {
-        margin: auto;
-        width: 50px;
-        height: 50px;
-        border-radius: 100px;
+      padding: 5px 0; }
+      #Chat_wrapper #Chat_box #Chat_header #Chat_dropDown {
+        width: 60px;
+        cursor: pointer;
         background-position: center;
         background-size: cover;
-        border: 2px solid white;
-        box-shadow: 0 0 0.5px 1.5px #DBDBDB; }
-  #Chat_wrapper #Chat_conversation {
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 120px); }
-    #Chat_wrapper #Chat_conversation .Chat_message {
-      margin: 5px 10px;
-      padding: 7px 10px;
-      border-radius: 12px;
-      font-family: 'Roboto';
-      font-weight: 300;
-      font-size: 14px; }
-    #Chat_wrapper #Chat_conversation #Chat_messageSent {
-      background-color: #3ca4ff;
-      color: white;
-      align-self: flex-end; }
-    #Chat_wrapper #Chat_conversation #Chat_messageReceived {
-      background-color: #f1f1f1;
-      align-self: flex-start; }
-  #Chat_wrapper #Chat_form {
-    border-top: 1px solid #EAEAEA;
-    height: 60px;
-    background-color: #FFF;
-    display: flex;
-    justify-content: space-between; }
-    #Chat_wrapper #Chat_form #Chat_input {
-      border: none;
-      outline: none;
-      margin-left: 30px;
-      font-family: 'Roboto';
-      font-weight: 300;
-      font-size: 15px;
-      width: 80%;
-      overflow: auto;
-      resize: none;
-      padding-top: 17px; }
-    #Chat_wrapper #Chat_form #Chat_submit {
-      border: none;
-      outline: none;
-      margin-right: 20px;
-      font-family: 'Encode Sans Semi Expanded', sans-serif;
-      font-weight: 500;
-      font-size: 18px;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      transition: all 3s ease-out; }
-    #Chat_wrapper #Chat_form .Chat_submitColorGray {
-      background: linear-gradient(170deg, #96bac9 10%, #dfefff 70%, #aadaff 90%); }
-    #Chat_wrapper #Chat_form .Chat_submitColorBlue {
-      background: linear-gradient(170deg, #25126d 10%, #3426f8 70%, #25095a 90%);
-      cursor: pointer; }
+        background-image: url("./ressources/dropdown.png"); }
+      #Chat_wrapper #Chat_box #Chat_header #Chat_strip {
+        display: flex;
+        width: 100%;
+        margin-right: 40px; }
+        #Chat_wrapper #Chat_box #Chat_header #Chat_strip #Chat_stripPicture {
+          margin: auto;
+          width: 50px;
+          height: 50px;
+          border-radius: 100px;
+          background-position: center;
+          background-size: cover;
+          border: 2px solid white;
+          box-shadow: 0 0 0.5px 1.5px #DBDBDB; }
+    #Chat_wrapper #Chat_box #Chat_conversation {
+      overflow: scroll;
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 120px); }
+      #Chat_wrapper #Chat_box #Chat_conversation .Chat_message {
+        font-family: 'Roboto';
+        margin: 5px 10px;
+        padding: 7px 10px;
+        font-weight: 300;
+        font-size: 14px;
+        max-width: 40vw; }
+      #Chat_wrapper #Chat_box #Chat_conversation #Chat_messageSent {
+        background-color: #3ca4ff;
+        color: white;
+        align-self: flex-end;
+        border-radius: 12px 12px 2px 12px; }
+      #Chat_wrapper #Chat_box #Chat_conversation #Chat_messageReceived {
+        background-color: #f1f1f1;
+        align-self: flex-start;
+        border-radius: 12px 12px 12px 2px; }
+      #Chat_wrapper #Chat_box #Chat_conversation #Chat_dateMessage {
+        color: #b4b4b4;
+        font-family: 'Encode Sans Semi Expanded', sans-serif;
+        font-size: 11px;
+        font-weight: 200;
+        margin: 20px auto; }
+    #Chat_wrapper #Chat_box #Chat_form {
+      border-top: 1px solid #EAEAEA;
+      height: 60px;
+      background-color: #FFF;
+      display: flex;
+      justify-content: space-between; }
+      #Chat_wrapper #Chat_box #Chat_form #Chat_input {
+        border: none;
+        outline: none;
+        margin-left: 30px;
+        font-family: 'Roboto';
+        font-weight: 300;
+        font-size: 15px;
+        width: 80%;
+        overflow: auto;
+        resize: none;
+        padding-top: 17px; }
+        #Chat_wrapper #Chat_box #Chat_form #Chat_input::placeholder {
+          color: #d7d7d7; }
+      #Chat_wrapper #Chat_box #Chat_form #Chat_submit {
+        border: none;
+        outline: none;
+        margin-right: 20px;
+        font-family: 'Encode Sans Semi Expanded', sans-serif;
+        font-weight: 500;
+        font-size: 18px;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: all 3s ease-out; }
+      #Chat_wrapper #Chat_box #Chat_form .Chat_submitColorGray {
+        background: linear-gradient(170deg, #96bac9 10%, #dfefff 70%, #aadaff 90%); }
+      #Chat_wrapper #Chat_box #Chat_form .Chat_submitColorBlue {
+        background: linear-gradient(170deg, #25126d 10%, #3426f8 70%, #25095a 90%);
+        cursor: pointer; }
