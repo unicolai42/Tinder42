@@ -1,6 +1,10 @@
 import React from 'react'
 import './Chat.css'
 import Cookies from 'js-cookie'
+import ReactDOM from 'react-dom'
+
+import sendBlue from './ressources/send.png'
+import sendWhite from './ressources/send_white.png'
 
 class Chat extends React.Component {
     constructor(props) {
@@ -11,6 +15,7 @@ class Chat extends React.Component {
             idChatPrincipal: 0,
             usersInfo: [],
             valueInput: '',
+            sendButton: sendWhite,
             allMatchs: '',
             blackOpacity: 'none'
         }
@@ -18,6 +23,7 @@ class Chat extends React.Component {
         this.onEnterPress = this.onEnterPress.bind(this)
         this.openAllMatchs = this.openAllMatchs.bind(this)
         this.removeAllMatchs = this.removeAllMatchs.bind(this)
+        this.scrollToBottom = this.scrollToBottom.bind(this)
         this.selectUser = this.selectUser.bind(this)
         this.changeInput = this.changeInput.bind(this)
         this.submitForm = this.submitForm.bind(this)
@@ -60,16 +66,11 @@ class Chat extends React.Component {
                 })
             })
         })
+        this.scrollToBottom()
     }
 
-    componentWillUnmount() {
-        const conversation = this.refs.conversation
-        conversation.scrollTop = conversation.scrollHeight;
-    }
-
-    componentWillUpdate() {
-        const conversation = this.refs.conversation
-        conversation.scrollTop = conversation.scrollHeight;
+    componentDidUpdate() {
+        this.scrollToBottom()
     }
 
     onEnterPress(event) {
@@ -84,6 +85,15 @@ class Chat extends React.Component {
             allMatchs: 'translateX(250px)',
             blackOpacity: 'initial' 
         })
+    }
+
+    scrollToBottom() {
+        const { conversation } = this.refs;
+        const scrollHeight = conversation.scrollHeight;
+        const height = conversation.clientHeight;
+        const maxScrollTop = scrollHeight - height;
+        console.log(maxScrollTop, scrollHeight, height)
+        ReactDOM.findDOMNode(conversation).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
     }
 
     removeAllMatchs() {
@@ -106,39 +116,58 @@ class Chat extends React.Component {
     }
 
     changeInput(event) {
-        this.setState({valueInput: event.target.value});
+        this.setState({
+            valueInput: event.target.value,
+            sendButton: (event.target.value) ? sendBlue : sendWhite
+        })
       }
 
-    submitForm(event) {
-        event.preventDefault();
-        // if (this.state.valueMail && this.state.validMail === true && this.state.validMail !== 'taken'
-        // && this.state.valuePassword && this.state.validPassword !== 'tooLong' && this.state.validPassword !== 'unsafe'
-        // && this.state.valueUsername && this.state.validUsername === true && this.state.validUsername !== 'taken') {
-        //   fetch('/check_signUp', {
-        //     method: 'post',
-        //     headers: {'Content-Type':'application/json'},
-        //     body: JSON.stringify({
-        //       "mail": `${this.state.valueMail}`,
-        //       "password": `${this.state.valuePassword}`,
-        //       "username": `${this.state.valueUsername}`
-        //     })
-        //   });
-        //   this.props.changeForSignIn(this.state.valueMail)
+    submitForm() {
+        if (this.state.sendButton === sendBlue) {
+            console.log(this.state.usersChat[this.state.idChatPrincipal][0])
+            const oneConversationData = this.state.usersChat[this.state.idChatPrincipal][0]
+            let senderId = parseInt(Cookies.get('id'), 10)
+            let receiverId = (oneConversationData.sender_id === parseInt(Cookies.get('id'), 10)) ? oneConversationData.receiver_id : oneConversationData.sender_id
+            let matchId = oneConversationData.match_id
+            console.log(senderId, receiverId, matchId)
+            fetch('/submit_form_chat', {
+                method: 'post',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    "senderId": senderId,
+                    "receiverId": receiverId,
+                    "matchId": matchId,
+                    "message": `${this.state.valueInput}`
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                let newUsersChat = this.state.usersChat.slice()
+                newUsersChat.splice(this.state.idChatPrincipal, 1, data)
+                this.setState(
+                {
+                    valueInput: '',
+                    sendButton: sendWhite,
+                    usersChat: newUsersChat
+                })
+            })
         }
+    }
 
     render() {
-        let color = !this.state.valueInput ? 'Chat_submitColorGray' : 'Chat_submitColorBlue'
         let conversation = []
         const usersInfo = this.state.usersInfo
         let users = []
         const id = this.state.idChatPrincipal
         const picturePrincipal = (!this.state.usersInfo[id]) ? '' : this.state.usersInfo[id].picture1
         const messages = this.state.usersChat
+        console.log(messages)
         const username = (!this.state.usersInfo[id]) ? '' : this.state.usersInfo[id].username
         const date = (!this.state.usersInfo[id]) ? '' : new Date(this.state.usersInfo[id].date).toLocaleDateString()
 
         if (messages.length !== 0) {
             conversation.push(<div className='Chat_dateMessage' key={-1}>You matched with {username} on {date}</div>)
+            console.log(messages[id], messages[id].length)
             for (let i = 0; i < messages[id].length; i++) {
                 if (i > 0) {
                     let date = new Date(messages[id][i].date).getTime()
@@ -177,7 +206,7 @@ class Chat extends React.Component {
             </div>
             <div id='Chat_box'>
                 <div id='Chat_header'>
-                    <div id='Chat_dropDown' onClick={this.openAllMatchs} ></div>
+                    <div id='Chat_dropDown' onClick={this.openAllMatchs}></div>
                     <div id='Chat_strip'>
                         <div id='Chat_stripPicture' style={{backgroundImage: `url(${picturePrincipal})`}}></div>
                     </div>
@@ -187,7 +216,7 @@ class Chat extends React.Component {
                 </div>
                 <form action='/check_chat' method='POST' id='Chat_form' onSubmit={this.submitForm}>
                     <textarea id='Chat_input' placeholder="Type your message" name='message' autoFocus form ="Chat_form" cols="35" wrap="soft" value={this.state.valueInput} onChange={this.changeInput} onKeyDown={this.onEnterPress}></textarea>
-                    <input id='Chat_submit' className={color} type="submit" value="SEND" />
+                    <div id='Chat_submit' style={{backgroundImage: `url(${this.state.sendButton})`, cursor: (this.state.sendButton === sendBlue) ? 'pointer' : 'auto'}} onClick={this.submitForm}/>
                 </form>
             </div>
         </div>

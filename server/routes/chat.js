@@ -63,4 +63,18 @@ router.post('/find_match_info', (req, res) => {
     })
 })
 
+router.post('/submit_form_chat', (req, res) => {
+    req.db.query('INSERT INTO Chat (match_id, sender_id, receiver_id, message) VALUES (?, ?, ?, ?);',
+    [req.body.matchId, req.body.senderId, req.body.receiverId, req.body.message], (err, rows, fields) => {
+        if(err)
+            return(res.send(err) && console.log(err));
+        req.db.query('SELECT * FROM Chat WHERE match_id = ? ORDER BY date;',
+        [req.body.matchId], (err, rows, fields) => {
+            res.json(rows)
+        })
+    })
+})
+
+
+
 module.exports = router

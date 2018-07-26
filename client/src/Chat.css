@@ -151,17 +151,9 @@
         #Chat_wrapper #Chat_box #Chat_form #Chat_input::placeholder {
           color: #d7d7d7; }
       #Chat_wrapper #Chat_box #Chat_form #Chat_submit {
-        border: none;
-        outline: none;
-        margin-right: 20px;
-        font-family: 'Encode Sans Semi Expanded', sans-serif;
-        font-weight: 500;
-        font-size: 18px;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        transition: all 3s ease-out; }
-      #Chat_wrapper #Chat_box #Chat_form .Chat_submitColorGray {
-        background: linear-gradient(170deg, #96bac9 10%, #dfefff 70%, #aadaff 90%); }
-      #Chat_wrapper #Chat_box #Chat_form .Chat_submitColorBlue {
-        background: linear-gradient(170deg, #25126d 10%, #3426f8 70%, #25095a 90%);
-        cursor: pointer; }
+        margin: auto 20px auto auto;
+        transition: all 0.3s ease-in-out;
+        width: 35px;
+        height: 35px;
+        background-position: center;
+        background-size: cover; }
