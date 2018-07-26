@@ -9,8 +9,6 @@ class Chat extends React.Component {
         this.state = {
             usersChat: [],
             idChatPrincipal: 0,
-            // matchName: '',
-            // dateMatch: '',
             usersInfo: [],
             valueInput: '',
             allMatchs: '',
@@ -20,6 +18,7 @@ class Chat extends React.Component {
         this.onEnterPress = this.onEnterPress.bind(this)
         this.openAllMatchs = this.openAllMatchs.bind(this)
         this.removeAllMatchs = this.removeAllMatchs.bind(this)
+        this.selectUser = this.selectUser.bind(this)
         this.changeInput = this.changeInput.bind(this)
         this.submitForm = this.submitForm.bind(this)
     }
@@ -42,7 +41,6 @@ class Chat extends React.Component {
             let usersId = []
             data.forEach(elem => {
                 let userId = elem[0].sender_id !== parseInt(Cookies.get('id'), 10) ? elem[0].sender_id : elem[0].receiver_id
-                console.log(userId)
                 usersId.push(userId)
             });
             fetch('/find_match_info', {
@@ -59,21 +57,19 @@ class Chat extends React.Component {
                 {
                     usersInfo: data,
                     idChatPrincipal: data.length - 1
-                }, console.log(data.length))
+                })
             })
         })
-
-        const conversation = this.refs.conversation
-        window.onload = () => {
-            conversation.scrollTop = conversation.scrollHeight;
-        }
     }
 
-    componentDidUpdate() {
+    componentWillUnmount() {
         const conversation = this.refs.conversation
-        window.onload = () => {
-            conversation.scrollTop = conversation.scrollHeight;
-        }
+        conversation.scrollTop = conversation.scrollHeight;
+    }
+
+    componentWillUpdate() {
+        const conversation = this.refs.conversation
+        conversation.scrollTop = conversation.scrollHeight;
     }
 
     onEnterPress(event) {
@@ -92,6 +88,18 @@ class Chat extends React.Component {
 
     removeAllMatchs() {
         this.setState({
+            allMatchs: '',
+            blackOpacity: 'none' 
+        })
+    }
+
+    selectUser(e) {
+        let div = e.target
+
+        while (div.className !== 'Chat_profile')
+            div = div.parentElement
+        this.setState({
+            idChatPrincipal: div.dataset.id,
             allMatchs: '',
             blackOpacity: 'none' 
         })
@@ -121,6 +129,8 @@ class Chat extends React.Component {
     render() {
         let color = !this.state.valueInput ? 'Chat_submitColorGray' : 'Chat_submitColorBlue'
         let conversation = []
+        const usersInfo = this.state.usersInfo
+        let users = []
         const id = this.state.idChatPrincipal
         const picturePrincipal = (!this.state.usersInfo[id]) ? '' : this.state.usersInfo[id].picture1
         const messages = this.state.usersChat
@@ -128,29 +138,42 @@ class Chat extends React.Component {
         const date = (!this.state.usersInfo[id]) ? '' : new Date(this.state.usersInfo[id].date).toLocaleDateString()
 
         if (messages.length !== 0) {
-            conversation.push(<div id='Chat_dateMessage' key={-1}>You matched with {username} on {date}</div>)
+            conversation.push(<div className='Chat_dateMessage' key={-1}>You matched with {username} on {date}</div>)
             for (let i = 0; i < messages[id].length; i++) {
                 if (i > 0) {
                     let date = new Date(messages[id][i].date).getTime()
                     let prevDate = new Date(messages[id][i - 1].date).getTime()            
                     if (date - 4*60*60*1000 > prevDate)
-                        conversation.push(<div id='Chat_dateMessage' key={i * -1}>{new Date(messages[id][i].date).toLocaleString()}</div>)
+                        conversation.push(<div className='Chat_dateMessage' key={i * -1}>{new Date(messages[id][i].date).toLocaleString()}</div>)
                 }
                 if (messages[id][i].sender_id === parseInt(Cookies.get('id'), 10))
-                    conversation.push(<div id='Chat_messageSent' className='Chat_message' ref={this.scrollTop = this.scrollHeight} key={i}>{messages[id][i].message}</div>)
+                    conversation.push(<div className='Chat_message Chat_messageSent' ref={this.scrollTop = this.scrollHeight} key={i}>{messages[id][i].message}</div>)
                 else
-                    conversation.push(<div id='Chat_messageReceived' className='Chat_message' key={i}>{messages[id][i].message}</div>)
+                    conversation.push(<div className='Chat_message Chat_messageReceived' key={i}>{messages[id][i].message}</div>)
+            }
+
+            for (let i = usersInfo.length - 1; i >= 0; --i) {
+                users.push(
+                <div className='Chat_profile' onClick={this.selectUser} data-id={i} key={i}>
+                    <div className='Chat_picture' style={{backgroundImage: `url(${this.state.usersInfo[i].picture1})`}}></div>
+                    <div className='Chat_text'>
+                        <div className='Chat_username'>{this.state.usersInfo[i].username}</div>
+                        <div className='Chat_lastMessage'>You have been connected</div>
+                    </div>
+                </div>)
             }
         }
         return (
         <div id='Chat_wrapper'>
             <div id='Chat_blackOpacity' style={{display: this.state.blackOpacity}} onClick={this.removeAllMatchs}></div>
-            <div id='Chat_allMatchs' style={{transform: this.state.allMatchs}}>
-                    <div id='Chat_boxTop'>
+            <div id='Chat_boxAllMatchs' style={{transform: this.state.allMatchs}}>
+                    <div id='Chat_boxTitle'>
                         <div id='Chat_title'>Messages</div>
-                        <div id='Chat_close'></div>
+                        <div id='Chat_close' onClick={this.removeAllMatchs}></div>
                     </div>
-                    {console.log(this.state.usersChat)}
+                    <div id='Chat_allMatchs'>
+                        {users}
+                    </div>
             </div>
             <div id='Chat_box'>
                 <div id='Chat_header'>

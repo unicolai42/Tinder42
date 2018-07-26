@@ -39,7 +39,7 @@ router.post('/chat_conversation', (req, res) => {
                 }
             }
             arrayConversation.push(row)
-        });
+        })
         arrayAllConversations.push(arrayConversation)
         res.json(arrayAllConversations)
     })
