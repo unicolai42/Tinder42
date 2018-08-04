@@ -23,7 +23,7 @@ class SignUp extends React.Component {
     }
 
     componentDidMount() {
-      fetch('/users')
+      fetch('http://localhost:3001/users')
       .then(response => response.json())
       .then(data => this.setState({ users: data }))
     }

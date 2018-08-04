@@ -50,7 +50,7 @@ class ProfileDragPictures extends React.Component {
   render() {
     const { connectDragSource, isDragging, connectDropTarget } = this.props;
     return connectDragSource(connectDropTarget(
-        <div className='Profile_pictures' id={this.props.id}
+        <div className='Profile_pictures Profile_boxPictures' id={this.props.id}
               style={{
                 opcacity: isDragging ? 0.5 : 1,
                 cursor: isDragging ? '-webkit-grabbing' : '-webkit-grab',

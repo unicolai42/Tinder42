@@ -8,7 +8,7 @@ import sendWhite from './ressources/send_white.png'
 
 class Chat extends React.Component {
     constructor(props) {
-        super(props)  
+        super(props)
         
         this.state = {
             usersChat: [],

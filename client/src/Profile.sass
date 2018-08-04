@@ -38,22 +38,42 @@
             height: 17vw
             min-height: 10vh
             max-height: 12.5vh
-        
+
             .Profile_pictures
+                cursor: grab
+                &:active
+                    cursor: grabbing
+
+            .Profile_boxPictures
                 background-position: center
                 background-size: cover
                 width: 15.5vw
                 height: 15.5vw
                 max-width: 12.5vh
-                min-width: 7.5vw
                 max-height: 12.5vh
+                min-width: 7.5vw
                 min-height: 7.5vw
                 margin: auto
                 border-radius: 2vh
-                box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77)
-                cursor: grab
-                &:active
-                    cursor: grabbing
+                box-shadow: 0 5px 16px 0 rgba(0,0,0,.09)
+                display: flex
+                cursor: pointer
+                &:hover
+                    .Profile_emptyPictures
+                        background-image: url('./ressources/add_green.png')
+
+                
+            .Profile_emptyPictures
+                background-position: center
+                background-size: cover
+                background-image: url('./ressources/add.png')
+                width: 5.2vw
+                height: 5.2vw
+                max-width: 4.2vh
+                max-height: 4.2vh
+                min-width: 2.5vw
+                min-height: 2.5vw
+                margin: auto
             
         #Profile_about
             margin: 0 5px

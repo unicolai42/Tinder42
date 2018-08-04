@@ -3,10 +3,12 @@ const express = require('express')
 const mysql = require('mysql')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const fileUpload = require('express-fileupload')
 
 const routerDbQuery = require('./routes/dbQuery')
 const routerLogIn = require('./routes/logIn')
 const routerChat = require('./routes/chat')
+const routerProfile = require('./routes/profile.js')
 
 const app = express()
 
@@ -14,6 +16,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser())
 app.use(cors())
+app.use(fileUpload())
 app.use((req, res, next) => {
     req.db = mysql.createConnection({
         host: 'localhost',
@@ -27,6 +30,7 @@ app.use((req, res, next) => {
 app.use(routerDbQuery)
 app.use(routerLogIn)
 app.use(routerChat)
+app.use(routerProfile)
 
 
 app.set('port', (process.env.PORT || 3001))
