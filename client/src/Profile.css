@@ -32,10 +32,6 @@
       height: 17vw;
       min-height: 10vh;
       max-height: 12.5vh; }
-      #Profile_wrapper #Profile_block #Profile_secondPicture .Profile_pictures {
-        cursor: grab; }
-        #Profile_wrapper #Profile_block #Profile_secondPicture .Profile_pictures:active {
-          cursor: grabbing; }
       #Profile_wrapper #Profile_block #Profile_secondPicture .Profile_boxPictures {
         background-position: center;
         background-size: cover;

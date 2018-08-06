@@ -48,14 +48,18 @@ function collectTarget(connect) {
 
 class ProfileDragPictures extends React.Component {
   render() {
-    const { connectDragSource, isDragging, connectDropTarget } = this.props;
+    const { connectDragSource, isDragging, connectDropTarget, removePicture, id } = this.props;
     return connectDragSource(connectDropTarget(
-        <div className='Profile_pictures Profile_boxPictures' id={this.props.id}
+        <div className='ProfileDragPictures_pictures Profile_boxPictures' id={id}
               style={{
                 opcacity: isDragging ? 0.5 : 1,
                 cursor: isDragging ? '-webkit-grabbing' : '-webkit-grab',
                 backgroundImage: `url(${this.props.picture})`,
-                transform: 'translate(0, 0)'}}/>
+                transform: 'translate(0, 0)'
+              }}
+        >
+          <div className='ProfileDragPictures_remove' onClick={removePicture}/>
+        </div>
     ))
   }
 }

@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const cloudinary = require('cloudinary');
-const FileReader = require('filereader')
 
 cloudinary.config({ 
     cloud_name: 'dzhnhtkyv', 
@@ -39,40 +38,51 @@ router.post('/load_userdata', (req, res) => {
     })
 })
 
-router.post('/upload_picture', (req, res) => {
-    const userId = req.body.userId
-    const name = req.body.name
-    const path = `${userId}/${name}`
-    const picture = req.body.picture
-    cloudinary.v2.uploader.upload(picture, {"public_id": path}, (result) => {
-        console.log(result)
-    })
-    req.db.query("SELECT * FROM Users WHERE id = ?;",
-    [userId], (err, rows, fields) => {
+router.post('/update_order_pictures', (req, res) => {
+    if (req.body.removeUrl)
+        cloudinary.v2.uploader.destroy(req.body.removeUrl, function(error, result){console.log(result, error)})
+
+    const pictures = req.body.newOrderPictures
+    req.db.query("UPDATE Users SET picture1 = ?, picture2 = ?, picture3 = ?, picture4 = ?, picture5 = ? WHERE id = ?;",
+    [pictures[0], pictures[1], pictures[2], pictures[3], pictures[4], req.body.userId], (err, rows, fields) => {
         if (err)
             return (res.send(err) && console.log(err))
-        console.log(rows[0])
-        let newPicture
-        if (rows[0].picture1 === null)
-            newPicture = 'picture1'
-        else if (rows[0].picture2 === null)
-            newPicture = 'picture2'
-        else if (rows[0].picture3 === null)
-            newPicture = 'picture3'
-        else if (rows[0].picture4 === null)
-            newPicture = 'picture4'
-        else if (rows[0].picture5 === null)
-            newPicture = 'picture5'
-        console.log(newPicture)
-        console.log(rows[0][newPicture])
-        console.log(newPicture, path, userId)
+        res.end()
+    })
+})
 
-        req.db.query(`UPDATE Users SET ?? = ? WHERE id = ?;`,
-        [newPicture, path, userId], (err, rows, fields) => {
-            if(err)
-                return(res.send(err) && console.log(err));
-            res.end();
+router.post('/upload_picture', (req, res) => {
+    const userId = req.body.userId
+    const picture = req.body.picture
+    cloudinary.v2.uploader.upload(picture, (err, result) => {
+        if (err)
+            console.log(err)
+        const url = result.url
+
+        req.db.query("SELECT * FROM Users WHERE id = ?;",
+        [userId], (err, rows, fields) => {
+            if (err)
+                return (res.send(err) && console.log(err))
+            let newPicture
+            if (rows[0].picture1 === null)
+                newPicture = 'picture1'
+            else if (rows[0].picture2 === null)
+                newPicture = 'picture2'
+            else if (rows[0].picture3 === null)
+                newPicture = 'picture3'
+            else if (rows[0].picture4 === null)
+                newPicture = 'picture4'
+            else if (rows[0].picture5 === null)
+                newPicture = 'picture5'
+            console.log(newPicture)
+
+            req.db.query(`UPDATE Users SET ?? = ? WHERE id = ?;`,
+            [newPicture, url, userId], (err, rows, fields) => {
+                if(err)
+                    return(res.send(err) && console.log(err));
+            })
         })
+        res.json(url)
     })
 })
 
