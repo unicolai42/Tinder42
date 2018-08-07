@@ -14,11 +14,7 @@ class Profile extends React.Component {
     super(props)  
     
     this.state = {
-      user: {
-        username: '',
-        location: '',
-        pictures: []
-      }
+      pictures: {}
     }
 
     this.movePicture = this.movePicture.bind(this)
@@ -27,23 +23,17 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    axios.post('http://localhost:3001/load_userdata', {
-      "user": Cookies.get('id')
+    axios.post('http://localhost:3001/load_pictures', {
+      "userId": Cookies.get('id')
     })
     .then(response => {
-        this.setState(
-        {
-          user: {
-            username: response.data.username,
-            location: response.data.location,
-            pictures: response.data.pictures
-          }
-        })
+        this.setState({pictures: response.data.pictures})
+        console.log(response.data.pictures)
     })
   }
 
   movePicture(dragIndex, hoverIndex) {
-    let { pictures } = this.state.user
+    let { pictures } = this.state
     // let dragPicture = pictures[dragIndex]
     let newOrderPictures = pictures
 
@@ -67,11 +57,7 @@ class Profile extends React.Component {
       "newOrderPictures": newOrderPictures
     })
 
-		this.setState({
-      user: {
-        pictures: newOrderPictures
-      }
-    })
+		this.setState({pictures: newOrderPictures})
   }
   
   uploadPicture(file) {
@@ -85,7 +71,7 @@ class Profile extends React.Component {
           "picture": e.target.result
         })
         .then(response => {
-          const pictures = this.state.user.pictures
+          const pictures = this.state.pictures
           console.log(pictures)
           let i
           for (i = 0; i < pictures.length; i++) {
@@ -94,11 +80,7 @@ class Profile extends React.Component {
           }
           console.log(response.data)
           pictures.splice(i, 1, response.data)
-          this.setState({
-            user: {
-              pictures: pictures
-            }
-          })
+          this.setState({pictures: pictures})
         })
       }
       console.log('file', file.length)
@@ -109,7 +91,7 @@ class Profile extends React.Component {
   removePicture(picture) {
     console.log(picture.target.parentElement.id)
     const removeId = picture.target.parentElement.id
-    let newOrderPictures = this.state.user.pictures
+    let newOrderPictures = this.state.pictures
     const removeUrl = newOrderPictures[removeId]
     let removePublicId
 
@@ -129,19 +111,15 @@ class Profile extends React.Component {
       "removeUrl": removePublicId
     })
     
-    this.setState({
-      user: {
-        pictures: newOrderPictures
-      }
-    })
+    this.setState({pictures: newOrderPictures})
   }
 
   render() {
-    console.log(this.state.user.pictures)
-    let firstPicture = this.state.user.pictures[0]
+    console.log(this.state.pictures)
+    let firstPicture = this.state.pictures[0]
     let pictures = []
     for (let i = 0; i < 5; i++) {
-      pictures.push((this.state.user.pictures[i]) ? <ProfileDragPictures picture={this.state.user.pictures[i]} removePicture={this.removePicture} key={i} id={i} movePicture={this.movePicture}/> : <Dropzone ref={(ref) => { this.uploadInput = ref; }} type="file" onDrop={(files) => this.uploadPicture(files)} className='Profile_boxPictures' key={i}><div className='Profile_emptyPictures'/></Dropzone>)
+      pictures.push((this.state.pictures[i]) ? <ProfileDragPictures picture={this.state.pictures[i]} removePicture={this.removePicture} key={i} id={i} movePicture={this.movePicture}/> : <Dropzone ref={(ref) => { this.uploadInput = ref; }} type="file" onDrop={(files) => this.uploadPicture(files)} className='Profile_boxPictures' key={i}><div className='Profile_emptyPictures'/></Dropzone>)
     }
     return (
       <div id='Profile_wrapper'>

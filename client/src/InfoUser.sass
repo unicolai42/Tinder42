@@ -1,3 +1,10 @@
+#InfoUser_block
+    display: flex
+    flex-direction: column
+    height: 100%
+    overflow: auto
+    padding-left: 2px
+
 .InfoUser_line
     width: 88%
     margin: auto
@@ -19,54 +26,70 @@
 #InfoUser_NameAgeEdit
     margin: auto 0
     display: flex
+    cursor: pointer
 
 #InfoUser_NameAgeEditText
     margin: auto
 
 #InfoUser_NameAgeEditImg
-    background-image: url('.//ressources/edit.png')
+    background-position: center
+    background-size: cover
+    background-image: url('./ressources/edit.png')
     margin: auto auto auto 0.5vh
     width: 2.8vh
     height: 2.8vh
 
 #InfoUser_aboutDescription
-    margin: 3vh auto
-    width: 89%
     text-align: center
     display: inherit
+    margin: 5px auto
 
-    .InfoUser_aboutImg
-        width: 25px
-        height: 25px
-        background-position: center
-        background-size: cover
-        margin: auto 0
+.InfoUser_aboutImg
+    width: 25px
+    height: 25px
+    margin: auto 0
+    background-position: center
+    background-size: cover
 
+.InfoUser_aboutText
+    padding: 2px
+    flex-wrap: wrap
+    word-break: break-all
+    border-radius: 2px
+    max-width: 90%
+    &:focus
+        outline: none
 
-    #InfoUser_aboutLocation
-        background-image: url('./ressources/location.png')
-
-
-    #InfoUser_aboutWork
-        background-image: url('./ressources/work.png')
-
-
-    #InfoUser_aboutInterest
-        background-image: url('./ressources/interest.png')
-
-
-    #InfoUser_aboutLanguage
-        background-image: url('./ressources/language.png')
+#InfoUser_aboutLocation
+    background-image: url('./ressources/location.png')
 
 
+#InfoUser_aboutWork
+    background-image: url('./ressources/work.png')
+
+
+#InfoUser_aboutInterest
+    background-image: url('./ressources/interest.png')
+
+
+#InfoUser_aboutLanguage
+    background-image: url('./ressources/language.png')
+
+
+ul
+  list-style: none
+  margin-left: 0
+  padding-left: 0
+
+li
+  padding-left: 1em
+  text-indent: -1em
+
+li:before
+  content: "#"
 
 
 @media screen and (min-width: 800px)
-    #InfoUser_aboutDescription
-        margin: auto
-        width: initial
-
-
     .InfoUser_box
         margin: 4vh 0
 

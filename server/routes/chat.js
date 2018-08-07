@@ -46,6 +46,7 @@ router.post('/chat_conversation', (req, res) => {
 })
 
 router.post('/find_match_info', (req, res) => {
+    console.log(req.body.usersMatched, 'here')
     req.db.query(`SELECT username, picture1 FROM Users WHERE id IN (?);`,
     [req.body.usersMatched], (err, rows, fields) => {
         if(err)

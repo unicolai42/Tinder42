@@ -63,7 +63,8 @@
       margin: 0 5px;
       font-family: 'Encode Sans Semi Expanded', sans-serif;
       font-size: 17px;
-      font-weight: 300; }
+      font-weight: 300;
+      height: 100%; }
 
 @media screen and (min-width: 800px) {
   #Profile_wrapper {
@@ -73,6 +74,7 @@
       flex-direction: initial;
       margin: auto;
       width: 80vw;
+      max-height: 90vh;
       max-width: initial; }
       #Profile_wrapper #Profile_block #Profile_firstPicture {
         border-radius: 15px 15px 15px 0; }
@@ -80,7 +82,6 @@
         margin: 0.7vh 0 auto 0; }
       #Profile_wrapper #Profile_block #Profile_about {
         width: 100%;
-        margin: auto 5vh;
         display: flex;
         flex-direction: column;
         justify-content: space-between; } }

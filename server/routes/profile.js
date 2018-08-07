@@ -9,32 +9,51 @@ cloudinary.config({
 });
 
 
-router.post('/load_userdata', (req, res) => {
-    console.log(req.body.user)
+router.post('/load_pictures', (req, res) => {
+    console.log(req.body.userId)
     req.db.query("SELECT * FROM Users WHERE id = ?;",
-    [req.body.user], (err, rows, fields) => {
+    [req.body.userId], (err, rows, fields) => {
         if (err)
             return (res.send(err) && console.log(err))
         let pictures = []
         pictures.push(rows[0].picture1, rows[0].picture2, rows[0].picture3, rows[0].picture4, rows[0].picture5)
         let data = {}
         data.pictures = pictures
-        data.username = rows[0].username
-        data.location = rows[0].location
-        // let arrayAllConversations = []
-        // let arrayConversation = []
-        // rows.forEach(row => {
-        //     if (row.match_id !== match_id) {
-        //         match_id = row.match_id
-        //         if (arrayConversation.length !== 0) {
-        //             arrayAllConversations.push(arrayConversation)
-        //             arrayConversation = []
-        //         }
-        //     }
-        //     arrayConversation.push(row)
-        // })
-        // arrayAllConversations.push(arrayConversation)
+
         res.json(data)
+    })
+})
+
+router.post('/load_info_user', (req, res) => {
+    // console.log(req.body.userId)
+    req.db.query("SELECT * FROM Users WHERE id = ?;",
+    [req.body.userId], (err, rows, fields) => {
+        if (err)
+            return (res.send(err) && console.log(err))
+        // console.log(rows)
+        let userData = rows[0]
+        // res.json(rows)
+        req.db.query("SELECT hashtag_id FROM HashtagUsers WHERE user_id = ?;",
+        [req.body.userId], (err, rows, fields) => {
+            const hashtagId = []
+            rows.forEach(e => {
+                hashtagId.push(e.hashtag_id)
+            });
+            // console.log(rows.length, hashtagId)
+            let hashtags = []
+            console.log(hashtagId)
+            req.db.query("SELECT name FROM Hashtags WHERE id IN (?);",
+            [hashtagId], (err, rows, fields) => {
+                console.log(rows)
+                rows.forEach(e => {
+                    hashtags.push(e.name)
+                })
+
+                userData.hashtags = hashtags
+                console.log(userData)
+                res.json(userData)
+            })
+        })
     })
 })
 
