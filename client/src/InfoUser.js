@@ -18,7 +18,7 @@ class InfoUser extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
+            name: '',
             location: '',
             age: '',
             description: '',
@@ -46,7 +46,7 @@ class InfoUser extends React.Component {
         })
         .then(response => {
             this.setState({
-                username: response.data.username,
+                name: response.data.username,
                 location: response.data.location,
                 age: response.data.age,
                 description: response.data.description,
@@ -76,7 +76,7 @@ class InfoUser extends React.Component {
 
     changeName(e) {
         console.log(e)
-        this.setProps({username: e.target.result})
+        this.setProps({name: e.target.result})
     }
 
     changeAge() {
@@ -109,55 +109,102 @@ class InfoUser extends React.Component {
             this.state.hashtags.forEach(element => {
                 hashtags.push(<li key={element}>{element}</li>)
             });
-        return (
-            <div id='InfoUser_block'>
-                <div className='InfoUser_box'>
-                    <div id='InfoUser_NameAgeText'>
-                        <span style={this.state.borderEdit} contentEditable={this.state.editContent} onChange={this.changeName}>
-                            {this.state.name}
-                        </span>
-                        <span style={this.state.borderEdit} contentEditable={this.state.editContent} onChange={this.changeAge}>
-                            {(this.state.age) ? `, ${this.state.age}` : null}
-                        </span>
-                    </div>
-                    <div id='InfoUser_NameAgeEdit' onClick={this.editInfo}>
-                        <span id='InfoUser_NameAgeEditText'>
-                            {this.state.editButton}
-                        </span>
-                        <span className='InfoUser_aboutImg' id='InfoUser_NameAgeEditImg'/>
-                    </div>
+
+        let modify = []
+        modify.push(<input className='InfoUser_input' type="text" placeholder='Name' value={this.state.name} onChange={this.changeName} />)
+        modify.push(<input className='InfoUser_input' type="text" placeholder='Age' value={this.state.age} onChange={this.changeAge} />)
+        modify.push(<input className='InfoUser_input' type="text" placeholder='Description' value={this.state.description} onChange={this.changeDescription} />)
+        modify.push(<input className='InfoUser_input' type="text" placeholder='Location' value={this.state.location} onChange={this.changeLocation} />)
+        modify.push(<input className='InfoUser_input' type="text" placeholder='Work' value={this.state.work} onChange={this.changeWork} />)
+        modify.push(<input className='InfoUser_input' type="text" placeholder='Interest' value={this.state.interest} onChange={this.changeInterest} />)
+        modify.push(<input className='InfoUser_input' type="text" placeholder='Language' value={this.state.language} onChange={this.changeLanguage} />)
+        modify.push(<div id='InfoUser_submit'>Submit</div>)
+
+        let info = []
+        info.push(
+            <div key={1} className='InfoUser_box'>
+                <div id='InfoUser_NameAgeText'>
+                    <span style={this.state.borderEdit} onChange={this.changeName}>
+                        {this.state.name}
+                    </span>
+                    <span style={this.state.borderEdit} onChange={this.changeAge}>
+                        {(this.state.age) ? `, ${this.state.age}` : null}
+                    </span>
                 </div>
-                <div id='InfoUser_aboutDescription' className='InfoUser_box InfoUser_aboutText' style={this.state.borderEdit} contentEditable={this.state.editContent} onChange={this.changeDescription}>Hello</div>
-                <div className='InfoUser_line'/>
-                <div className='InfoUser_box'>
-                    <div className='InfoUser_aboutText' style={this.state.borderEdit} contentEditable={this.state.editContent} onChange={this.changeLocation}>
+                <div id='InfoUser_NameAgeEdit' onClick={this.editInfo}>
+                    <span id='InfoUser_NameAgeEditText'>
+                        {this.state.editButton}
+                    </span>
+                    <span className='InfoUser_aboutImg' id='InfoUser_NameAgeEditImg'/>
+                </div>
+            </div>
+        )
+        if (this.state.description)
+            info.push(
+                <div key={2} id='InfoUser_aboutDescription' className='InfoUser_box InfoUser_aboutText' style={this.state.borderEdit} onChange={this.changeDescription}>
+                    {this.state.description}
+                </div> 
+            )
+        if (this.state.location) {
+            info.push(
+                <div key={3} className='InfoUser_line'/>
+            )
+            info.push(
+                <div key={4} className='InfoUser_box'>
+                    <div className='InfoUser_aboutText' style={this.state.borderEdit} onChange={this.changeLocation}>
                         {this.state.location}
                     </div>
                     <div id='InfoUser_aboutLocation' className='InfoUser_aboutImg'/>
                 </div>
-                <div className='InfoUser_line'/>
-                <div className='InfoUser_box'>
-                    <div className='InfoUser_aboutText' style={this.state.borderEdit} contentEditable={this.state.editContent} onChange={this.changeWork}>
+            )
+        }
+        if (this.state.work) {
+            info.push(
+                <div key={5} className='InfoUser_line'/>
+            )
+            info.push(
+                <div key={6} className='InfoUser_box'>
+                    <div className='InfoUser_aboutText' style={this.state.borderEdit} onChange={this.changeWork}>
                         {this.state.work}
                     </div>
                     <div id='InfoUser_aboutWork' className='InfoUser_aboutImg'/>
                 </div>
-                <div className='InfoUser_line'/>
-                <div className='InfoUser_box'>
-                    <ul className='InfoUser_aboutText' style={this.state.borderEdit} contentEditable={this.state.editContent} onChange={this.changeInterest}>
+            )
+        }
+        if (this.state.hashtags) {
+            info.push(
+                <div key={7} className='InfoUser_line'/>
+            )
+            info.push(
+                <div key={8} className='InfoUser_box'>
+                    <ul className='InfoUser_aboutText' style={this.state.borderEdit} onChange={this.changeInterest}>
                         {hashtags}
                     </ul>
-                <div id='InfoUser_aboutInterest' className='InfoUser_aboutImg'/>
+                    <div id='InfoUser_aboutInterest' className='InfoUser_aboutImg'/>
                 </div>
-                <div className='InfoUser_line'/>
-                <div className='InfoUser_box'>
-                    <div className='InfoUser_aboutText' style={this.state.borderEdit} contentEditable={this.state.editContent} onChange={this.changeLanguage}>
+            )
+        }
+        if (this.state.language) {
+            info.push(
+                <div key={9} className='InfoUser_line'/>
+            )
+            info.push(
+                <div key={10} className='InfoUser_box'>
+                    <div className='InfoUser_aboutText' style={this.state.borderEdit} onChange={this.changeLanguage}>
                         {this.state.language}
                     </div>
                     <div id='InfoUser_aboutLanguage' className='InfoUser_aboutImg'/>
                 </div>
+            )
+        }
+
+        let display = (this.state.editButton === 'Edit') ? info : <div id='InfoUser_modify'>{modify}</div>
+
+        return (
+            <div id='InfoUser_block'>
+                {display}
             </div>
-        );
+        )
     }
 }
 export default InfoUser;

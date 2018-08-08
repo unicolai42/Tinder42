@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:200,300,400')
+
 #InfoUser_block
     display: flex
     flex-direction: column
     height: 100%
-    overflow: auto
     padding-left: 2px
 
 .InfoUser_line
@@ -57,6 +58,7 @@
     word-break: break-all
     border-radius: 2px
     max-width: 90%
+    min-width: 40px
     &:focus
         outline: none
 
@@ -74,6 +76,41 @@
 
 #InfoUser_aboutLanguage
     background-image: url('./ressources/language.png')
+
+
+#InfoUser_modify
+    display: flex
+    flex-direction: column
+    height: 80vw
+    max-height: 65vh
+    min-height: 40vw
+    border-radius: 5px
+
+
+    .InfoUser_input
+        border-image: linear-gradient(170deg,#eff8ff 10%,#dfefff 70%,#b4e3f7 90%) 1
+        width: 95%
+        margin: 10px auto
+        font-size: 17px
+        padding: 5px
+        font-family: 'Encode Sans Semi Expanded', sans-serif
+        font-weight: 200
+        color: black
+
+        &:focus
+            outline: none
+    
+    #InfoUser_submit
+        background: linear-gradient(170deg,#68efc6 20%,#3be961 70%,#18e23a 90%)
+        color: white
+        margin: 20px auto
+        cursor: pointer
+        padding: 10px 20px
+        border-radius: 3px
+        font-size: 18px
+        font-family: 'Encode Sans Semi Expanded', sans-serif
+
+
 
 
 ul
