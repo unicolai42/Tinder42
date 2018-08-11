@@ -5,6 +5,7 @@
     flex-direction: column
     height: 100%
     padding-left: 2px
+    margin-bottom: 10px
 
 .InfoUser_line
     width: 88%
@@ -70,7 +71,7 @@
     background-image: url('./ressources/work.png')
 
 
-#InfoUser_aboutInterest
+#InfoUser_aboutHashtags
     background-image: url('./ressources/interest.png')
 
 
@@ -91,12 +92,57 @@
         border-image: linear-gradient(170deg,#eff8ff 10%,#dfefff 70%,#b4e3f7 90%) 1
         width: 95%
         margin: 10px auto
-        font-size: 17px
         padding: 5px
         font-family: 'Encode Sans Semi Expanded', sans-serif
+        font-size: 17px
         font-weight: 200
         color: black
 
+        &:focus
+            outline: none
+
+    .react-tags
+        // position: relative
+        // display: flex
+        height: 100%
+        border-radius: 1px
+        font-size: 1em
+        cursor: text
+
+    .react-tags__selected
+        display: inline
+        display: flex
+        flex-wrap: wrap
+        margin-bottom: 5px
+
+    .react-tags__selected-tag
+        display: inline-block
+        box-sizing: border-box
+        margin: 3px
+        padding: 5px
+        border-radius: 5px
+        font-family: 'Encode Sans Semi Expanded', sans-serif
+        font-size: 15px
+        font-weight: 300
+        color: white
+        border: none
+        // background: linear-gradient(170deg,#eff8ff 10%,#dfefff 70%,#b4e3f7 90%)
+        background: linear-gradient(170deg,#a8d6ea 10%,#dfefff 70%,#aadaff 90%)
+        cursor: pointer
+    
+    .react-tags__search
+        display: inline
+
+    .react-tags__search input
+        margin-left: 2.094px
+        margin-bottom: 10px
+        border-image: linear-gradient(170deg,#eff8ff 10%,#dfefff 70%,#b4e3f7 90%) 1
+        width: 95% !important
+        padding: 5px
+        border-radius: 5px
+        font-family: 'Encode Sans Semi Expanded', sans-serif
+        font-size: 16px !important
+        font-weight: 200
         &:focus
             outline: none
     

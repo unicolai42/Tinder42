@@ -23,6 +23,7 @@
     "express": "^4.16.3",
     "express-fileupload": "^0.4.0",
     "filereader": "^0.10.3",
+    "ip": "^1.1.5",
     "mysql": "^2.15.0",
     "nodemailer": "^4.6.7",
     "nodemon": "^1.18.1",

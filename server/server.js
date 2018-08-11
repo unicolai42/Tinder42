@@ -9,11 +9,12 @@ const routerDbQuery = require('./routes/dbQuery')
 const routerLogIn = require('./routes/logIn')
 const routerChat = require('./routes/chat')
 const routerProfile = require('./routes/profile.js')
+const routerSettings = require('./routes/settings.js')
 
 const app = express()
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json({limit: '10mb'}))
+app.use(bodyParser.urlencoded({extended: false, limit: '10mb'}))
 app.use(cookieParser())
 app.use(cors())
 app.use(fileUpload())
@@ -31,6 +32,7 @@ app.use(routerDbQuery)
 app.use(routerLogIn)
 app.use(routerChat)
 app.use(routerProfile)
+app.use(routerSettings)
 
 
 app.set('port', (process.env.PORT || 3001))

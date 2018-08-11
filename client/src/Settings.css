@@ -1,0 +1,20 @@
+#Settings_wrapper {
+  display: flex;
+  border: 1px solid red;
+  height: calc(100vh - 57px); }
+  #Settings_wrapper #Settings_block {
+    margin: auto;
+    width: 500px;
+    height: 300px;
+    border: 1px solid blue; }
+    #Settings_wrapper #Settings_block #Settings_age {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid red; }
+    #Settings_wrapper #Settings_block #Settings_location {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid blue; }
+    #Settings_wrapper #Settings_block .Settings_description {
+      display: flex;
+      justify-content: space-between; }

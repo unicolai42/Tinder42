@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const cloudinary = require('cloudinary');
+const cloudinary = require('cloudinary')
+// const ip = require('ip')
+
 
 cloudinary.config({ 
     cloud_name: 'dzhnhtkyv', 
@@ -10,7 +12,6 @@ cloudinary.config({
 
 
 router.post('/load_pictures', (req, res) => {
-    console.log(req.body.userId)
     req.db.query("SELECT * FROM Users WHERE id = ?;",
     [req.body.userId], (err, rows, fields) => {
         if (err)
@@ -25,7 +26,8 @@ router.post('/load_pictures', (req, res) => {
 })
 
 router.post('/load_info_user', (req, res) => {
-    // console.log(req.body.userId)
+    console.log(req.ip, 'ok')
+    console.log(req.socket.address().address, 'ko')
     req.db.query("SELECT * FROM Users WHERE id = ?;",
     [req.body.userId], (err, rows, fields) => {
         if (err)
@@ -41,20 +43,70 @@ router.post('/load_info_user', (req, res) => {
             });
             // console.log(rows.length, hashtagId)
             let hashtags = []
-            console.log(hashtagId)
             req.db.query("SELECT name FROM Hashtags WHERE id IN (?);",
             [hashtagId], (err, rows, fields) => {
-                console.log(rows)
-                rows.forEach(e => {
-                    hashtags.push(e.name)
+                rows.forEach((e, i) => {
+                    hashtags.push({id: i, name: e.name})
                 })
-
                 userData.hashtags = hashtags
-                console.log(userData)
-                res.json(userData)
+
+                req.db.query("SELECT * FROM Hashtags;", (err, rows, fields) => {
+                    userData.suggestions = rows
+                    res.json(userData)
+                })
             })
         })
     })
+})
+
+router.post('/edit_info_user', (req, res) => {
+    req.db.query("UPDATE Users SET username = ?, age = ?, description = ?, location = ?, work = ?, language = ? WHERE id = ?;",
+    [req.body.name, req.body.age, req.body.description, req.body.location, req.body.work, req.body.language, req.body.userId], (err, rows, fields) => {
+        if (err)
+            return (res.send(err) && console.log(err))
+    })
+    res.end()
+})
+
+router.post('/add_hashtag_profile', (req, res) => {
+    console.log('add')
+    req.db.query("SELECT * FROM Hashtags WHERE name = ?;",
+    [req.body.hashtagName], (err, rows, fields) => {
+        if (err)
+            return (res.send(err) && console.log(err))
+
+        if (rows[0]) {
+            const hashtagId = rows[0].id
+            req.db.query("INSERT INTO HashtagUsers (user_id, hashtag_id) VALUES (?, ?);",
+            [req.body.userId, hashtagId])
+        }
+        else {
+            req.db.query("INSERT INTO Hashtags (name) VALUES (?);",
+            [req.body.hashtagName], (err, rows, fields) => {
+                req.db.query("SELECT * FROM Hashtags WHERE name = ?;", 
+                [req.body.hashtagName], (err, rows, fields) => {
+                    const hashtagId = rows[0].id
+                    req.db.query("INSERT INTO HashtagUsers (user_id, hashtag_id) VALUES (?, ?);",
+                    [req.body.userId, hashtagId])
+                })
+            })
+        }
+    })
+    res.end()
+})
+
+router.post('/remove_hashtag_profile', (req, res) => {
+    console.log('remove')
+    req.db.query("SELECT * FROM Hashtags WHERE name = ?;",
+    [req.body.hashtagName], (err, rows, fields) => {
+        if (err)
+            return (res.send(err) && console.log(err))
+
+        const hashtagId = rows[0].id
+        req.db.query("DELETE FROM HashtagUsers WHERE user_id = ? AND hashtag_id = ?;",
+        [req.body.userId, hashtagId])
+    })
+    res.end()
 })
 
 router.post('/update_order_pictures', (req, res) => {
@@ -76,6 +128,7 @@ router.post('/upload_picture', (req, res) => {
     cloudinary.v2.uploader.upload(picture, (err, result) => {
         if (err)
             console.log(err)
+        console.log(result.url)
         const url = result.url
 
         req.db.query("SELECT * FROM Users WHERE id = ?;",
