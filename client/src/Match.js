@@ -1,6 +1,8 @@
 import React from 'react'
 import './Match.css'
 import MatchUser from './MatchUser';
+import Cookies from 'js-cookie'
+import axios from 'axios'
 
 import pic1 from './ressources/picture1.jpg';
 import pic2 from './ressources/picture2.jpg';
@@ -50,6 +52,29 @@ class Match extends React.Component {
 
     this.likeClick = this.likeClick.bind(this)
     this.dislikeClick = this.dislikeClick.bind(this)
+  }
+
+  componentDidMount() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        console.log(position.coords.latitude, position.coords.longitude);
+        axios.post('http://localhost:3001/update_location', {
+          "userId": Cookies.get('id'),
+          "latitude": position.coords.latitude,
+          "longitude": position.coords.longitude
+        })
+      })
+    }
+    else {
+      console.log("Le service de géolocalisation n'est pas disponible sur votre ordinateur.");
+    }
+
+    axios.post('http://localhost:3001/load_user_data_match', {
+        "userId": Cookies.get('id')
+    })
+    .then(response => {
+        console.log(response.data)
+    })
   }
   
   likeClick() {

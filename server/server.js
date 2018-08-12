@@ -7,9 +7,10 @@ const fileUpload = require('express-fileupload')
 
 const routerDbQuery = require('./routes/dbQuery')
 const routerLogIn = require('./routes/logIn')
+const routerProfile = require('./routes/profile')
 const routerChat = require('./routes/chat')
-const routerProfile = require('./routes/profile.js')
-const routerSettings = require('./routes/settings.js')
+const routerMatch = require('./routes/match')
+const routerSettings = require('./routes/settings')
 
 const app = express()
 
@@ -30,8 +31,9 @@ app.use((req, res, next) => {
 
 app.use(routerDbQuery)
 app.use(routerLogIn)
-app.use(routerChat)
 app.use(routerProfile)
+app.use(routerChat)
+app.use(routerMatch)
 app.use(routerSettings)
 
 

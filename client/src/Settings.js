@@ -96,7 +96,7 @@ class Settings extends React.Component {
   }
 
   render() {
-    console.log(this.state.tags)
+    console.log(this.state.sugggestions)
     return (
       <div id='Settings_wrapper'>
         <div id='Settings_block'>
@@ -123,7 +123,7 @@ class Settings extends React.Component {
             <Slider style={{width: '90%', margin: 'auto'}} min={1} max={3} value={this.state.sex} onChange={this.changeValuesSex} onAfterChange={this.setValuesDb} />
           </div>
           <div>
-            <ReactTags delimiterChars={[',', ' ']} allowBackspace={false} placeholder='Add new # or click to delete it' tags={this.state.tags} suggestions={this.state.suggestions} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />
+            <ReactTags delimiterChars={[',', ' ', '.', '  ']} allowBackspace={false} placeholder='Add new # or click to delete it' tags={this.state.tags} suggestions={this.state.suggestions} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />
           </div>
         </div>
       </div>
