@@ -7,7 +7,7 @@ class MatchUser extends React.Component {
         super(props)
         this.state = {
             pictures: this.props.pictures,
-            picturePrincipale: '',
+            picturePrincipale: this.props.pictures[0],
             changePicture: 0,
             clickedInfo: false,
             about: 'flex',
@@ -28,28 +28,28 @@ class MatchUser extends React.Component {
         })
         console.log(this.state.clickedInfo)
         if (!this.state.clickedInfo)
-        this.setState({about: 'none', info: 'flex'})
+            this.setState({about: 'none', info: 'flex'})
         else
-        this.setState({about: 'flex', info: 'none'})
+            this.setState({about: 'flex', info: 'none'})
     }
     
     previousPicture() {
         if (this.state.changePicture !== 0)
-        this.setState((prevState) => {
-            return {changePicture: prevState.changePicture -= 100 * -1}
-        })
+            this.setState((prevState) => {
+                return {changePicture: prevState.changePicture -= 100 * -1}
+            })
         else
-        this.setState({changePicture: (this.state.pictures.length - 1) * 100 * -1})
+            this.setState({changePicture: (this.state.pictures.length - 1) * 100 * -1})
     }
     
     nextPicture() {
         console.log(this.state.changePicture)
         if (this.state.changePicture / -100 !== this.state.pictures.length - 1)
-        this.setState((prevState) => {
-        return {changePicture: prevState.changePicture += 100 * -1}
-        })
-    else
-        this.setState({changePicture: 0})
+            this.setState((prevState) => {
+            return {changePicture: prevState.changePicture += 100 * -1}
+            })
+        else
+            this.setState({changePicture: 0})
     }
     
     clickBulletpoint(e) {
@@ -60,7 +60,7 @@ class MatchUser extends React.Component {
     
     createBulletpoint() {
         let bulletpoint = []
-    
+
         for (let i = 0; i < this.state.pictures.length; i++) {
             let whiteBullet = (i * -100 === this.state.changePicture) ? {background: 'white'} : null
             bulletpoint.push(<div className='MatchUser_bulletpoint' key={i} data-id={i} style={whiteBullet} onClick={this.clickBulletpoint}></div>)
@@ -69,24 +69,36 @@ class MatchUser extends React.Component {
     }
 
     render() {
+        console.log('check')
         let pictures = []
-        let i = 0
-        this.state.pictures.forEach((elem) => {
-        pictures.push(<div className='MatchUser_picture' key={i} style={{backgroundImage: `url(${this.state.pictures[i]})`, transform: `translateX(${this.state.changePicture}%)`}}></div>)
-        i++
-        })
+        console.log(this.state.pictures.length, 'length')
+        for (let i = 0; i < this.state.pictures.length; i++) {
+            pictures.push(<div className='MatchUser_picture' key={i} style={{backgroundImage: `url(${this.state.pictures[i]})`, transform: `translateX(${this.state.changePicture}%)`}}></div>)
+            console.log(this.state.pictures[i])
+        }
+        let arrows = []
+        if (this.state.pictures.length > 1)
+            arrows.push(
+                <div id='MatchUser_arrows'>
+                    <div id='MatchUser_arrowLeft' onClick={this.previousPicture}></div>
+                    <div id='MatchUser_arrowRight' onClick={this.nextPicture}></div>
+                </div>
+            )
+        else
+            arrows = null
+        // this.state.pictures.forEach((elem) => {
+        // pictures.push(<div className='MatchUser_picture' key={i} style={{backgroundImage: `url(${this.state.pictures[i]})`, transform: `translateX(${this.state.changePicture}%)`}}></div>)
+        // i++
+        // })
         return (
             <div id='MatchUser_frameAbsolute' style={this.props.addStyle}>
                 <div id='MatchUser_frame'>
                     {pictures}
                     <div id='MatchUser_liked' style={this.props.liked}>LIKE</div>
                     <div id='MatchUser_disliked' style={this.props.disliked}>NOPE</div>
-                    <div id='MatchUser_arrows'>
-                        <div id='MatchUser_arrowLeft' onClick={this.previousPicture}></div>
-                        <div id='MatchUser_arrowRight' onClick={this.nextPicture}></div>
-                    </div>
+                    {arrows}
                     <div id='MatchUser_informations'>
-                        <div id='MatchUser_nameAge' style={{display: this.state.about}}>{this.props.name}, 23</div>
+                        <div id='MatchUser_nameAge' style={{display: this.state.about}}>{this.props.name}, {this.props.age}</div>
                         <div id='MatchUser_location' style={{display: this.state.about}}>
                             <div id='MatchUser_locationLogo'></div>
                             <div id='MatchUser_locationText'>Paris</div>  
