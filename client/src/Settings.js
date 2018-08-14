@@ -120,7 +120,7 @@ class Settings extends React.Component {
               <div className='Settings_sexText'>Both</div>
               <div className='Settings_sexText'>Women</div>
             </div>
-            <Slider style={{width: '90%', margin: 'auto'}} min={1} max={3} value={this.state.sex} onChange={this.changeValuesSex} onAfterChange={this.setValuesDb} />
+            <Slider style={{width: '90%', margin: 'auto'}} min={0} max={2} value={this.state.sex} onChange={this.changeValuesSex} onAfterChange={this.setValuesDb} />
           </div>
           <div>
             <ReactTags delimiterChars={[',', ' ', '.', '  ']} allowBackspace={false} placeholder='Add new # or click to delete it' tags={this.state.tags} suggestions={this.state.suggestions} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />

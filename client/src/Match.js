@@ -62,7 +62,7 @@ class Match extends React.Component {
   componentDidMount() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
-        console.log(position.coords.latitude, position.coords.longitude);
+        console.log(position.coords.latitude, position.coords.longitude)
         axios.post('http://localhost:3001/update_location', {
           "userId": Cookies.get('id'),
           "latitude": position.coords.latitude,
@@ -73,12 +73,10 @@ class Match extends React.Component {
     else {
       console.log("Le service de géolocalisation n'est pas disponible sur votre ordinateur.")
     }
-    console.log('test')
     axios.post('http://localhost:3001/load_user_data_match', {
         "userId": Cookies.get('id')
     })
     .then(response => {
-        console.log(response.data, 'ddddddddd')
         this.setState({allUsers: response.data})
     })
   }
@@ -192,51 +190,13 @@ class Match extends React.Component {
   render() {
     let arrayUserMatch = []
 
-    console.log(this.state.allUsers)
-    console.log(this.state.allUsers[this.state.indexUser1])
-    console.log(this.state.allUsers[this.state.indexUser2])
-    console.log(this.state.allUsers[this.state.indexUser3])
-
     if (this.state.allUsers.length > 0) {
-      // while (i < this.state.allUsers.length) {
-      //   console.log(this.state.allUsers[i], '1')
-      //   console.log(this.state.allUsers[i+1], '2')
-      //   console.log(this.state.allUsers[i+2], '3')
-      // console.log(this.state.allUsers[this.state.indexUser1].pictures, this.state.indexUser1, 'index')
       if (this.state.allUsers[this.state.indexUser1])
         arrayUserMatch.push(<MatchUser key={this.state.indexUser1} name={this.state.allUsers[this.state.indexUser1].username} pictures={this.state.allUsers[this.state.indexUser1].pictures} liked={this.state.likedFirstUser} disliked={this.state.dislikedFirstUser} addStyle={this.state.styleFirstUser}/>)
       if (this.state.allUsers[this.state.indexUser2])
         arrayUserMatch.push(<MatchUser key={this.state.indexUser2} name={this.state.allUsers[this.state.indexUser2].username} pictures={this.state.allUsers[this.state.indexUser2].pictures} liked={this.state.likedSecondUser} disliked={this.state.dislikedSecondUser} addStyle={this.state.styleSecondUser}/>)
-      console.log(this.state.allUsers[this.state.indexUser3], this.state.indexUser3)
       if (this.state.allUsers[this.state.indexUser3])
         arrayUserMatch.push(<MatchUser key={this.state.indexUser3} name={this.state.allUsers[this.state.indexUser3].username} pictures={this.state.allUsers[this.state.indexUser3].pictures} liked={this.state.likedThirdUser} disliked={this.state.dislikedThirdUser} addStyle={this.state.styleThirdUser}/>)
-      
-      console.log(arrayUserMatch)
-      // i += 3
-      // console.log(arrayUserMatch)
-      // }
-      // this.state.allUsers.forEach((user, i) => {
-      //   console.log(user, 'qwer')
-        
-        
-      //   // arrayUserMatch.push(<MatchUser key={i}
-      //   //                               name={user.username}
-      //   //                               age={user.age}
-      //   //                               pictures={user.pictures}
-      //   //                               liked={this.state.likedFirstUser}
-      //   //                               disliked={this.state.dislikedFirstUser}
-      //   //                               addStyle={this.state.styleFirstUser}/>
-      //   // )
-      // })
-    //   console.log(arrayUserMatch, 'dd')
-      
-      // if (this.state.allUsers[i])
-      //   arrayUserMatch.push(<MatchUser name={this.state.allUsers[i].username} pictures={this.state.allUsers[i].pictures} liked={this.state.likedFirstUser} disliked={this.state.dislikedFirstUser} addStyle={this.state.styleFirstUser}/>)
-      // if (this.state.allUsers[i+1])
-      //   arrayUserMatch.push(<MatchUser name={this.state.allUsers[i+1].username} pictures={this.state.allUsers[i+1].pictures} liked={this.state.likedSecondUser} disliked={this.state.dislikedSecondUser} addStyle={this.state.styleSecondUser}/>)
-      // if (this.state.allUsers[i+2])
-      //   arrayUserMatch.push(<MatchUser name={this.state.allUsers[i+2].username} pictures={this.state.allUsers[i+2].pictures} liked={this.state.likedThirdUser} disliked={this.state.dislikedThirdUser} addStyle={this.state.styleThirdUser}/>)
-      console.log(this.checkIfLastUser(), 'here')
     }
     else {
       arrayUserMatch.push(<div key={0}>No more match found</div>)

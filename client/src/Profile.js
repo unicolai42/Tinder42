@@ -61,11 +61,9 @@ class Profile extends React.Component {
   }
   
   uploadPicture(file) {
-    console.log(file)
     for (let i = 0; i < file.length; i++) {
       var reader = new FileReader();
       reader.onload = (e) => {
-        console.log(e)
         axios.post('http://localhost:3001/upload_picture', {
           "userId": Cookies.get('id'),
           "picture": e.target.result
@@ -78,12 +76,10 @@ class Profile extends React.Component {
             if (pictures[i] === null)
               break
           }
-          console.log(response.data)
           pictures.splice(i, 1, response.data)
           this.setState({pictures: pictures})
         })
       }
-      console.log('file', file.length)
       reader.readAsDataURL(file[i])
     }
   }

@@ -17,31 +17,30 @@ router.post('/load_preferences', (req, res) => {
             })
             let hashtags = []
             console.log(hashtagId, '1')
-            req.db.query("SELECT name FROM Hashtags WHERE id IN (?);",
-            [hashtagId], (err, rows, fields) => {
-                console.log(rows, '2')
-                if (rows) {
-                    rows.forEach((e, i) => {
-                        hashtags.push({id: i, name: e.name})
-                    })
-                    userPreferences.hashtags = hashtags
-                    console.log(userPreferences, '3')
+            req.db.query("SELECT * FROM Hashtags;", (err, rows, fields) => {
+                console.log(rows, '4')
+                let suggestions = []
+                rows.forEach((e, i) => {
+                    suggestions.push({id: i, name: e.name})
+                })
+                userPreferences.suggestions = suggestions
 
-                    req.db.query("SELECT * FROM Hashtags;", (err, rows, fields) => {
-                        console.log(rows, '4')
-                        let suggestions = []
+                req.db.query("SELECT name FROM Hashtags WHERE id IN (?);",
+                [hashtagId], (err, rows, fields) => {
+                    console.log(rows, '2')
+                    if (rows) {
                         rows.forEach((e, i) => {
-                            suggestions.push({id: i, name: e.name})
+                            hashtags.push({id: i, name: e.name})
                         })
-                        userPreferences.suggestions = suggestions
-                        console.log(userPreferences, '5')
+                        userPreferences.hashtags = hashtags
+                        console.log(userPreferences, '3')
                         res.json(userPreferences)
-                    })
-                }
-                else {
-                    console.log('No userPreferences')
-                    res.end()
-                }
+                    }
+                    else {
+                        userPreferences.hashtags = []
+                        res.json(userPreferences)
+                    }
+                })
             })
         })
     })
