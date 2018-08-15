@@ -68,7 +68,7 @@ class Settings extends React.Component {
       "userId": Cookies.get('id'),
       "ageMin": this.state.ageMin,
       "ageMax" : this.state.ageMax,
-      "maxDistance": this.state.maxDistance,
+      "maxDistance": this.state.maxDistance * 1000,
       "sex": this.state.sex
     })
   }

@@ -26,8 +26,6 @@ router.post('/load_pictures', (req, res) => {
 })
 
 router.post('/load_info_user', (req, res) => {
-    console.log(req.ip, 'ok')
-    console.log(req.socket.address().address, 'ko')
     req.db.query("SELECT * FROM Users WHERE id = ?;",
     [req.body.userId], (err, rows, fields) => {
         if (err)

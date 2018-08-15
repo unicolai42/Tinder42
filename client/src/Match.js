@@ -68,11 +68,17 @@ class Match extends React.Component {
           "latitude": position.coords.latitude,
           "longitude": position.coords.longitude
         })
+      }, (err) => {
+        console.log(err)
+        axios.post('http://localhost:3001/update_location', {
+          "userId": Cookies.get('id')
+        })
       })
     }
     else {
       console.log("Le service de géolocalisation n'est pas disponible sur votre ordinateur.")
     }
+    console.log('okokok')
     axios.post('http://localhost:3001/load_user_data_match', {
         "userId": Cookies.get('id')
     })
@@ -82,7 +88,7 @@ class Match extends React.Component {
   }
   
   likeClick() {
-    if (this.state.actualUser === 'FirstUser')
+    if (this.state.actualUser === 'FirstUser') {
       this.setState(
         (prevState) => ({
           styleThirdUser: {zIndex: '1'},
@@ -95,8 +101,13 @@ class Match extends React.Component {
           indexUser3: prevState.indexUser3 + 3
         })
       )
+      axios.post('http://localhost:3001/check_match', {
+        "userId": Cookies.get('id'),
+        "matchId": this.state.allUsers[this.state.indexUser1].id
+      })
+    }
 
-    else if (this.state.actualUser === 'SecondUser')
+    else if (this.state.actualUser === 'SecondUser') {
       this.setState(
         (prevState) => ({
           styleFirstUser: {zIndex: '1'},
@@ -109,8 +120,13 @@ class Match extends React.Component {
           indexUser1: prevState.indexUser1 + 3
         })
       )
+      axios.post('http://localhost:3001/check_match', {
+        "userId": Cookies.get('id'),
+        "matchId": this.state.allUsers[this.state.indexUser2].id
+      })
+    }
 
-    else if (this.state.actualUser === 'ThirdUser')
+    else if (this.state.actualUser === 'ThirdUser') {
       this.setState(
         (prevState) => ({
           styleSecondUser: {zIndex: '1'},
@@ -123,12 +139,17 @@ class Match extends React.Component {
           indexUser2: prevState.indexUser2 + 3
         })
       )
+      axios.post('http://localhost:3001/check_match', {
+        "userId": Cookies.get('id'),
+        "matchId": this.state.allUsers[this.state.indexUser3].id
+      })
+    }
     
     if (this.checkIfLastUser() === 1)
       this.setState({displayButtons: 'none'})
   }
   dislikeClick() {
-    if (this.state.actualUser === 'FirstUser')
+    if (this.state.actualUser === 'FirstUser') {
       this.setState(
         (prevState) => ({
           styleThirdUser: {zIndex: '1'},
@@ -141,8 +162,13 @@ class Match extends React.Component {
           indexUser3: prevState.indexUser3 + 3
         })
       )
+      axios.post('http://localhost:3001/check_match', {
+        "userId": Cookies.get('id'),
+        "matchId": this.state.allUsers[this.state.indexUser1].id
+      })
+    }
 
-    else if (this.state.actualUser === 'SecondUser')
+    else if (this.state.actualUser === 'SecondUser') {
       this.setState(
         (prevState) => ({
           styleFirstUser: {zIndex: '1'},
@@ -155,8 +181,13 @@ class Match extends React.Component {
           indexUser1: prevState.indexUser1 + 3
         })
       )
+      axios.post('http://localhost:3001/check_match', {
+        "userId": Cookies.get('id'),
+        "matchId": this.state.allUsers[this.state.indexUser2].id
+      })
+    }
 
-    else if (this.state.actualUser === 'ThirdUser')
+    else if (this.state.actualUser === 'ThirdUser') {
       this.setState(
         (prevState) => ({
           styleSecondUser: {zIndex: '1'},
@@ -169,6 +200,11 @@ class Match extends React.Component {
           indexUser2: prevState.indexUser2 + 3
         })
       )
+      axios.post('http://localhost:3001/check_match', {
+        "userId": Cookies.get('id'),
+        "matchId": this.state.allUsers[this.state.indexUser3].id
+      })
+    }
 
     if (this.checkIfLastUser() === 1)
       this.setState({displayButtons: 'none'})
