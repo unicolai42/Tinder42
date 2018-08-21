@@ -2,13 +2,17 @@ import React from 'react'
 import './Chat.css'
 import Cookies from 'js-cookie'
 import ReactDOM from 'react-dom'
+import socketIOClient from "socket.io-client"
 
 import sendBlue from './ressources/send.png'
 import sendWhite from './ressources/send_white.png'
 
+const socket = socketIOClient('http://127.0.0.1:3002')
+
 class Chat extends React.Component {
     constructor(props) {
         super(props)
+
         
         this.state = {
             usersChat: [],
@@ -30,6 +34,32 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
+        socket.on('displayMessage', data => {
+            console.log(data)
+            if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
+                console.log('Change data')
+                console.log(this.state.usersChat[this.state.idChatPrincipal])
+
+                let newUsersChat = this.state.usersChat
+                newUsersChat[this.state.idChatPrincipal].push({
+                    match_id: newUsersChat[this.state.idChatPrincipal][0].match_id,
+                    sender_id: data.sender_id,
+                    receiver_id: data.receiver_id,
+                    message: data.message
+                })
+                this.setState({
+                    usersChat: newUsersChat
+                })
+            }
+        })
+        socket.on('displayWrite', data => {
+            console.log(data)
+            if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
+                console.log('Change data')
+                ///////////
+            }
+        })
+
         fetch('/chat_conversation', {
             method: 'post',
             headers: {'Content-Type':'application/json'},
@@ -120,6 +150,16 @@ class Chat extends React.Component {
             valueInput: event.target.value,
             sendButton: (event.target.value) ? sendBlue : sendWhite
         })
+        console.log(this.state.valueInput)
+        const oneConversationData = this.state.usersChat[this.state.idChatPrincipal][0]
+        let senderId = parseInt(Cookies.get('id'), 10)
+        let receiverId = (oneConversationData.sender_id === parseInt(Cookies.get('id'), 10)) ? oneConversationData.receiver_id : oneConversationData.sender_id
+        if (this.state.valueInput) {
+            socket.emit('writeMessage', {
+                senderId: senderId,
+                receiverId: receiverId
+            })
+        }
       }
 
     submitForm() {
@@ -130,6 +170,7 @@ class Chat extends React.Component {
             let receiverId = (oneConversationData.sender_id === parseInt(Cookies.get('id'), 10)) ? oneConversationData.receiver_id : oneConversationData.sender_id
             let matchId = oneConversationData.match_id
             console.log(senderId, receiverId, matchId)
+
             fetch('/submit_form_chat', {
                 method: 'post',
                 headers: {'Content-Type':'application/json'},
@@ -150,6 +191,12 @@ class Chat extends React.Component {
                     sendButton: sendWhite,
                     usersChat: newUsersChat
                 })
+            })
+            socket.emit('newMessage', {
+                senderId: senderId,
+                receiverId: receiverId,
+                matchId: matchId,
+                message: this.state.valueInput
             })
         }
     }
@@ -192,6 +239,9 @@ class Chat extends React.Component {
                 </div>)
             }
         }
+
+        let userWriting = (this.state.usersInfo[this.state.idChatPrincipal]) ?<div id='Chat_otherUserWritingMessage'>{this.state.usersInfo[this.state.idChatPrincipal].username} writing a message...</div> : null
+
         return (
         <div id='Chat_wrapper'>
             <div id='Chat_blackOpacity' style={{display: this.state.blackOpacity}} onClick={this.removeAllMatchs}></div>
@@ -214,6 +264,7 @@ class Chat extends React.Component {
                 <div id='Chat_conversation' ref='conversation'>
                     {conversation}
                 </div>
+                {userWriting}
                 <form action='/check_chat' method='POST' id='Chat_form' onSubmit={this.submitForm}>
                     <textarea id='Chat_input' placeholder="Type your message" name='message' autoFocus form ="Chat_form" cols="35" wrap="soft" value={this.state.valueInput} onChange={this.changeInput} onKeyDown={this.onEnterPress}></textarea>
                     <div id='Chat_submit' style={{backgroundImage: `url(${this.state.sendButton})`, cursor: (this.state.sendButton === sendBlue) ? 'pointer' : 'auto'}} onClick={this.submitForm}/>

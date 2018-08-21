@@ -18,7 +18,18 @@ router.post('/check_signUp', (req, res) => {
             // bcrypt.compare('ffffff', '$2b$10$6707gWLRGjqGwKJzXx6Dt.CH00c0rRlioy8KdcWc4ze18LoL2YHeC', function(err, res) {
             //     console.log(res)
             // });
-            res.end();
+            req.db.query(`SELECT * FROM Users WHERE username = ?;`,
+            [req.body.username], (err, rows, fields) => {
+                if(err)
+                    return(res.send(err) && console.log(err));
+                const userId = rows[0].id
+                req.db.query(`INSERT INTO Preferences (age_min, age_max, max_distance, sex, user_id) VALUES (16, 38, 50000, 1, ?);`,
+                [userId], (err, rows, fields) => {
+                    if(err)
+                        return(res.send(err) && console.log(err));
+                })
+                res.end()
+            })
         })
     })
 })

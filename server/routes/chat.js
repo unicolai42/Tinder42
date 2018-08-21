@@ -23,6 +23,7 @@ const router = express.Router()
 
 
 router.post('/chat_conversation', (req, res) => {
+    console.log('okokok')
     req.db.query("SELECT * FROM Chat WHERE sender_id = ? OR receiver_id = ? ORDER BY match_id, date;",
     [req.body.user, req.body.user], (err, rows, fields) => {
         if (err)
@@ -47,7 +48,7 @@ router.post('/chat_conversation', (req, res) => {
 
 router.post('/find_match_info', (req, res) => {
     console.log(req.body.usersMatched, 'here')
-    req.db.query(`SELECT username, picture1 FROM Users WHERE id IN (?);`,
+    req.db.query(`SELECT id, username, picture1 FROM Users WHERE id IN (?);`,
     [req.body.usersMatched], (err, rows, fields) => {
         if(err)
             return(res.send(err) && console.log(err));
