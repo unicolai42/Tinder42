@@ -66,6 +66,8 @@ io.on('connection', (socket) => {
     // })
     socket.on('writeMessage', data => {
         console.log(data)
+        if (data.message)
+            console.log('...')
         io.sockets.emit('displayWrite', data)
     })
     socket.on('newMessage', data => {

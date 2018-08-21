@@ -21,7 +21,8 @@ class Chat extends React.Component {
             valueInput: '',
             sendButton: sendWhite,
             allMatchs: '',
-            blackOpacity: 'none'
+            blackOpacity: 'none',
+            writing: 'none'
         }
 
         this.onEnterPress = this.onEnterPress.bind(this)
@@ -48,15 +49,20 @@ class Chat extends React.Component {
                     message: data.message
                 })
                 this.setState({
-                    usersChat: newUsersChat
+                    usersChat: newUsersChat,
+                    writing: 'none'
                 })
             }
         })
         socket.on('displayWrite', data => {
             console.log(data)
-            if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
-                console.log('Change data')
-                ///////////
+            console.log(this.state.usersInfo[this.state.idChatPrincipal].id, data.senderId)
+            if (data.receiverId === parseInt(Cookies.get('id'), 10) && data.senderId === this.state.usersInfo[this.state.idChatPrincipal].id) {
+                console.log(data.receiverId, parseInt(Cookies.get('id'), 10), 'CHECK')
+                if (data.message)
+                    this.setState({writing: 'initial'})
+                else
+                    this.setState({writing: 'none'})
             }
         })
 
@@ -154,12 +160,11 @@ class Chat extends React.Component {
         const oneConversationData = this.state.usersChat[this.state.idChatPrincipal][0]
         let senderId = parseInt(Cookies.get('id'), 10)
         let receiverId = (oneConversationData.sender_id === parseInt(Cookies.get('id'), 10)) ? oneConversationData.receiver_id : oneConversationData.sender_id
-        if (this.state.valueInput) {
-            socket.emit('writeMessage', {
-                senderId: senderId,
-                receiverId: receiverId
-            })
-        }
+        socket.emit('writeMessage', {
+            senderId: senderId,
+            receiverId: receiverId,
+            message: event.target.value
+        })
       }
 
     submitForm() {
@@ -189,7 +194,7 @@ class Chat extends React.Component {
                 {
                     valueInput: '',
                     sendButton: sendWhite,
-                    usersChat: newUsersChat
+                    usersChat: newUsersChat,
                 })
             })
             socket.emit('newMessage', {
@@ -198,6 +203,7 @@ class Chat extends React.Component {
                 matchId: matchId,
                 message: this.state.valueInput
             })
+
         }
     }
 
@@ -240,7 +246,7 @@ class Chat extends React.Component {
             }
         }
 
-        let userWriting = (this.state.usersInfo[this.state.idChatPrincipal]) ?<div id='Chat_otherUserWritingMessage'>{this.state.usersInfo[this.state.idChatPrincipal].username} writing a message...</div> : null
+        let userWriting = (this.state.usersInfo[this.state.idChatPrincipal]) ?<div id='Chat_otherUserWritingMessage' style={{display: this.state.writing}}>{this.state.usersInfo[this.state.idChatPrincipal].username} writing a message...</div> : null
 
         return (
         <div id='Chat_wrapper'>
@@ -263,8 +269,8 @@ class Chat extends React.Component {
                 </div>
                 <div id='Chat_conversation' ref='conversation'>
                     {conversation}
+                    {userWriting}
                 </div>
-                {userWriting}
                 <form action='/check_chat' method='POST' id='Chat_form' onSubmit={this.submitForm}>
                     <textarea id='Chat_input' placeholder="Type your message" name='message' autoFocus form ="Chat_form" cols="35" wrap="soft" value={this.state.valueInput} onChange={this.changeInput} onKeyDown={this.onEnterPress}></textarea>
                     <div id='Chat_submit' style={{backgroundImage: `url(${this.state.sendButton})`, cursor: (this.state.sendButton === sendBlue) ? 'pointer' : 'auto'}} onClick={this.submitForm}/>
