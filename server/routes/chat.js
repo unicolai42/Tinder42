@@ -28,6 +28,8 @@ router.post('/chat_conversation', (req, res) => {
     [req.body.user, req.body.user], (err, rows, fields) => {
         if (err)
             return (res.send(err) && console.log(err))
+        console.log(rows)
+        
         let match_id = 0
         let arrayAllConversations = []
         let arrayConversation = []
@@ -47,20 +49,33 @@ router.post('/chat_conversation', (req, res) => {
 })
 
 router.post('/find_match_info', (req, res) => {
-    console.log(req.body.usersMatched, 'here')
+    const usersMatchedId = req.body.usersMatched
+    console.log(usersMatchedId, 'here')
     req.db.query(`SELECT id, username, picture1 FROM Users WHERE id IN (?);`,
-    [req.body.usersMatched], (err, rows, fields) => {
+    [usersMatchedId], (err, rows, fields) => {
         if(err)
             return(res.send(err) && console.log(err));
         let data = rows
         req.db.query("SELECT date FROM Matchs WHERE user1 = ? AND user2 IN (?) OR user1 IN (?) AND user2 = ?;",
-        [req.body.userLogin, req.body.usersMatched, req.body.usersMatched, req.body.userLogin], (err, rows, fields) => {
+        [req.body.userLogin, usersMatchedId, usersMatchedId, req.body.userLogin], (err, rows, fields) => {
             if(err)
                 return(res.send(err) && console.log(err));
             for (let i = 0; i < data.length; i++) {
                 data[i].date = Object.values(rows[i])[0]
             }
-            res.json(data);
+            console.log(data, 'rehe')
+            let usersInfo = []
+            let i = 0
+            while (i < usersMatchedId.length) {
+                let y = 0
+                while (data[y].id !== usersMatchedId[i])
+                    y++
+                usersInfo.push(data[y])
+                i++
+            }
+            console.log(usersInfo, 'good')
+
+            res.json(usersInfo);
         })
     })
 })

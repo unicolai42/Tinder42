@@ -75,15 +75,27 @@ class Chat extends React.Component {
         })
         .then(response => response.json())
         .then(data => {
-            this.setState(
-            {
-                usersChat: data
-            })
-
             let usersId = []
+            let usersChat = []
+            console.log(data, 'herddde')
+            let recentDate = data[0][data[0].length - 1].date
             data.forEach(elem => {
                 let userId = elem[0].sender_id !== parseInt(Cookies.get('id'), 10) ? elem[0].sender_id : elem[0].receiver_id
-                usersId.push(userId)
+                if (elem[elem.length - 1].date < recentDate) {
+                    usersId.unshift(userId)
+                    usersChat.unshift(elem)
+                }
+                else {
+                    usersId.push(userId)
+                    usersChat.push(elem)
+                }
+                console.log(recentDate, 'eeeeee')
+                console.log(elem[elem.length - 1].date, 'ffffffff')
+
+                this.setState(
+                    {
+                        usersChat: usersChat
+                    })
             });
             fetch('/find_match_info', {
                 method: 'post',
@@ -95,6 +107,7 @@ class Chat extends React.Component {
             })
             .then(response => response.json())
             .then(data => {
+                console.log(data, 'dddd')
                 this.setState(
                 {
                     usersInfo: data,
