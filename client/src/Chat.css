@@ -131,6 +131,13 @@
         font-size: 11px;
         font-weight: 200;
         margin: 20px auto; }
+    #Chat_wrapper #Chat_box #Chat_otherUserWritingMessage {
+      color: #b4b4b4;
+      font-family: 'Encode Sans Semi Expanded', sans-serif;
+      font-size: 13px;
+      font-weight: 200;
+      margin: 5px 10px;
+      font-style: italic; }
     #Chat_wrapper #Chat_box #Chat_form {
       border-top: 1px solid #EAEAEA;
       height: 60px;

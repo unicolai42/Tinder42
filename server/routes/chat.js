@@ -23,7 +23,6 @@ const router = express.Router()
 
 
 router.post('/chat_conversation', (req, res) => {
-    console.log('okokok')
     req.db.query("SELECT * FROM Chat WHERE sender_id = ? OR receiver_id = ? ORDER BY match_id, date;",
     [req.body.user, req.body.user], (err, rows, fields) => {
         if (err)
@@ -44,7 +43,33 @@ router.post('/chat_conversation', (req, res) => {
             arrayConversation.push(row)
         })
         arrayAllConversations.push(arrayConversation)
-        res.json(arrayAllConversations)
+
+        req.db.query("SELECT * FROM Matchs WHERE user1 = ? OR user2 = ? ORDER BY date;",
+        [req.body.user, req.body.user], (err, rows, fields) => {
+            if (err)
+                return (res.send(err) && console.log(err))
+            
+            console.log(rows, req.body.user, 'sssss')
+            let chats = []
+            console.log(arrayAllConversations, 'cee')
+
+            rows.forEach(row => {
+                if (arrayAllConversations[0][0]) {
+                    arrayAllConversations.forEach(conversations => {
+                        console.log(conversations[conversations.lenght - 1])
+                    })
+                    // chats,push()
+                }
+                else {
+                    row.sender_id = row.user1
+                    row.receiver_id = row.user2
+                    chats.push(row)
+                    console.log(row, 'wd')
+                }
+            })
+            console.log(chats)
+            res.json(arrayAllConversations)
+        })
     })
 })
 

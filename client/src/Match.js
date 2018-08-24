@@ -103,7 +103,8 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matchId": this.state.allUsers[this.state.indexUser1].id
+        "matcherId": this.state.allUsers[this.state.indexUser1].id,
+        "liked": 1
       })
     }
 
@@ -122,7 +123,8 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matchId": this.state.allUsers[this.state.indexUser2].id
+        "matcherId": this.state.allUsers[this.state.indexUser2].id,
+        "liked": 1
       })
     }
 
@@ -141,7 +143,8 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matchId": this.state.allUsers[this.state.indexUser3].id
+        "matcherId": this.state.allUsers[this.state.indexUser3].id,
+        "liked": 1
       })
     }
     
@@ -164,7 +167,8 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matchId": this.state.allUsers[this.state.indexUser1].id
+        "matcherId": this.state.allUsers[this.state.indexUser1].id,
+        "liked": 0
       })
     }
 
@@ -183,7 +187,8 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matchId": this.state.allUsers[this.state.indexUser2].id
+        "matcherId": this.state.allUsers[this.state.indexUser2].id,
+        "liked": 0
       })
     }
 
@@ -202,7 +207,8 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matchId": this.state.allUsers[this.state.indexUser3].id
+        "matcherId": this.state.allUsers[this.state.indexUser3].id,
+        "liked": 0
       })
     }
 

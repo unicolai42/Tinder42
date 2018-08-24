@@ -7,14 +7,14 @@ const nodemailer = require('nodemailer')
 
 router.post('/check_signUp', (req, res) => {
     const saltRounds = 10;
-    const password = req.body.password;
+    const password = req.body.password
 
     bcrypt.hash(password, saltRounds, function(err, hashPassword) {
         const randomKey = randomString.generate(15)
-        req.db.query(`INSERT INTO Users (username, password, mail, randomKey) VALUES (?, ?, ?, ?);`,
-        [req.body.username, hashPassword, req.body.mail, randomKey], (err, rows, fields) => {
+        req.db.query(`INSERT INTO Users (username, password, mail, randomKey, sex) VALUES (?, ?, ?, ?, ?);`,
+        [req.body.username, hashPassword, req.body.mail, randomKey, 1], (err, rows, fields) => {
             if(err)
-                return(res.send(err) && console.log(err));
+                return(res.send(err) && console.log(err))
             // bcrypt.compare('ffffff', '$2b$10$6707gWLRGjqGwKJzXx6Dt.CH00c0rRlioy8KdcWc4ze18LoL2YHeC', function(err, res) {
             //     console.log(res)
             // });

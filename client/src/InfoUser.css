@@ -18,7 +18,7 @@
   margin: 2vh; }
 
 #InfoUser_NameAgeText {
-  font-size: 25px;
+  font-size: 20px;
   background: linear-gradient(210deg, #68efc6 40%, #3be961 70%, #18e23a 90%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

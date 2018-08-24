@@ -62,81 +62,97 @@ router.post('/load_user_data_match', (req, res) => {
                         rows.forEach(e => {
                             usersId.push(e.user_id)
                         });
-
-                        req.db.query("SELECT * FROM Users WHERE id IN (?) AND sex IN (?) AND age > ? AND age < ? ORDER BY popularity DESC;",
-                        [usersId, sexPreference, preferences.age_min, preferences.age_max], (err, rows, fields) => {
+                        console.log(usersId, 'Users')
+                        
+                        req.db.query("SELECT checked_id FROM CheckedUsers WHERE checker_id = ?;",
+                        [req.body.userId], (err, rows, fields) => {
                             if (err)
                                 return (res.send(err) && console.log(err))
+                        
+                            console.log(rows, 'checked')
 
-                            const usersDataNoChecked = rows
-                            console.log(usersDataNoChecked, '444')
-
-                            req.db.query("SELECT * FROM checkedUsers WHERE checker_id = ?;",
-                            [req.body.userId], (err, rows, fields) => {
+                            req.db.query("SELECT * FROM Users WHERE id IN (?) AND sex IN (?) AND age > ? AND age < ? ORDER BY popularity DESC;",
+                            [usersId, sexPreference, preferences.age_min, preferences.age_max], (err, rows, fields) => {
                                 if (err)
                                     return (res.send(err) && console.log(err))
-                                let checkedId = []
-                                console.log(rows, '1')
 
-                                rows.forEach(row => {
-                                    checkedId.push(row.checked_id)
+                                const usersDataNoChecked = rows
+
+                                req.db.query("SELECT * FROM checkedUsers WHERE checker_id = ?;",
+                                [req.body.userId], (err, rows, fields) => {
+                                    if (err)
+                                        return (res.send(err) && console.log(err))
+                                    let checkedId = []
+
+                                    rows.forEach(row => {
+                                        checkedId.push(row.checked_id)
+                                    })
+
+                                    let usersData = []
+                                    let usersDataChecked = []
+
+                                    usersDataNoChecked.forEach(user => {
+                                        let res = checkedId.find(id => {
+                                            return id === user.id
+                                        })
+                                        if (!res)
+                                            usersDataChecked.push(user)
+                                    })
+
+                                    usersDataChecked.forEach(userData => {
+                                        let pictures = []
+
+                                        for (let i = 1; i < 6 && userData[`picture${i}`] !== null; i++)
+                                            pictures.push(userData[`picture${i}`])
+                                        userData.pictures = pictures
+
+                                        const distance = geolib.getDistance(
+                                                            {latitude: userData.latitude, longitude: userData.longitude},
+                                                            {latitude: userLatitude, longitude: userLongitude}
+                                                        )
+
+                                        if (distance < preferences.max_distance)
+                                            if (checkedId.findIndex(e => { return e === userData.id}))
+                                                usersData.push(userData)
+                                    })
+                                    res.json(usersData)
                                 })
-                                console.log(checkedId)
-
-                                let usersData = []
-
-                                usersDataNoChecked.forEach(userData => {
-                                    let pictures = []
-
-                                    console.log(userData, '5')
-                                    for (let i = 1; i < 6 && userData[`picture${i}`] !== null; i++)
-                                        pictures.push(userData[`picture${i}`])
-                                    userData.pictures = pictures
-
-                                    const distance = geolib.getDistance(
-                                                        {latitude: userData.latitude, longitude: userData.longitude},
-                                                        {latitude: userLatitude, longitude: userLongitude}
-                                                    )
-
-                                    console.log(checkedId, userData.id, '6')
-                                    if (distance < preferences.max_distance)
-                                        if (checkedId.findIndex(e => { return e === userData.id}))
-                                            usersData.push(userData)
-                                })
-                                res.json(usersData)
                             })
                         })
                     })
                 }
                 else {
-                    req.db.query("SELECT * FROM Users WHERE id != ? AND sex IN (?) AND age > ? AND age < ? ORDER BY popularity DESC;;",
+                    req.db.query("SELECT * FROM Users WHERE id != ? AND sex IN (?) AND age > ? AND age < ? ORDER BY popularity DESC;",
                     [req.body.userId, sexPreference, preferences.age_min, preferences.age_max], (err, rows, fields) => {
                         if (err)
                             return (res.send(err) && console.log(err))
                         
                         const usersDataNoChecked = rows
-                        console.log(usersDataNoChecked, '444')
 
                         req.db.query("SELECT * FROM checkedUsers WHERE checker_id = ?;",
                         [req.body.userId], (err, rows, fields) => {
                             if (err)
                                 return (res.send(err) && console.log(err))
                             let checkedId = []
-                            console.log(rows, '2')
-
 
                             rows.forEach(row => {
                                 checkedId.push(row.checked_id)
                             })
-                            console.log(checkedId)
-                            
 
                             let usersData = []
+                            let usersDataChecked = []
 
-                            usersDataNoChecked.forEach(userData => {
+                            usersDataNoChecked.forEach(user => {
+                                let res = checkedId.find(id => {
+                                    return id === user.id
+                                })
+                                if (!res)
+                                    usersDataChecked.push(user)
+                            })
+
+                            usersDataChecked.forEach(userData => {
                                 let pictures = []
 
-                                console.log(userData, '5')
                                 for (let i = 1; i < 6 && userData[`picture${i}`] !== null; i++)
                                     pictures.push(userData[`picture${i}`])
                                 userData.pictures = pictures
@@ -146,7 +162,6 @@ router.post('/load_user_data_match', (req, res) => {
                                                     {latitude: userLatitude, longitude: userLongitude}
                                                 )
 
-                                console.log(checkedId, userData.id, '6')
                                 if (distance < preferences.max_distance)
                                     if (checkedId.findIndex(e => { return e === userData.id}))
                                         usersData.push(userData)
@@ -162,11 +177,42 @@ router.post('/load_user_data_match', (req, res) => {
 
 router.post('/check_match', (req, res) => {
     req.db.query("INSERT INTO CheckedUsers (checker_id, checked_id) VALUES (?, ?);",
-    [req.body.userId, req.body.matchId], (err, rows, fields) => {
+    [req.body.userId, req.body.matcherId], (err, rows, fields) => {
         if (err)
             return (res.send(err) && console.log(err))
-        
-        res.end()
+
+        if (req.body.liked) {
+            req.db.query("INSERT INTO LikeUsers (liker_id, liked_id) VALUES (?, ?);",
+            [req.body.userId, req.body.matcherId], (err, rows, fields) => {
+                if (err)
+                    return (res.send(err) && console.log(err))
+
+                req.db.query("SELECT * FROM LikeUsers WHERE liker_id = ? && liked_id = ?;",
+                [req.body.matcherId, req.body.userId], (err, rows, fields) => {
+                    if (err)
+                        return (res.send(err) && console.log(err))
+
+                    if (rows[0]) {
+                        req.db.query("INSERT INTO Matchs (user1, user2) VALUES (?, ?);",
+                        [req.body.userId, req.body.matcherId], (err, rows, fields) => {
+                            if (err)
+                                return (res.send(err) && console.log(err))
+                            
+                            req.db.query("INSERT INTO Notifications (sender_id, receiver_id, content) VALUES (?, ?, 'matched');",
+                            [req.body.userId, req.body.matcherId], (err, rows, fields) => {
+                                if (err)
+                                    return (res.send(err) && console.log(err))
+                                res.end()
+                            })
+                        })
+                    }
+                    else
+                        res.end()
+                })
+            })
+        }
+        else
+            res.end()
     })
 })
 

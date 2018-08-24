@@ -43,9 +43,10 @@ router.post('/load_info_user', (req, res) => {
             let hashtags = []
             req.db.query("SELECT name FROM Hashtags WHERE id IN (?);",
             [hashtagId], (err, rows, fields) => {
-                rows.forEach((e, i) => {
-                    hashtags.push({id: i, name: e.name})
-                })
+                if (rows)
+                    rows.forEach((e, i) => {
+                        hashtags.push({id: i, name: e.name})
+                    })
                 userData.hashtags = hashtags
 
                 req.db.query("SELECT * FROM Hashtags;", (err, rows, fields) => {
