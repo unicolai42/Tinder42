@@ -53,29 +53,66 @@ router.post('/chat_conversation', (req, res) => {
             let chats = []
             console.log(arrayAllConversations, 'cee')
 
-            rows.forEach(row => {
-                if (arrayAllConversations[0][0]) {
-                    arrayAllConversations.forEach(conversations => {
-                        console.log(conversations[conversations.lenght - 1])
+            if (arrayAllConversations[0][0]) {
+                // console.log(row.date, 'row date')
+                // let i = 0
+                // while (i < arrayAllConversations.length) {
+                    
+                // }
+                // arrayAllConversations.forEach(conversations => {
+                //     console.log(conversations[conversations.length - 1].date, 'arr date')
+                // })
+                chats = arrayAllConversations
+
+                let matchsChecked = []
+
+                rows.forEach(row => {
+                    let alreadyChecked = 1
+                    chats.forEach(chat => {
+                        console.log(chat[chat.length - 1].sender_id, row.user1, chat[chat.length - 1].receiver_id, row.user2, '1')
+                        if (chat[chat.length - 1].sender_id === row.user1 && chat[chat.length - 1].receiver_id === row.user2 || chat[chat.length - 1].sender_id === row.user2 && chat[chat.length - 1].receiver_id === row.user1) {
+                            alreadyChecked = 0
+                            return
+                        }
                     })
-                    // chats,push()
+                    if (alreadyChecked === 1)
+                        matchsChecked.push(row)
+                })
+
+                let i = 0
+                if (matchsChecked[0]) {
+                    chats.forEach(chat => {
+                        console.log(chat[chat.length - 1].date, matchsChecked[i].date, '1')
+                        if (chat[chat.length - 1].date < matchsChecked[i].date) {
+                            matchsChecked[i].sender_id = matchsChecked[i].user1
+                            matchsChecked[i].receiver_id = matchsChecked[i].user2
+                            chats.unshift(matchsChecked[i])
+                            i++
+                        }
+                    })
+                    while (i < matchsChecked.length) {
+                        matchsChecked[i].sender_id = matchsChecked[i].user1
+                        matchsChecked[i].receiver_id = matchsChecked[i].user2
+                        chats.push(matchsChecked[i])
+                        i++
+                    }
                 }
-                else {
+            } 
+            else {
+                rows.forEach(row => {
                     row.sender_id = row.user1
                     row.receiver_id = row.user2
                     chats.push(row)
-                    console.log(row, 'wd')
-                }
-            })
-            console.log(chats)
-            res.json(arrayAllConversations)
+                })
+            }
+            res.json(chats)
         })
     })
 })
 
 router.post('/find_match_info', (req, res) => {
     const usersMatchedId = req.body.usersMatched
-    console.log(usersMatchedId, 'here')
+    // console.log(usersMatchedId, 'here')
     req.db.query(`SELECT id, username, picture1 FROM Users WHERE id IN (?);`,
     [usersMatchedId], (err, rows, fields) => {
         if(err)
@@ -88,7 +125,7 @@ router.post('/find_match_info', (req, res) => {
             for (let i = 0; i < data.length; i++) {
                 data[i].date = Object.values(rows[i])[0]
             }
-            console.log(data, 'rehe')
+            // console.log(data, 'rehe')
             let usersInfo = []
             let i = 0
             while (i < usersMatchedId.length) {
@@ -98,7 +135,7 @@ router.post('/find_match_info', (req, res) => {
                 usersInfo.push(data[y])
                 i++
             }
-            console.log(usersInfo, 'good')
+            // console.log(usersInfo, 'good')
 
             res.json(usersInfo);
         })
