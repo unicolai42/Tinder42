@@ -16,28 +16,7 @@ class Match extends React.Component {
     
     this.state = {
       allUsers: [],
-      // [
-      //   {
-      //     username: 'Ugo',
-      //     location: 'Paris',
-      //     pictures: [pic1, pic2, pic3, pic4, pic5]
-      //   },
-      //   {
-      //     username: 'Alice',
-      //     location: 'Paris',
-      //     pictures: [pic1, pic2, pic3, pic4, pic5]
-      //   },
-      //   {
-      //     username: 'Arlo',
-      //     location: 'Paris',
-      //     pictures: [pic1, pic2, pic3, pic4, pic5]
-      //   },
-      //   {
-      //     username: 'Dori',
-      //     location: 'Paris',
-      //     pictures: [pic1, pic2, pic3, pic4, pic5]
-      //   }
-      // ],
+      nbUsersNoMatched: 0,
       indexUser1: 0,
       indexUser2: 1,
       indexUser3: -1,
@@ -51,12 +30,11 @@ class Match extends React.Component {
       dislikedSecondUser: {display: 'none'},
       likedThirdUser: {display: 'none'},
       dislikedThirdUser: {display: 'none'},
-      displayButtons: 'initial'
+      displayButtons: null
     }
 
     this.likeClick = this.likeClick.bind(this)
     this.dislikeClick = this.dislikeClick.bind(this)
-    this.checkIfLastUser = this.checkIfLastUser.bind(this)
   }
 
   componentDidMount() {
@@ -83,7 +61,10 @@ class Match extends React.Component {
         "userId": Cookies.get('id')
     })
     .then(response => {
-        this.setState({allUsers: response.data})
+        this.setState({
+          allUsers: response.data,
+          nbUsersNoMatched: response.data.length
+        })
     })
   }
   
@@ -98,7 +79,8 @@ class Match extends React.Component {
           likedThirdUser: {display: 'none'},
           dislikedThirdUser: {display: 'none'},
           actualUser: 'SecondUser',
-          indexUser3: prevState.indexUser3 + 3
+          indexUser3: prevState.indexUser3 + 3,
+          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
         })
       )
       axios.post('http://localhost:3001/check_match', {
@@ -118,7 +100,8 @@ class Match extends React.Component {
           likedFirstUser: {display: 'none'},
           dislikedFirstUser: {display: 'none'},
           actualUser: 'ThirdUser',
-          indexUser1: prevState.indexUser1 + 3
+          indexUser1: prevState.indexUser1 + 3,
+          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
         })
       )
       axios.post('http://localhost:3001/check_match', {
@@ -138,7 +121,8 @@ class Match extends React.Component {
           likedSecondUser: {display: 'none'},
           dislikedSecondUser: {display: 'none'},
           actualUser: 'FirstUser',
-          indexUser2: prevState.indexUser2 + 3
+          indexUser2: prevState.indexUser2 + 3,
+          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
         })
       )
       axios.post('http://localhost:3001/check_match', {
@@ -147,9 +131,6 @@ class Match extends React.Component {
         "liked": 1
       })
     }
-    
-    if (this.checkIfLastUser() === 1)
-      this.setState({displayButtons: 'none'})
   }
   dislikeClick() {
     if (this.state.actualUser === 'FirstUser') {
@@ -162,7 +143,8 @@ class Match extends React.Component {
           likedThirdUser: {display: 'none'},
           dislikedThirdUser: {display: 'none'},
           actualUser: 'SecondUser',
-          indexUser3: prevState.indexUser3 + 3
+          indexUser3: prevState.indexUser3 + 3,
+          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
         })
       )
       axios.post('http://localhost:3001/check_match', {
@@ -182,7 +164,8 @@ class Match extends React.Component {
           likedFirstUser: {display: 'none'},
           dislikedFirstUser: {display: 'none'},
           actualUser: 'ThirdUser',
-          indexUser1: prevState.indexUser1 + 3
+          indexUser1: prevState.indexUser1 + 3,
+          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
         })
       )
       axios.post('http://localhost:3001/check_match', {
@@ -202,7 +185,8 @@ class Match extends React.Component {
           likedSecondUser: {display: 'none'},
           dislikedSecondUser: {display: 'none'},
           actualUser: 'FirstUser',
-          indexUser2: prevState.indexUser2 + 3
+          indexUser2: prevState.indexUser2 + 3,
+          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
         })
       )
       axios.post('http://localhost:3001/check_match', {
@@ -211,22 +195,6 @@ class Match extends React.Component {
         "liked": 0
       })
     }
-
-    if (this.checkIfLastUser() === 1)
-      this.setState({displayButtons: 'none'})
-  }
-
-  checkIfLastUser() {
-    let lastUser = 0
-
-    if (this.state.allUsers[this.state.indexUser1] === this.state.allUsers[this.state.allUsers.length - 1] && this.state.actualUser === 'FirstUser')
-      lastUser = 1
-    if (this.state.allUsers[this.state.indexUser2] === this.state.allUsers[this.state.allUsers.length - 1] && this.state.actualUser === 'SecondUser')
-      lastUser = 1 
-    if (this.state.allUsers[this.state.indexUser3] === this.state.allUsers[this.state.allUsers.length - 1] && this.state.actualUser === 'ThirdUser')
-      lastUser = 1
-
-    return lastUser
   }
 
   render() {
@@ -241,21 +209,27 @@ class Match extends React.Component {
         arrayUserMatch.push(<MatchUser key={this.state.indexUser3} name={this.state.allUsers[this.state.indexUser3].username} pictures={this.state.allUsers[this.state.indexUser3].pictures} liked={this.state.likedThirdUser} disliked={this.state.dislikedThirdUser} addStyle={this.state.styleThirdUser}/>)
     }
     else {
-      arrayUserMatch.push(<div key={0}>No more match found</div>)
+      arrayUserMatch.push(<div id='Match_noMoreMatch' key={0}>Adjust your parameters if you looking for new matches</div>)
     }
 
+    let displayButtons = []
+    // foutre ca quand il ny a plus dusers pour que les bouttons se arrent vers le bas{transform: 'translateY(-200px)'}
+    if (this.state.nbUsersNoMatched) {
+      displayButtons.push(<div id='Match_dislike' style={this.state.displayButtons} onClick={this.dislikeClick}></div>)
+      displayButtons.push(<div id='Match_like' style={this.state.displayButtons} onClick={this.likeClick}></div>)
+    }
+    console.log(this.state.nbUsersNoMatched, 'hhhhh')
     return (
         <div id='Match_wrapper'>
           <div id='Match_number'>
             <div id='Match_numberLogo'></div>
-            <div id='Match_numberText'>15 more matches found</div>
+            <div id='Match_numberText'>{(this.state.nbUsersNoMatched === 0) ? 'No' : this.state.allUsers.length} more matches found</div>
           </div>
           <div id='Match_framePictures'>
             {arrayUserMatch}
           </div>
           <div key={0} id='Match_button'>
-            <div id='Match_dislike' style={{display: this.state.displayButtons}} onClick={this.dislikeClick}></div>
-            <div id='Match_like' style={{display: this.state.displayButtons}} onClick={this.likeClick}></div>
+            {displayButtons}
           </div>
       </div>
     );

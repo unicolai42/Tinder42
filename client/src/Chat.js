@@ -75,44 +75,46 @@ class Chat extends React.Component {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data, 'ici')
-            let usersId = []
-            let usersChat = []
-            let recentDate = (data[0][0]) ? data[0][data[0].length - 1].date : data[0].date
-            
-            data.forEach(elem => {
-                const date = (elem[0]) ? elem[elem.length - 1].date : elem.date
-                const userInfo = (elem[0]) ? elem[0] : elem 
-                console.log(date, 'date')
-                let userId = userInfo.sender_id !== parseInt(Cookies.get('id'), 10) ? userInfo.sender_id : userInfo.receiver_id
-                if (date < recentDate) {
-                    usersId.unshift(userId)
-                    usersChat.unshift(elem)
-                }
-                else {
-                    usersId.push(userId)
-                    usersChat.push(elem)
-                }
-                this.setState({usersChat: usersChat})
-            })
+            if (data[0]) {
+                console.log(data[0], 'ici')
+                let usersId = []
+                let usersChat = []
+                let recentDate = (data[0][0]) ? data[0][data[0].length - 1].date : data[0].date
+                
+                data.forEach(elem => {
+                    const date = (elem[0]) ? elem[elem.length - 1].date : elem.date
+                    const userInfo = (elem[0]) ? elem[0] : elem 
+                    console.log(date, 'date')
+                    let userId = userInfo.sender_id !== parseInt(Cookies.get('id'), 10) ? userInfo.sender_id : userInfo.receiver_id
+                    if (date < recentDate) {
+                        usersId.unshift(userId)
+                        usersChat.unshift(elem)
+                    }
+                    else {
+                        usersId.push(userId)
+                        usersChat.push(elem)
+                    }
+                    this.setState({usersChat: usersChat})
+                })
 
-            fetch('/find_match_info', {
-                method: 'post',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({
-                    "userLogin": parseInt(Cookies.get('id'), 10),
-                    "usersMatched": usersId
+                fetch('/find_match_info', {
+                    method: 'post',
+                    headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify({
+                        "userLogin": parseInt(Cookies.get('id'), 10),
+                        "usersMatched": usersId
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data, 'dddd')
-                this.setState(
-                {
-                    usersInfo: data,
-                    idChatPrincipal: data.length - 1
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data, 'dddd')
+                    this.setState(
+                    {
+                        usersInfo: data,
+                        idChatPrincipal: data.length - 1
+                    })
                 })
-            })
+            }
         })
         this.scrollToBottom()
     }
@@ -191,11 +193,12 @@ class Chat extends React.Component {
       }
 
     submitForm() {
-        if (this.state.sendButton === sendBlue) {
-            console.log(this.state.usersChat[this.state.idChatPrincipal][0])
+        if (this.state.sendButton === sendBlue && this.state.usersChat[0]) {
             const oneConversationData = (this.state.usersChat[this.state.idChatPrincipal][0]) ? this.state.usersChat[this.state.idChatPrincipal][0] : this.state.usersChat[this.state.idChatPrincipal]
+            console.log(oneConversationData, 'aaaaa')
             let senderId = parseInt(Cookies.get('id'), 10)
             let receiverId = (oneConversationData.sender_id === parseInt(Cookies.get('id'), 10)) ? oneConversationData.receiver_id : oneConversationData.sender_id
+            console.log(oneConversationData, 'bbbbbb')
             let matchId = oneConversationData.match_id
             console.log(senderId, receiverId, matchId)
 
@@ -227,6 +230,15 @@ class Chat extends React.Component {
                 message: this.state.valueInput
             })
 
+            let newUsersInfoOrder = this.state.usersInfo
+            const actualUser = this.state.usersInfo[this.state.idChatPrincipal]
+            console.log(newUsersInfoOrder)
+            newUsersInfoOrder.splice(this.state.idChatPrincipal, 1)
+            newUsersInfoOrder.push(actualUser)
+            this.setState({
+                userInfo: newUsersInfoOrder,
+                idChatPrincipal: newUsersInfoOrder.length - 1
+            })
         }
     }
 
@@ -259,9 +271,9 @@ class Chat extends React.Component {
 
             for (let i = usersInfo.length - 1; i >= 0; --i) {
                 console.log(usersInfo, 'ddd')
-                console.log(this.state.usersChat, 'sss')
-                console.log(this.state.usersChat[this.state.idChatPrincipal][this.state.usersChat[this.state.idChatPrincipal].length - 1], 'FFFFF')
-                let lastMessage = (this.state.usersChat[this.state.idChatPrincipal][0]) ? <div className='Chat_lastMessage'>{this.state.usersChat[this.state.idChatPrincipal][this.state.usersChat[this.state.idChatPrincipal].length - 1].message.substr(0, 18)}...</div> : <div className='Chat_lastMessage'>You've been connected</div>
+                const nbLetterLastMessage = (this.state.usersChat[i][this.state.usersChat[i].length - 1]) ? this.state.usersChat[i][this.state.usersChat[i].length - 1].message.length : null
+                const dotOrNot = (nbLetterLastMessage > 18) ? '...' : null
+                let lastMessage = (this.state.usersChat[i][0]) ? <div className='Chat_lastMessage'>{this.state.usersChat[i][this.state.usersChat[i].length - 1].message.substr(0, 18)}{dotOrNot}</div> : <div className='Chat_lastMessage'>You've been connected</div>
 
                 users.push(
                 <div className='Chat_profile' onClick={this.selectUser} data-id={i} key={i}>
@@ -273,7 +285,8 @@ class Chat extends React.Component {
                 </div>)
             }
         }
-
+        console.log(this.state.usersChat)
+        const pictureOrNoMatch = (this.state.usersChat[0]) ? <div id='Chat_stripPicture' style={{backgroundImage: `url(${picturePrincipal})`}}></div> : <div id='Chat_noMatch'>No match yet</div>
         let userWriting = (this.state.usersInfo[this.state.idChatPrincipal]) ?<div id='Chat_otherUserWritingMessage' style={{display: this.state.writing}}>{this.state.usersInfo[this.state.idChatPrincipal].username} writing a message...</div> : null
 
         return (
@@ -292,7 +305,7 @@ class Chat extends React.Component {
                 <div id='Chat_header'>
                     <div id='Chat_dropDown' onClick={this.openAllMatchs}></div>
                     <div id='Chat_strip'>
-                        <div id='Chat_stripPicture' style={{backgroundImage: `url(${picturePrincipal})`}}></div>
+                        {pictureOrNoMatch}
                     </div>
                 </div>
                 <div id='Chat_conversation' ref='conversation'>

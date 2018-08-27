@@ -79,7 +79,7 @@ class MatchUser extends React.Component {
         let arrows = []
         if (this.state.pictures.length > 1)
             arrows.push(
-                <div id='MatchUser_arrows'>
+                <div key={this.state.pictures[0]} id='MatchUser_arrows'>
                     <div id='MatchUser_arrowLeft' onClick={this.previousPicture}></div>
                     <div id='MatchUser_arrowRight' onClick={this.nextPicture}></div>
                 </div>

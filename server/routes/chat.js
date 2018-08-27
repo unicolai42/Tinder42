@@ -69,7 +69,6 @@ router.post('/chat_conversation', (req, res) => {
                 rows.forEach(row => {
                     let alreadyChecked = 1
                     chats.forEach(chat => {
-                        console.log(chat[chat.length - 1].sender_id, row.user1, chat[chat.length - 1].receiver_id, row.user2, '1')
                         if (chat[chat.length - 1].sender_id === row.user1 && chat[chat.length - 1].receiver_id === row.user2 || chat[chat.length - 1].sender_id === row.user2 && chat[chat.length - 1].receiver_id === row.user1) {
                             alreadyChecked = 0
                             return
@@ -80,28 +79,33 @@ router.post('/chat_conversation', (req, res) => {
                 })
 
                 let i = 0
+
+                while (i < matchsChecked.length) {
+                    matchsChecked[i].sender_id = matchsChecked[i].user1
+                    matchsChecked[i].receiver_id = matchsChecked[i].user2
+                    matchsChecked[i].match_id = matchsChecked[i].id
+                    i++
+                }
+
+                i = 0
                 if (matchsChecked[0]) {
                     chats.forEach(chat => {
-                        console.log(chat[chat.length - 1].date, matchsChecked[i].date, '1')
-                        if (chat[chat.length - 1].date < matchsChecked[i].date) {
-                            matchsChecked[i].sender_id = matchsChecked[i].user1
-                            matchsChecked[i].receiver_id = matchsChecked[i].user2
-                            chats.unshift(matchsChecked[i])
-                            i++
+                        if (i !== -1) {
+                            if (chat[chat.length - 1].date < matchsChecked[i].date) {
+                                chats.unshift(matchsChecked[i])
+                                i++
+                                if (i > matchsChecked.length - 1)
+                                    i = -1
+                            }
                         }
                     })
-                    while (i < matchsChecked.length) {
-                        matchsChecked[i].sender_id = matchsChecked[i].user1
-                        matchsChecked[i].receiver_id = matchsChecked[i].user2
-                        chats.push(matchsChecked[i])
-                        i++
-                    }
                 }
-            } 
+            }
             else {
                 rows.forEach(row => {
                     row.sender_id = row.user1
                     row.receiver_id = row.user2
+                    row.match_id = row.id
                     chats.push(row)
                 })
             }

@@ -104,6 +104,11 @@
           background-size: cover;
           border: 2px solid white;
           box-shadow: 0 0 0.5px 1.5px #DBDBDB; }
+        #Chat_wrapper #Chat_box #Chat_header #Chat_strip #Chat_noMatch {
+          margin: auto;
+          font-family: 'Roboto';
+          font-weight: 300;
+          font-size: 16px; }
     #Chat_wrapper #Chat_box #Chat_conversation {
       overflow: scroll;
       display: flex;
@@ -115,7 +120,9 @@
         padding: 7px 10px;
         font-weight: 300;
         font-size: 14px;
-        max-width: 40vw; }
+        max-width: 40vw;
+        flex-wrap: wrap;
+        word-break: break-all; }
       #Chat_wrapper #Chat_box #Chat_conversation .Chat_messageSent {
         background-color: #3ca4ff;
         color: white;

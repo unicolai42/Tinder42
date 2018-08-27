@@ -43,13 +43,46 @@ router.post('/load_info_user', (req, res) => {
             let hashtags = []
             req.db.query("SELECT name FROM Hashtags WHERE id IN (?);",
             [hashtagId], (err, rows, fields) => {
-                if (rows)
+                if (rows) {
                     rows.forEach((e, i) => {
                         hashtags.push({id: i, name: e.name})
                     })
+                    
+                    let i = 0
+                    let y = 1
+
+                    while (i < hashtags.length) {
+                        while (y < hashtags.length) {
+                            if (hashtags[y].name < hashtags[y - 1].name) {
+                                let swap = hashtags[y - 1]
+                                hashtags.splice(y - 1, 1)
+                                hashtags.splice(y, 0, swap)
+                            }
+                            y++
+                        }
+                        y = 1
+                        i++
+                    }
+                }
                 userData.hashtags = hashtags
 
                 req.db.query("SELECT * FROM Hashtags;", (err, rows, fields) => {
+                    let i = 0
+                    let y = 1
+
+                    while (i < rows.length) {
+                        while (y < rows.length) {
+                            if (rows[y].name < rows[y - 1].name) {
+                                let swap = rows[y - 1]
+                                rows.splice(y - 1, 1)
+                                rows.splice(y, 0, swap)
+                            }
+                            y++
+                        }
+                        y = 1
+                        i++
+                    }
+
                     userData.suggestions = rows
                     res.json(userData)
                 })
@@ -63,8 +96,8 @@ router.post('/edit_info_user', (req, res) => {
     [req.body.name, req.body.age, req.body.description, req.body.location, req.body.work, req.body.language, req.body.userId], (err, rows, fields) => {
         if (err)
             return (res.send(err) && console.log(err))
+        res.end()
     })
-    res.end()
 })
 
 router.post('/add_hashtag_profile', (req, res) => {

@@ -11,8 +11,9 @@ body
     flex-direction: column
 
     #Match_number
-        margin: auto auto 20px auto
+        margin: auto
         display: flex
+        height: 50px
     
         #Match_numberLogo
             width: 25px
@@ -20,7 +21,7 @@ body
             background-image: url('./ressources/logo.png')
             background-position: center
             background-size: cover
-            /* margin: auto */
+            margin: auto
             margin-right: 5px
         
         #Match_numberText
@@ -37,6 +38,11 @@ body
         max-height: 800px
         margin: auto
         position: relative
+        display: flex
+
+        #Match_noMoreMatch
+            margin: auto
+            border: 1px solid red
             
     #Match_button
         margin: 20px auto 80px auto
@@ -55,6 +61,7 @@ body
             margin-left: 70px
             border: 1px solid white
             cursor: pointer
+            transition: transform 0.5s linear 0.5s
         
         #Match_dislike
             background-image: url('./ressources/dislike.png')

@@ -9,15 +9,16 @@ body {
   display: flex;
   flex-direction: column; }
   #Match_wrapper #Match_number {
-    margin: auto auto 20px auto;
-    display: flex; }
+    margin: auto;
+    display: flex;
+    height: 50px; }
     #Match_wrapper #Match_number #Match_numberLogo {
       width: 25px;
       height: 25px;
       background-image: url("./ressources/logo.png");
       background-position: center;
       background-size: cover;
-      /* margin: auto */
+      margin: auto;
       margin-right: 5px; }
     #Match_wrapper #Match_number #Match_numberText {
       font-family: 'Roboto', sans-serif;
@@ -30,7 +31,11 @@ body {
     height: 65%;
     max-height: 800px;
     margin: auto;
-    position: relative; }
+    position: relative;
+    display: flex; }
+    #Match_wrapper #Match_framePictures #Match_noMoreMatch {
+      margin: auto;
+      border: 1px solid red; }
   #Match_wrapper #Match_button {
     margin: 20px auto 80px auto;
     display: flex;
@@ -46,7 +51,8 @@ body {
       box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77);
       margin-left: 70px;
       border: 1px solid white;
-      cursor: pointer; }
+      cursor: pointer;
+      transition: transform 0.5s linear 0.5s; }
     #Match_wrapper #Match_button #Match_dislike {
       background-image: url("./ressources/dislike.png");
       background-position: center;

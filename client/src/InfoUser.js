@@ -55,7 +55,7 @@ class InfoUser extends React.Component {
             this.setState({
                 editButton: 'Validate'
             })
-        else
+        else {
             this.setState({
                 editButton: 'Edit'
             })
@@ -68,6 +68,7 @@ class InfoUser extends React.Component {
                 "work": this.state.work,
                 "language": this.state.language
             })
+        }
     }
 
     changeName(e) {
@@ -135,7 +136,7 @@ class InfoUser extends React.Component {
         modify.push(<input key={3} className='InfoUser_input' type="text" placeholder='Description' value={(this.state.description) ? this.state.description : ''} onChange={this.changeDescription} />)
         modify.push(<input key={4} className='InfoUser_input' type="text" placeholder='Location' value={(this.state.location) ? this.state.location : ''} onChange={this.changeLocation} />)
         modify.push(<input key={5} className='InfoUser_input' type="text" placeholder='Work' value={(this.state.work) ? this.state.work: ''} onChange={this.changeWork} />)
-        modify.push(<ReactTags delimiterChars={[',', ' ', '.', '  ']} allowBackspace={false} placeholder='Add new # or click to delete it' key={6} allowNew={true} tags={this.state.tags} suggestions={this.state.suggestions} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />)
+        modify.push(<ReactTags delimiterChars={[',', ' ', '.', '  ']} allowBackspace={false} minQueryLength={1} placeholder='Add new # or click to delete it' key={6} allowNew={true} tags={this.state.tags} suggestions={this.state.suggestions} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />)
         modify.push(<input key={7} className='InfoUser_input' type="text" placeholder='Language' value={(this.state.language) ? this.state.language : ''} onChange={this.changeLanguage} />)
         modify.push(<div key={8} id='InfoUser_submit' onClick={this.editInfo}>Submit</div>)
 
