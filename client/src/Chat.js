@@ -37,12 +37,9 @@ class Chat extends React.Component {
 
     componentDidMount() {
         socket.on('displayMessage', data => {
-            console.log(data)
             if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
-                console.log('Change data')
-                console.log(this.state.usersChat[this.state.idChatPrincipal])
-
                 let newUsersChat = this.state.usersChat
+                
                 newUsersChat[this.state.idChatPrincipal].push({
                     match_id: newUsersChat[this.state.idChatPrincipal][0].match_id,
                     sender_id: data.sender_id,
@@ -177,6 +174,20 @@ class Chat extends React.Component {
         if (this.state.usersInfo[div.dataset.id].readNotif === 0) {
             console.log(this.state.usersInfo[div.dataset.id], div.dataset.id, 'dkewo')
             axios.post('http://localhost:3001/match_read', {
+                "userId": Cookies.get('id'),
+                "matcherId": this.state.usersInfo[div.dataset.id].id
+            })
+        }
+        let i = this.state.usersChat[div.dataset.id].length - 1
+        let lastMessageOtherUserSend = this.state.usersChat[div.dataset.id][this.state.usersChat[div.dataset.id].length - 1]
+        
+        while (lastMessageOtherUserSend.receiver_id !== senderId && i > -1) {
+            lastMessageOtherUserSend = this.state.usersChat[div.dataset.id][i]
+            i--
+        }
+        
+        if (i !== -1 && lastMessageOtherUserSend.read_message === 0) {
+            axios.post('http://localhost:3001/chat_read', {
                 "userId": Cookies.get('id'),
                 "matcherId": this.state.usersInfo[div.dataset.id].id
             })

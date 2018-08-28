@@ -119,7 +119,6 @@ router.post('/find_match_info', (req, res) => {
             for (let i = 0; i < data.length; i++) {
                 data[i].date = rows[i].date
                 data[i].readNotif = rows[i].read_match
-                console.log(data[i])
             }
 
             let usersInfo = []
@@ -160,22 +159,29 @@ router.post('/load_notifications', (req, res) => {
         [req.body.userId, req.body.userId], (err, rows, fields) => {
             if(err)
                 return(res.send(err) && console.log(err));
-                console.log(nbNotifs, '1')
 
             nbNotifs += rows[0].nbNotifs
-            console.log(nbNotifs, '2')
             res.json(nbNotifs)
         })
     })
 })
 
 router.post('/match_read', (req, res) => {
-    console.log(req.body.userId, req.body.matcherId, 'dede')
     req.db.query('UPDATE Matchs SET read_match = 1 WHERE user1 = ? AND user2 = ? OR user1 = ? AND user2 = ?;',
     [req.body.userId, req.body.matcherId, req.body.matcherId, req.body.userId], (err, rows, fields) => {
         if(err)
-            return(res.send(err) && console.log(err));
+            return(res.send(err) && console.log(err))
         
+        res.end()
+    })
+})
+
+router.post('/chat_read', (req, res) => {
+    req.db.query('UPDATE Chat SET read_message = 1 WHERE sender_id = ? AND receiver_id = ?;',
+    [req.body.matcherId, req.body.userId], (err, rows, fields) => {
+        if(err)
+            return(res.send(err) && console.log(err))
+
         res.end()
     })
 })
