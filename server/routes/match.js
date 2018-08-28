@@ -62,14 +62,12 @@ router.post('/load_user_data_match', (req, res) => {
                         rows.forEach(e => {
                             usersId.push(e.user_id)
                         });
-                        console.log(usersId, 'Users')
                         
                         req.db.query("SELECT checked_id FROM CheckedUsers WHERE checker_id = ?;",
                         [req.body.userId], (err, rows, fields) => {
                             if (err)
                                 return (res.send(err) && console.log(err))
                         
-                            console.log(rows, 'checked')
 
                             req.db.query("SELECT * FROM Users WHERE id IN (?) AND sex IN (?) AND age > ? AND age < ? ORDER BY popularity DESC;",
                             [usersId, sexPreference, preferences.age_min, preferences.age_max], (err, rows, fields) => {

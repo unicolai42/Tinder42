@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     text-decoration: none;
+    position: relative
 }
     #NavChat_img {
         margin: auto;
@@ -36,6 +37,25 @@
     .NavChat_imgColorSelect {
         background-image: url('ressources/chat.png');
     }
+    .NavChat_notifications {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        bottom: 18px;
+        right: -2px;
+        border-radius: 100%;
+        display: flex;
+        cursor: pointer;
+        background: linear-gradient(170deg,#df1f26 20%,#ed1a21 70%,#ff0008 90%);
+        font-family: 'Encode Sans Semi Expanded', sans-serif;
+        text-align: center;
+    }
+        .NavChat_notifcationsNumber {
+            margin: auto;
+            font-size: 10px;
+            color: white;
+
+        }
 
 
 @media screen and (min-width: 800px) {

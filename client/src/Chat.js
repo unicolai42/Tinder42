@@ -3,6 +3,7 @@ import './Chat.css'
 import Cookies from 'js-cookie'
 import ReactDOM from 'react-dom'
 import socketIOClient from "socket.io-client"
+import axios from 'axios'
 
 import sendBlue from './ressources/send.png'
 import sendWhite from './ressources/send_white.png'
@@ -173,6 +174,13 @@ class Chat extends React.Component {
             allMatchs: '',
             blackOpacity: 'none' 
         })
+        if (this.state.usersInfo[div.dataset.id].readNotif === 0) {
+            console.log(this.state.usersInfo[div.dataset.id], div.dataset.id, 'dkewo')
+            axios.post('http://localhost:3001/match_read', {
+                "userId": Cookies.get('id'),
+                "matcherId": this.state.usersInfo[div.dataset.id].id
+            })
+        }
     }
 
     changeInput(event) {
@@ -276,7 +284,7 @@ class Chat extends React.Component {
                 let lastMessage = (this.state.usersChat[i][0]) ? <div className='Chat_lastMessage'>{this.state.usersChat[i][this.state.usersChat[i].length - 1].message.substr(0, 18)}{dotOrNot}</div> : <div className='Chat_lastMessage'>You've been connected</div>
 
                 users.push(
-                <div className='Chat_profile' onClick={this.selectUser} data-id={i} key={i}>
+                <div className='Chat_profile' style={(!usersInfo[i].readNotif) ? {backgroundColor: 'rgba(67, 166, 252, 0.1)'} : {}} onClick={this.selectUser} data-id={i} key={i}>
                     <div className='Chat_picture' style={{backgroundImage: `url(${this.state.usersInfo[i].picture1})`}}></div>
                     <div className='Chat_text'>
                         <div className='Chat_username'>{this.state.usersInfo[i].username}</div>
