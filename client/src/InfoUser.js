@@ -128,7 +128,7 @@ class InfoUser extends React.Component {
         if (this.state.tags)
             this.state.tags.forEach(element => {
                 tags_li.push(<li key={element.name}>{element.name}</li>)
-            });
+            })
 
         let modify = []
         modify.push(<input key={1} className='InfoUser_input' type="text" placeholder='Name' value={(this.state.name) ? this.state.name : ''} onChange={this.changeName} />)

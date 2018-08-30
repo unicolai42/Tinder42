@@ -16,25 +16,16 @@ class NavChat extends React.Component {
           notifications: 0
         }
     }
-
     componentDidMount() {
-        socket.on('displayMessage', data => {
-            console.log(data)
+        socket.on('displayNotif2', data => {
             if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
-                console.log('Change data')
-                console.log(this.state.usersChat[this.state.idChatPrincipal])
-
-                let newUsersChat = this.state.usersChat
-                newUsersChat[this.state.idChatPrincipal].push({
-                    match_id: newUsersChat[this.state.idChatPrincipal][0].match_id,
-                    sender_id: data.sender_id,
-                    receiver_id: data.receiver_id,
-                    message: data.message
-                })
-                this.setState({
-                    usersChat: newUsersChat,
-                    writing: 'none'
-                })
+                this.setState(prevState => ({notifications: prevState.notifications + 1}))
+            }
+        })
+        socket.on('deleteNotif1', data => {
+            if (parseInt(Cookies.get('id'), 10) === data.userId) {
+                console.log(data, 'dededededededededeed')
+                this.setState(prevState => ({notifications: prevState.notifications - data.removeNotif}))
             }
         })
         axios.post('http://localhost:3001/load_notifications', {

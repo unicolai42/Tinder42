@@ -4,9 +4,6 @@ const mysql = require('mysql')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const fileUpload = require('express-fileupload')
-const http = require("http");
-const socketIo = require("socket.io");
-const axios = require("axios")
 
 
 const routerDbQuery = require('./routes/dbQuery')
@@ -51,8 +48,8 @@ app.listen(app.get('port'), () => {
 
 
 
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var server = require('http').Server(app)
+var io = require('socket.io')(server)
 
 server.listen(3002)
 
@@ -66,5 +63,17 @@ io.on('connection', (socket) => {
     socket.on('newMessage', data => {
         console.log(data)
         io.sockets.emit('displayMessage', data)
-    }) 
+    })
+    socket.on('newNotif1', data => {
+        console.log(data, 'newNotif1')
+        io.sockets.emit('displayNotif1', data)
+    })
+    socket.on('newNotif2', data => {
+        console.log(data, 'newNotif2')
+        io.sockets.emit('displayNotif2', data)
+    })
+    socket.on('countRemoveNotif1', data => {
+        console.log(data, 'countRemoveNotif1')
+        io.sockets.emit('deleteNotif1', data)
+    })
 })
