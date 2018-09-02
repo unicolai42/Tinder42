@@ -14,7 +14,6 @@ class Chat extends React.Component {
     constructor(props) {
         super(props)
 
-        
         this.state = {
             usersChat: [],
             idChatPrincipal: 0,
@@ -31,44 +30,70 @@ class Chat extends React.Component {
         this.removeAllMatchs = this.removeAllMatchs.bind(this)
         this.scrollToBottom = this.scrollToBottom.bind(this)
         this.selectUser = this.selectUser.bind(this)
+        this.messagesConversationRead = this.messagesConversationRead.bind(this)
         this.changeInput = this.changeInput.bind(this)
         this.submitForm = this.submitForm.bind(this)
     }
 
     componentDidMount() {
-        console.log('frfgdtgvdrger')
         socket.on('displayMessage', data => {
             if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
                 let newUsersChat = this.state.usersChat
+                let conversationOpen = 0
 
                 if (data.senderId === this.state.usersInfo[this.state.idChatPrincipal].id) {
                     axios.post('http://localhost:3001/chat_read', {
-                    "userId": Cookies.get('id'),
-                    "matcherId": data.senderId
-                })
+                        "userId": Cookies.get('id'),
+                        "matcherId": data.senderId
+                    })
+                    conversationOpen = 1
                 }
-
-                console.log(data)
-                console.log(newUsersChat[data.senderId])
-                newUsersChat[data.senderId].push({
-                    match_id: newUsersChat[this.state.idChatPrincipal][0].match_id,
-                    sender_id: data.senderId,
-                    receiver_id: data.receiverId,
-                    read_message: 0,
-                    message: data.message
+                
+                console.log(this.state.usersChat)
+                this.state.usersChat.forEach((elem, i) => {
+                    console.log(elem[0].match_id, data.matchId)
+                    if (elem[0].match_id === data.matchId) {
+                        newUsersChat[i].push({
+                            match_id: newUsersChat[i][0].match_id,
+                            sender_id: data.senderId,
+                            receiver_id: data.receiverId,
+                            read_message: conversationOpen,
+                            message: data.message
+                        })
+                        console.log(newUsersChat[i])
+                        this.setState({
+                            usersChat: newUsersChat,
+                            writing: 'none'
+                        })
+                    }
                 })
-                console.log(newUsersChat[data.senderId][newUsersChat[data.senderId].length - 1])
-                this.setState({
-                    usersChat: newUsersChat,
-                    writing: 'none'
+
+                console.log(this.state.idChatPrincipal)
+                console.log(this.state.usersChat)
+                console.log(this.state.usersInfo)
+                let newUsersInfo = this.state.usersInfo
+                this.state.usersInfo.forEach((elem, i) => {
+                    if (elem.id === data.senderId) {
+                        newUsersInfo.splice(i, 1)
+                        newUsersInfo.push(elem)
+                        newUsersChat = this.state.usersChat
+                        let userChatChange = newUsersChat[i]
+                        console.log(userChatChange)
+                        newUsersChat.splice(i, 1)
+                        newUsersChat.push(userChatChange)
+                        console.log(newUsersChat)
+                        this.setState({
+                            usersChat: newUsersChat,
+                            usersInfo: newUsersInfo
+                        })
+                        if (this.state.idChatPrincipal !== 0)
+                            this.setState(prevState => ({idChatPrincipal: 1}))
+                    }
                 })
             }
         })
         socket.on('displayWrite', data => {
-            console.log(data)
-            console.log(this.state.usersInfo[this.state.idChatPrincipal].id, data.senderId)
             if (data.receiverId === parseInt(Cookies.get('id'), 10) && data.senderId === this.state.usersInfo[this.state.idChatPrincipal].id) {
-                console.log(data.receiverId, parseInt(Cookies.get('id'), 10), 'CHECK')
                 if (data.message)
                     this.setState({writing: 'initial'})
                 else
@@ -76,7 +101,9 @@ class Chat extends React.Component {
             }
         })
         socket.on('displayNotif1', data => {
+            console.log(data.receiverId === parseInt(Cookies.get('id'), 10) && data.senderId !== this.state.usersInfo[this.state.idChatPrincipal].id)
             if (data.receiverId === parseInt(Cookies.get('id'), 10) && data.senderId !== this.state.usersInfo[this.state.idChatPrincipal].id) {
+                console.log('ok')
                 socket.emit('newNotif2', {
                     receiverId: data.receiverId
                 })
@@ -93,7 +120,6 @@ class Chat extends React.Component {
         .then(response => response.json())
         .then(data => {
             if (data[0]) {
-                console.log(data[0], 'ici')
                 let usersId = []
                 let usersChat = []
                 let recentDate = (data[0][0]) ? data[0][data[0].length - 1].date : data[0].date
@@ -101,8 +127,8 @@ class Chat extends React.Component {
                 data.forEach(elem => {
                     const date = (elem[0]) ? elem[elem.length - 1].date : elem.date
                     const userInfo = (elem[0]) ? elem[0] : elem
-                    console.log(date, 'date')
                     let userId = userInfo.sender_id !== parseInt(Cookies.get('id'), 10) ? userInfo.sender_id : userInfo.receiver_id
+
                     if (date < recentDate) {
                         usersId.unshift(userId)
                         usersChat.unshift(elem)
@@ -130,6 +156,7 @@ class Chat extends React.Component {
                         usersInfo: data,
                         idChatPrincipal: data.length - 1
                     })
+                    
                 })
             }
         })
@@ -248,6 +275,36 @@ class Chat extends React.Component {
         })
     }
 
+    messagesConversationRead() {
+        console.log('good')
+        let k = 0
+        console.log(this.state.usersChat[this.state.idChatPrincipal])
+        if (this.state.usersChat[this.state.idChatPrincipal][0]) {
+            this.state.usersChat[this.state.idChatPrincipal].forEach( (message, i) => {
+                if (message.read_message === 0 && message.receiver_id === parseInt(Cookies.get('id'), 10)) {
+                    const newUsersChat = this.state.usersChat
+                    newUsersChat[this.state.idChatPrincipal][i].read_message = 1
+                    this.setState({usersChat: newUsersChat})
+                    k++
+                }
+            })
+        }
+
+        socket.emit('countRemoveNotif1', {
+            userId: parseInt(Cookies.get('id'), 10),
+            removeNotif: k
+        })
+
+        if (k) {
+            axios.post('http://localhost:3001/chat_read', {
+                "userId": Cookies.get('id'),
+                "matcherId": this.state.usersInfo[this.state.idChatPrincipal].id
+            })
+        }
+
+        console.log(k)
+    }
+
     changeInput(event) {
         this.setState({
             valueInput: event.target.value,
@@ -305,13 +362,19 @@ class Chat extends React.Component {
             })
 
             let newUsersInfoOrder = this.state.usersInfo
+            let newUsersChatOrder = this.state.usersChat
             const actualUser = this.state.usersInfo[this.state.idChatPrincipal]
+            const actualConversation = this.state.usersChat[this.state.idChatPrincipal]
             console.log(newUsersInfoOrder)
+            console.log(newUsersChatOrder)
             newUsersInfoOrder.splice(this.state.idChatPrincipal, 1)
             newUsersInfoOrder.push(actualUser)
+            newUsersChatOrder.splice(this.state.idChatPrincipal, 1)
+            newUsersChatOrder.push(actualConversation)
             this.setState({
                 userInfo: newUsersInfoOrder,
-                idChatPrincipal: newUsersInfoOrder.length - 1
+                idChatPrincipal: newUsersInfoOrder.length - 1,
+                usersChat: newUsersChatOrder
             })
         }
     }
@@ -327,7 +390,7 @@ class Chat extends React.Component {
         const date = (!this.state.usersInfo[id]) ? '' : new Date(this.state.usersInfo[id].date).toLocaleDateString()
 
         if (messages.length !== 0) {
-            conversation.push(<div className='Chat_dateMessage' key={-1}>You matched with {username} on {date}</div>)
+            conversation.push(<div className='Chat_dateMessage' key={date}>You matched with {username} on {date}</div>)
             for (let i = 0; i < messages[id].length; i++) {
                 if (i > 0) {
                     let date = new Date(messages[id][i].date).getTime()
@@ -383,7 +446,7 @@ class Chat extends React.Component {
                     {userWriting}
                 </div>
                 <form action='/check_chat' method='POST' id='Chat_form' onSubmit={this.submitForm}>
-                    <textarea id='Chat_input' placeholder="Type your message" name='message' autoFocus form ="Chat_form" cols="35" wrap="soft" value={this.state.valueInput} onChange={this.changeInput} onKeyDown={this.onEnterPress}></textarea>
+                    <textarea id='Chat_input' placeholder="Type your message" name='message' form="Chat_form" cols="35" wrap="soft" value={this.state.valueInput} onClick={this.messagesConversationRead} onChange={this.changeInput} onKeyDown={this.onEnterPress}></textarea>
                     <div id='Chat_submit' style={{backgroundImage: `url(${this.state.sendButton})`, cursor: (this.state.sendButton === sendBlue) ? 'pointer' : 'auto'}} onClick={this.submitForm}/>
                 </form>
             </div>

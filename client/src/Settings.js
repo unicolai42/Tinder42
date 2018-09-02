@@ -95,6 +95,10 @@ class Settings extends React.Component {
     })
   }
 
+  logOut() {
+    //unset cookies
+  }
+
   render() {
     console.log(this.state.sugggestions)
     return (
@@ -123,8 +127,9 @@ class Settings extends React.Component {
             <Slider style={{width: '90%', margin: 'auto'}} min={0} max={2} value={this.state.sex} onChange={this.changeValuesSex} onAfterChange={this.setValuesDb} />
           </div>
           <div>
-            <ReactTags delimiterChars={[',', ' ', '.', '  ']} allowBackspace={false} placeholder='Add new # or click to delete it' tags={this.state.tags} suggestions={this.state.suggestions} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />
+            <ReactTags delimiterChars={[',', ' ', '.', '  ']} allowBackspace={false} minQueryLength={1} placeholder='Add new # or click to delete it' tags={this.state.tags} suggestions={this.state.suggestions} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />
           </div>
+          <div id='Settings_logOut' onClick={this.logOut}>Log Out</div>
         </div>
       </div>
     );

@@ -6,7 +6,9 @@
     margin: auto;
     width: 500px;
     height: 300px;
-    border: 1px solid blue; }
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: column; }
     #Settings_wrapper #Settings_block #Settings_age {
       display: flex;
       flex-direction: column;
@@ -18,3 +20,7 @@
     #Settings_wrapper #Settings_block .Settings_description {
       display: flex;
       justify-content: space-between; }
+    #Settings_wrapper #Settings_block #Settings_logOut {
+      border: 1px solid red;
+      margin: auto;
+      cursor: pointer; }

@@ -10,8 +10,10 @@ router.post('/update_location', (req, res) => {
     let longitude = req.body.longitude
     if (!latitude && !longitude) {
         ipLocator.getDomainOrIPDetails(req.ip,'json', function (err, data) {
-            latitude = data.latitude
-            longitude = data.longitude
+            if (data.latitude) {
+                latitude = data.latitude
+                longitude = data.longitude
+            }
           })
         
         // console.log(req.socket.address().address, 'ko')
