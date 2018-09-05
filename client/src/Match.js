@@ -215,8 +215,8 @@ class Match extends React.Component {
     let displayButtons = []
     // foutre ca quand il ny a plus dusers pour que les bouttons se arrent vers le bas{transform: 'translateY(-200px)'}
     if (this.state.nbUsersNoMatched) {
-      displayButtons.push(<div id='Match_dislike' style={this.state.displayButtons} onClick={this.dislikeClick}></div>)
-      displayButtons.push(<div id='Match_like' style={this.state.displayButtons} onClick={this.likeClick}></div>)
+      displayButtons.push(<div id='Match_dislike' key='Match_dislike' style={this.state.displayButtons} onClick={this.dislikeClick}></div>)
+      displayButtons.push(<div id='Match_like' key='Match_like' style={this.state.displayButtons} onClick={this.likeClick}></div>)
     }
     return (
         <div id='Match_wrapper'>

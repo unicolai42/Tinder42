@@ -33,7 +33,6 @@ class Profile extends React.Component {
 
   movePicture(dragIndex, hoverIndex) {
     let { pictures } = this.state
-    // let dragPicture = pictures[dragIndex]
     let newOrderPictures = pictures
 
     if (hoverIndex < dragIndex) {
@@ -115,11 +114,12 @@ class Profile extends React.Component {
     for (let i = 0; i < 5; i++) {
       pictures.push((this.state.pictures[i]) ? <ProfileDragPictures picture={this.state.pictures[i]} removePicture={this.removePicture} key={i} id={i} movePicture={this.movePicture}/> : <Dropzone ref={(ref) => { this.uploadInput = ref; }} type="file" onDrop={(files) => this.uploadPicture(files)} className='Profile_boxPictures' key={i}><div className='Profile_emptyPictures'/></Dropzone>)
     }
+    let urlFirstPicture = (firstPicture) ? {backgroundImage: `url('${firstPicture}')`} : null
     return (
       <div id='Profile_wrapper'>
         <div id='Profile_block'>
             <div id='Profile_picture'>
-              <div id='Profile_firstPicture' style={{backgroundImage: `url('${firstPicture}')`}}></div>
+              <div id='Profile_firstPicture' style={urlFirstPicture}></div>
               <div id='Profile_secondPicture'>
                 {pictures}
               </div>

@@ -40,7 +40,6 @@ class Chat extends React.Component {
             const oldLastUser = this.state.usersInfo[this.state.usersInfo.length - 1]
 
             if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
-                let newUsersChat = this.state.usersChat
                 let conversationOpen = 0
 
                 console.log(window.location)
@@ -52,52 +51,116 @@ class Chat extends React.Component {
                     conversationOpen = 1
                 }
                 
-                this.state.usersChat.forEach((elem, i) => {
-                    if (elem[0].match_id === data.matchId) {
-                        newUsersChat[i].push({
-                            match_id: newUsersChat[i][0].match_id,
-                            sender_id: data.senderId,
-                            receiver_id: data.receiverId,
-                            read_message: conversationOpen,
-                            message: data.message
-                        })
-                        if (window.location.href === 'http://localhost:3000/chat') {
-                            this.setState({
-                                usersChat: newUsersChat,
-                                writing: 'none'
+                if (this.state.usersChat[0][0]) {
+                    console.log(this.state.usersChat[0][0])
+                    let newUsersChat = this.state.usersChat
+                    
+                    this.state.usersChat.forEach((elem, i) => {
+                        let matchId = (elem[0]) ? elem[0].match_id : elem.match_id
+                        if (matchId === data.matchId) {
+                            newUsersChat[i].push({
+                                match_id: data.matchId,
+                                sender_id: data.senderId,
+                                receiver_id: data.receiverId,
+                                read_message: conversationOpen,
+                                message: data.message
                             })
-                        }
-                    }
-                })
-
-                let newUsersInfo = this.state.usersInfo
-                this.state.usersInfo.forEach((elem, i) => {
-                    if (elem.id === data.senderId) {
-                        newUsersInfo.splice(i, 1)
-                        newUsersInfo.push(elem)
-                        newUsersChat = this.state.usersChat
-                        let userChatChange = newUsersChat[i]
-                        newUsersChat.splice(i, 1)
-                        newUsersChat.push(userChatChange)
-                        console.log(window.location.href)
-                        if (window.location.href === 'http://localhost:3000/chat') {
-                            this.setState({
-                                usersChat: newUsersChat,
-                                usersInfo: newUsersInfo
-                            })
-                        }
-                        if (data.senderId !== oldLastUser.id) {
-                            let l = 0
-                            while (l < this.state.usersInfo.length) {
-                                if (oldLastUser === this.state.usersInfo[l]) {
-                                    this.setState({idChatPrincipal: l})
-                                    return
-                                }
-                                l++
+                            if (window.location.href === 'http://localhost:3000/chat') {
+                                this.setState({
+                                    usersChat: newUsersChat,
+                                    writing: 'none'
+                                })
                             }
                         }
-                    }
-                })
+                    })
+
+                    let newUsersInfo = this.state.usersInfo
+                    this.state.usersInfo.forEach((elem, i) => {
+                        if (elem.id === data.senderId) {
+                            newUsersInfo.splice(i, 1)
+                            newUsersInfo.push(elem)
+                            newUsersChat = this.state.usersChat
+                            let userChatChange = newUsersChat[i]
+                            newUsersChat.splice(i, 1)
+                            newUsersChat.push(userChatChange)
+                            console.log(window.location.href)
+                            if (window.location.href === 'http://localhost:3000/chat') {
+                                this.setState({
+                                    usersChat: newUsersChat,
+                                    usersInfo: newUsersInfo
+                                })
+                            }
+                            if (data.senderId !== oldLastUser.id) {
+                                let l = 0
+                                while (l < this.state.usersInfo.length) {
+                                    if (oldLastUser === this.state.usersInfo[l]) {
+                                        this.setState({idChatPrincipal: l})
+                                        return
+                                    }
+                                    l++
+                                }
+                            }
+                        }
+                    })
+                }
+                else {
+                    let newUsersInfo = this.state.usersInfo
+                    let newUsersChat = []
+                    newUsersInfo.forEach((elem, i) => {
+                        console.log(elem)
+                        if (elem.id === data.senderId) {
+                            newUsersChat.push([{
+                                match_id: data.matchId,
+                                sender_id: data.senderId,
+                                receiver_id: data.receiverId,
+                                read_message: conversationOpen,
+                                message: data.message
+                            }])
+                            if (window.location.href === 'http://localhost:3000/chat') {
+                                this.setState({
+                                    usersChat: newUsersChat,
+                                    writing: 'none'
+                                })
+                            }
+                        }
+                        else {
+                            newUsersChat.push([{
+                                match_id: data.matchId,
+                                sender_id: data.senderId,
+                                receiver_id: data.receiverId,
+                                read_message: -1
+                            }])
+                        }
+                    })
+
+                    this.state.usersInfo.forEach((elem, i) => {
+                        if (elem.id === data.senderId) {
+                            newUsersInfo.splice(i, 1)
+                            newUsersInfo.push(elem)
+                            newUsersChat = this.state.usersChat
+                            let userChatChange = newUsersChat[i]
+                            newUsersChat.splice(i, 1)
+                            newUsersChat.push(userChatChange)
+                            console.log(window.location.href)
+                            if (window.location.href === 'http://localhost:3000/chat') {
+                                this.setState({
+                                    usersChat: newUsersChat,
+                                    usersInfo: newUsersInfo
+                                })
+                            }
+                            if (data.senderId !== oldLastUser.id) {
+                                let l = 0
+                                while (l < this.state.usersInfo.length) {
+                                    if (oldLastUser === this.state.usersInfo[l]) {
+                                        this.setState({idChatPrincipal: l})
+                                        return
+                                    }
+                                    l++
+                                }
+                            }
+                        }
+                    })
+                }
             }
         })
         socket.on('displayWrite', data => {
@@ -171,6 +234,11 @@ class Chat extends React.Component {
         this.scrollToBottom()
     }
 
+    componentWillUnmount() {
+        socket.removeListener('displayMessage')
+        socket.removeListener('displayWrite')
+    }
+
     componentDidUpdate() {
         this.scrollToBottom()
 
@@ -207,9 +275,9 @@ class Chat extends React.Component {
     }
 
     scrollToBottom() {
-        const { conversation } = this.refs;
-        const scrollHeight = conversation.scrollHeight;
-        const height = conversation.clientHeight;
+        const { conversation } = this.refs
+        const scrollHeight = conversation.scrollHeight
+        const height = conversation.clientHeight
         const maxScrollTop = scrollHeight - height;
         ReactDOM.findDOMNode(conversation).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
     }
@@ -283,7 +351,6 @@ class Chat extends React.Component {
     }
 
     messagesConversationRead() {
-        console.log('good')
         let k = 0
         console.log(this.state.usersChat[this.state.idChatPrincipal])
         if (this.state.usersChat[this.state.idChatPrincipal][0]) {
@@ -386,6 +453,7 @@ class Chat extends React.Component {
         const usersInfo = this.state.usersInfo
         let users = []
         const id = this.state.idChatPrincipal
+        console.log(id)
         const picturePrincipal = (!this.state.usersInfo[id]) ? '' : this.state.usersInfo[id].picture1
         const messages = this.state.usersChat
         const username = (!this.state.usersInfo[id]) ? '' : this.state.usersInfo[id].username
@@ -393,7 +461,7 @@ class Chat extends React.Component {
 
         if (messages.length !== 0) {
             conversation.push(<div className='Chat_dateMessage' key={date}>You matched with {username} on {date}</div>)
-            for (let i = 0; i < messages[id].length; i++) {
+            for (let i = 0; i < messages[id].length && messages[id][0].read_message !== -1; i++) {
                 if (i > 0) {
                     let date = new Date(messages[id][i].date).getTime()
                     let prevDate = new Date(messages[id][i - 1].date).getTime()            
@@ -407,9 +475,11 @@ class Chat extends React.Component {
             }
 
             for (let i = usersInfo.length - 1; i >= 0; --i) {
-                const nbLetterLastMessage = (this.state.usersChat[i][this.state.usersChat[i].length - 1]) ? this.state.usersChat[i][this.state.usersChat[i].length - 1].message.length : null
+                const nbLetterLastMessage = (this.state.usersChat[i][this.state.usersChat[i].length - 1] && this.state.usersChat[i][this.state.usersChat[i].length - 1].read_message !== -1) ? this.state.usersChat[i][this.state.usersChat[i].length - 1].message.length : null
+                console.log(nbLetterLastMessage)
                 const dotOrNot = (nbLetterLastMessage > 18) ? '...' : null
-                let lastMessage = (this.state.usersChat[i][0]) ? <div className='Chat_lastMessage'>{this.state.usersChat[i][this.state.usersChat[i].length - 1].message.substr(0, 18)}{dotOrNot}</div> : <div className='Chat_lastMessage'>You've been connected</div>
+                let lastMessage = (this.state.usersChat[i][this.state.usersChat[i].length - 1] && this.state.usersChat[i][this.state.usersChat[i].length - 1].read_message !== -1) ? <div className='Chat_lastMessage'>{this.state.usersChat[i][this.state.usersChat[i].length - 1].message.substr(0, 18)}{dotOrNot}</div> : <div className='Chat_lastMessage'>You've been connected</div>
+                console.log(lastMessage)
 
                 let lastMessageOtherUserSend
                 let j = this.state.usersChat[i].length - 1
@@ -423,9 +493,10 @@ class Chat extends React.Component {
                     }
                 }
                 let readLastMessage = (!lastMessageOtherUserSend) ? 0 : (lastMessageOtherUserSend.read_message) ? 1 : 0
+                let urlPicture1 = (this.state.usersInfo[i].picture1) ? {backgroundImage: `url(${this.state.usersInfo[i].picture1})`} : null
                 users.push(
                 <div className='Chat_profile' style={(!usersInfo[i].readNotif || !readLastMessage) ? {backgroundColor: 'rgba(67, 166, 252, 0.1)'} : {}} onClick={this.selectUser} data-id={i} key={i}>
-                    <div className='Chat_picture' style={{backgroundImage: `url(${this.state.usersInfo[i].picture1})`}}></div>
+                    <div className='Chat_picture' style={urlPicture1}></div>
                     <div className='Chat_text'>
                         <div className='Chat_username'>{this.state.usersInfo[i].username}</div>
                         {lastMessage}
@@ -441,7 +512,8 @@ class Chat extends React.Component {
             </form>
             :  null
 
-        const pictureOrNoMatch = (this.state.usersChat[0]) ? <div id='Chat_stripPicture' style={{backgroundImage: `url(${picturePrincipal})`}}></div> : <div id='Chat_noMatch'>No match yet</div>
+        let urlPicturePrincipal = (picturePrincipal) ? {backgroundImage: `url(${picturePrincipal})`} : null
+        const pictureOrNoMatch = (this.state.usersChat[0]) ? <div id='Chat_stripPicture' style={urlPicturePrincipal}></div> : <div id='Chat_noMatch'>No match yet</div>
         let userWriting = (this.state.usersInfo[this.state.idChatPrincipal]) ?<div id='Chat_otherUserWritingMessage' style={{display: this.state.writing}}>{this.state.usersInfo[this.state.idChatPrincipal].username} writing a message...</div> : null
 
         return (
@@ -470,7 +542,7 @@ class Chat extends React.Component {
                 {chatBar}
             </div>
         </div>
-        );
+        )
     }
 }
 export default Chat
