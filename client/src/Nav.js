@@ -1,6 +1,6 @@
 import React from 'react'
 import './Nav.css'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import NavNotification from './NavNotification'
 import NavMatch from './NavMatch'
 import NavChat from './NavChat'
@@ -8,45 +8,39 @@ import NavProfile from './NavProfile'
 import NavSettings from './NavSettings'
 
 class Nav extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      showCategory: false
-    }
+  //   this.displayMenu = this.displayMenu.bind(this);
+  //   this.closeMenu = this.closeMenu.bind(this);
+  //   this.logOutKillCookie = this.logOutKillCookie.bind(this);
+  // }
 
-    this.displayMenu = this.displayMenu.bind(this);
-    this.closeMenu = this.closeMenu.bind(this);
-    this.logOutKillCookie = this.logOutKillCookie.bind(this);
-  }
+  // displayMenu() {
+  //   console.log('ok')
+  //   this.setState({ showCategory: true }, () => {
+  //     document.addEventListener('click', this.closeMenu)
+  //   })
+  // }
 
-  displayMenu() {
-    console.log('ok')
-    this.setState({ showCategory: true }, () => {
-      document.addEventListener('click', this.closeMenu)
-    })
-  }
+  // closeMenu(event) {
+  //   if (!this.dropdownMenu.contains(event.target)) {
+  //     this.setState({ showCategory: false }, () => {
+  //       document.removeEventListener('click', this.closeMenu)
+  //     })
+  //   }
+  // }
 
-  closeMenu(event) {
-    if (!this.dropdownMenu.contains(event.target)) {
-      this.setState({ showCategory: false }, () => {
-        document.removeEventListener('click', this.closeMenu)
-      })
-    }
-  }
-
-  logOutKillCookie() {
-    Cookies.remove('id')
-    Cookies.remove('username')
-  }
+  // logOutKillCookie() {
+  //   Cookies.remove('id')
+  //   Cookies.remove('username')
   render() {
+    console.log(this.props.chatActiv)
     return (
       <div>
         <div id='Nav_wrapper'>
-            <NavProfile/>
-            <NavChat/>
-            <NavMatch/>
-            <NavNotification/>
-            <NavSettings/>
+            <NavProfile selectOther={this.props.otherSelected}/>
+            <NavChat selectChat={this.props.chatSelected} chatActiv={this.props.chatActiv}/>
+            <NavMatch selectOther={this.props.otherSelected}/>
+            <NavNotification selectOther={this.props.otherSelected}/>
+            <NavSettings selectOther={this.props.otherSelected}/>
         </div>
       </div>
     );

@@ -218,7 +218,6 @@ class Match extends React.Component {
       displayButtons.push(<div id='Match_dislike' style={this.state.displayButtons} onClick={this.dislikeClick}></div>)
       displayButtons.push(<div id='Match_like' style={this.state.displayButtons} onClick={this.likeClick}></div>)
     }
-    console.log(this.state.nbUsersNoMatched, 'hhhhh')
     return (
         <div id='Match_wrapper'>
           <div id='Match_number'>

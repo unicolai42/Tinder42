@@ -96,7 +96,8 @@ class Settings extends React.Component {
   }
 
   logOut() {
-    //unset cookies
+    Cookies.remove('id')
+    Cookies.remove('username')
   }
 
   render() {

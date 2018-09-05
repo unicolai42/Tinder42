@@ -18,7 +18,8 @@ class NavChat extends React.Component {
     }
     componentDidMount() {
         socket.on('displayNotif2', data => {
-            if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
+            console.log(this.props.chatActiv)
+            if (data.receiverId === parseInt(Cookies.get('id'), 10) && !this.props.chatActiv) {
                 this.setState(prevState => ({notifications: prevState.notifications + 1}))
             }
         })
@@ -36,9 +37,10 @@ class NavChat extends React.Component {
         })
     }
     render() {
+        console.log(this.props.chatActiv)
         let notifications = (this.state.notifications) ? <div className='NavChat_notifications'><span className='NavChat_notifcationsNumber'>{this.state.notifications}</span></div> : null
         return (
-            <div id='NavChat'>
+            <div id='NavChat' onClick={this.props.selectChat}>
                 <NavLink id='NavChat_img' className='NavChat_imgColor' exact to='/chat' activeClassName='NavChat_imgColorSelect'></NavLink>
                 <NavLink id='NavChat_text' className='NavChat_textColor' exact to='/chat' activeClassName='NavChat_textColorSelect'>Chat</NavLink>
                 {notifications}

@@ -28,7 +28,6 @@ class Profile extends React.Component {
     })
     .then(response => {
         this.setState({pictures: response.data.pictures})
-        console.log(response.data.pictures)
     })
   }
 
@@ -111,7 +110,6 @@ class Profile extends React.Component {
   }
 
   render() {
-    console.log(this.state.pictures)
     let firstPicture = this.state.pictures[0]
     let pictures = []
     for (let i = 0; i < 5; i++) {

@@ -43,7 +43,8 @@ class Chat extends React.Component {
                 let newUsersChat = this.state.usersChat
                 let conversationOpen = 0
 
-                if (data.senderId === this.state.usersInfo[this.state.idChatPrincipal].id) {
+                console.log(window.location)
+                if (data.senderId === this.state.usersInfo[this.state.idChatPrincipal].id && window.location.href === 'http://localhost:3000/chat') {
                     axios.post('http://localhost:3001/chat_read', {
                         "userId": Cookies.get('id'),
                         "matcherId": data.senderId
@@ -60,10 +61,12 @@ class Chat extends React.Component {
                             read_message: conversationOpen,
                             message: data.message
                         })
-                        this.setState({
-                            usersChat: newUsersChat,
-                            writing: 'none'
-                        })
+                        if (window.location.href === 'http://localhost:3000/chat') {
+                            this.setState({
+                                usersChat: newUsersChat,
+                                writing: 'none'
+                            })
+                        }
                     }
                 })
 
@@ -76,10 +79,13 @@ class Chat extends React.Component {
                         let userChatChange = newUsersChat[i]
                         newUsersChat.splice(i, 1)
                         newUsersChat.push(userChatChange)
-                        this.setState({
-                            usersChat: newUsersChat,
-                            usersInfo: newUsersInfo
-                        })
+                        console.log(window.location.href)
+                        if (window.location.href === 'http://localhost:3000/chat') {
+                            this.setState({
+                                usersChat: newUsersChat,
+                                usersInfo: newUsersInfo
+                            })
+                        }
                         if (data.senderId !== oldLastUser.id) {
                             let l = 0
                             while (l < this.state.usersInfo.length) {
@@ -87,6 +93,7 @@ class Chat extends React.Component {
                                     this.setState({idChatPrincipal: l})
                                     return
                                 }
+                                l++
                             }
                         }
                     }
@@ -95,14 +102,16 @@ class Chat extends React.Component {
         })
         socket.on('displayWrite', data => {
             if (data.receiverId === parseInt(Cookies.get('id'), 10) && data.senderId === this.state.usersInfo[this.state.idChatPrincipal].id) {
-                if (data.message)
-                    this.setState({writing: 'initial'})
-                else
-                    this.setState({writing: 'none'})
+                if (window.location.href === 'http://localhost:3000/chat') {
+                    if (data.message)
+                        this.setState({writing: 'initial'})
+                    else
+                        this.setState({writing: 'none'})
+                }
             }
         })
         socket.on('displayNotif1', data => {
-            if (data.receiverId === parseInt(Cookies.get('id'), 10) && data.senderId !== this.state.usersInfo[this.state.idChatPrincipal].id) {
+            if ((data.receiverId === parseInt(Cookies.get('id'), 10) && data.senderId !== this.state.usersInfo[this.state.idChatPrincipal].id) || (data.receiverId === parseInt(Cookies.get('id'), 10) && window.location.href !== 'http://localhost:3000/chat')) {
                 socket.emit('newNotif2', {
                     receiverId: data.receiverId
                 })
@@ -383,7 +392,6 @@ class Chat extends React.Component {
         const date = (!this.state.usersInfo[id]) ? '' : new Date(this.state.usersInfo[id].date).toLocaleDateString()
 
         if (messages.length !== 0) {
-            console.log(id)
             conversation.push(<div className='Chat_dateMessage' key={date}>You matched with {username} on {date}</div>)
             for (let i = 0; i < messages[id].length; i++) {
                 if (i > 0) {
