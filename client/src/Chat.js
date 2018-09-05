@@ -36,6 +36,7 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
+        socket.removeListener('displayNotif1')
         socket.on('displayMessage', data => {
             const oldLastUser = this.state.usersInfo[this.state.usersInfo.length - 1]
 
