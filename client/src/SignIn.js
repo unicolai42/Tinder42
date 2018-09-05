@@ -1,5 +1,5 @@
-import React from 'react';
-import './SignIn.css';
+import React from 'react'
+import './SignIn.css'
 // import { domainName } from './domain_name';
 
 
@@ -9,7 +9,6 @@ class SignIn extends React.Component {
       this.state = {
         valueUsername: '',
         valuePassword: '',
-        users: [],
         validLog: '_',
         validMessage: '_'
       };
@@ -21,11 +20,7 @@ class SignIn extends React.Component {
       this.resendPassword = this.resendPassword.bind(this);
     }
 
-    async componentDidMount() {
-      const response = await fetch('/users')
-      const users = await response.json()
-      this.setState({users: users})
-
+    componentDidMount() {
       console.log(typeof this.props.activateMail)
       if (typeof this.props.activateMail !== 'object')
         this.setState({validMessage: `A link to validate your inscription has been sent at : ${this.props.activateMail}`});
@@ -42,7 +37,7 @@ class SignIn extends React.Component {
     }
 
     checkMatch(valueUsername, valuePassword) {
-      let users = this.state.users;
+      let users = this.props.users;
       let valueMatch = 0;
 
       users.forEach((user) => {

@@ -11,8 +11,7 @@ class SignUp extends React.Component {
         valueUsername: '',
         validMail: 'false',
         validPassword: 'unsafe',
-        validUsername: 'true',
-        users: []
+        validUsername: 'true'
       };
   
       this.changeMail = this.changeMail.bind(this);
@@ -20,12 +19,6 @@ class SignUp extends React.Component {
       this.changeUsername = this.changeUsername.bind(this);
       this.submitForm = this.submitForm.bind(this);
       this.checkValid = this.checkValid.bind(this);
-    }
-
-    componentDidMount() {
-      fetch('http://localhost:3001/users')
-      .then(response => response.json())
-      .then(data => this.setState({ users: data }))
     }
   
     changeMail(event) {
@@ -41,32 +34,6 @@ class SignUp extends React.Component {
     changeUsername(event) {
       this.setState({valueUsername: event.target.value}); 
       this.checkValid('username', event.target.value);
-    }
-  
-    submitForm(event) {
-      event.preventDefault();
-      if (this.state.valueMail && this.state.validMail === true && this.state.validMail !== 'taken'
-      && this.state.valuePassword && this.state.validPassword !== 'tooLong' && this.state.validPassword !== 'unsafe'
-      && this.state.valueUsername && this.state.validUsername === true && this.state.validUsername !== 'taken') {
-        fetch('/check_signUp', {
-          method: 'post',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({
-            "mail": `${this.state.valueMail}`,
-            "password": `${this.state.valuePassword}`,
-            "username": `${this.state.valueUsername}`
-          })
-        });
-        this.props.changeForSignIn(this.state.valueMail)
-      }
-
-      if (!this.state.valueMail || this.state.validMail === false || this.state.validMail === 'taken')
-        this.setState({valueMail: ''})
-      if (!this.state.valuePassword || this.state.validPassword === 'tooLong' || this.state.validPassword === 'unsafe')
-        this.setState({valuePassword: ''});
-      if (!this.state.valueUsername || this.state.validUsername === false || this.state.validUsername === 'taken')
-        this.setState({valueUsername: ''});
-      
     }
 
     checkValid(elem, value) {
@@ -104,7 +71,7 @@ class SignUp extends React.Component {
 
 
       if (elem === 'mail' || elem === 'username') {
-        let users = this.state.users;
+        let users = this.props.users;
         users.forEach((user) => {
           if (user[elem].toUpperCase() === value.toUpperCase()) {
             if (elem === 'mail')
@@ -115,6 +82,38 @@ class SignUp extends React.Component {
           }
         });
       }
+    }
+
+    submitForm(event) {
+      event.preventDefault();
+      if (this.state.valueMail && this.state.validMail === true && this.state.validMail !== 'taken'
+      && this.state.valuePassword && this.state.validPassword !== 'tooLong' && this.state.validPassword !== 'unsafe'
+      && this.state.valueUsername && this.state.validUsername === true && this.state.validUsername !== 'taken') {
+        fetch('/check_signUp', {
+          method: 'post',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            "mail": `${this.state.valueMail}`,
+            "password": `${this.state.valuePassword}`,
+            "username": `${this.state.valueUsername}`
+          })
+        }, this.props.addSignUpUser())
+        this.props.changeForSignIn(this.state.valueMail)
+      }
+
+      if (!this.state.valueMail || this.state.validMail === false || this.state.validMail === 'taken')
+        this.setState({valueMail: ''})
+      if (!this.state.valuePassword || this.state.validPassword === 'tooLong' || this.state.validPassword === 'unsafe')
+        this.setState({valuePassword: ''});
+      if (!this.state.valueUsername || this.state.validUsername === false || this.state.validUsername === 'taken')
+        this.setState({valueUsername: ''})
+
+      const newUser = {
+        mail: this.state.valueMail,
+        password: this.state.valuePassword,
+        username: this.state.valueUsername
+      }
+      console.log(newUser)
     }
   
     render() {

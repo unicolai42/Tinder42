@@ -311,6 +311,8 @@ class Chat extends React.Component {
             blackOpacity: 'none' 
         })
 
+        console.log(this.state.usersInfo[div.dataset.id].readNotif)
+
         if (this.state.usersInfo[div.dataset.id].readNotif === 0) {
             axios.post('http://localhost:3001/match_read', {
                 "userId": Cookies.get('id'),
@@ -477,10 +479,8 @@ class Chat extends React.Component {
 
             for (let i = usersInfo.length - 1; i >= 0; --i) {
                 const nbLetterLastMessage = (this.state.usersChat[i][this.state.usersChat[i].length - 1] && this.state.usersChat[i][this.state.usersChat[i].length - 1].read_message !== -1) ? this.state.usersChat[i][this.state.usersChat[i].length - 1].message.length : null
-                console.log(nbLetterLastMessage)
                 const dotOrNot = (nbLetterLastMessage > 18) ? '...' : null
                 let lastMessage = (this.state.usersChat[i][this.state.usersChat[i].length - 1] && this.state.usersChat[i][this.state.usersChat[i].length - 1].read_message !== -1) ? <div className='Chat_lastMessage'>{this.state.usersChat[i][this.state.usersChat[i].length - 1].message.substr(0, 18)}{dotOrNot}</div> : <div className='Chat_lastMessage'>You've been connected</div>
-                console.log(lastMessage)
 
                 let lastMessageOtherUserSend
                 let j = this.state.usersChat[i].length - 1
@@ -493,7 +493,7 @@ class Chat extends React.Component {
                         }
                     }
                 }
-                let readLastMessage = (!lastMessageOtherUserSend) ? 0 : (lastMessageOtherUserSend.read_message) ? 1 : 0
+                let readLastMessage = (j === -1) ? 1 : (lastMessageOtherUserSend === 0) ? 0 : (lastMessageOtherUserSend.read_message === 0) ? 0 : 1
                 let urlPicture1 = (this.state.usersInfo[i].picture1) ? {backgroundImage: `url(${this.state.usersInfo[i].picture1})`} : null
                 users.push(
                 <div className='Chat_profile' style={(!usersInfo[i].readNotif || !readLastMessage) ? {backgroundColor: 'rgba(67, 166, 252, 0.1)'} : {}} onClick={this.selectUser} data-id={i} key={i}>
