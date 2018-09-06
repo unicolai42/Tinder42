@@ -97,8 +97,12 @@ class SignUp extends React.Component {
             "password": `${this.state.valuePassword}`,
             "username": `${this.state.valueUsername}`
           })
-        }, this.props.addSignUpUser())
-        this.props.changeForSignIn(this.state.valueMail)
+        })
+        .then(response => response.json())
+        .then(data => {
+          this.props.addSignUpUser(data)
+          this.props.changeForSignIn(this.state.valueMail)
+        })
       }
 
       if (!this.state.valueMail || this.state.validMail === false || this.state.validMail === 'taken')

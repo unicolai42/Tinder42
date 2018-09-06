@@ -1,8 +1,8 @@
-import React from 'react';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import Logo from './Logo';
-import './Landing.css';
+import React from 'react'
+import SignIn from './SignIn'
+import SignUp from './SignUp'
+import Logo from './Logo'
+import './Landing.css'
 import Landing_img from './ressources/computer+iphone.png'
 import axios from 'axios'
 
@@ -28,14 +28,11 @@ class Landing extends React.Component {
     })
   }
 
-  addSignUpUser() {
-    axios.get('http://localhost:3001/users')
-    .then(response => {
-      console.log(response.data)
-        this.setState({
-          users: response.data,
-          signIn: true
-        })
+  addSignUpUser(newUser) {
+    const newUsers = this.state.users
+    newUsers.push(newUser)
+    this.setState({
+      users: newUsers
     })
   }
 

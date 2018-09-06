@@ -27,8 +27,23 @@ router.post('/check_signUp', (req, res) => {
                 [userId], (err, rows, fields) => {
                     if(err)
                         return(res.send(err) && console.log(err));
+
+                    req.db.query(`SELECT MAX(id) FROM users;`,
+                    (err, rows, fields) => {
+                        if(err)
+                            return(res.send(err) && console.log(err));
+
+                        const maxId = rows[0]['MAX(id)']
+
+                        req.db.query(`SELECT * FROM users WHERE id = ?;`,
+                        [maxId], (err, rows, fields) => {
+                            if(err)
+                                return(res.send(err) && console.log(err));
+
+                            res.json(rows[0])
+                        })
+                    })
                 })
-                res.end()
             })
         })
     })
