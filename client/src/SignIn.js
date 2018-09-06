@@ -1,5 +1,6 @@
 import React from 'react'
 import './SignIn.css'
+import axios from 'axios'
 // import { domainName } from './domain_name';
 
 
@@ -17,7 +18,8 @@ class SignIn extends React.Component {
       this.changePassword = this.changePassword.bind(this);
       this.submitForm = this.submitForm.bind(this);
       this.checkMatch = this.checkMatch.bind(this);
-      this.resendPassword = this.resendPassword.bind(this);
+      this.resendPassword = this.resendPassword.bind(this)
+      this.resendValidationMail = this.resendValidationMail.bind(this)
     }
 
     componentDidMount() {
@@ -45,9 +47,11 @@ class SignIn extends React.Component {
         if (user['username'].toUpperCase() === valueUsername.toUpperCase()) {
           valueMatch = 1;
           console.log(user.password);
-          if (user.password === valuePassword)
+          if (user.password === valuePassword) {
             valueMatch = 2;
-          return;
+            if (user.randomKey !== 1)
+              valueMatch = 3
+          }
         }
       });
       return valueMatch;
@@ -62,6 +66,18 @@ class SignIn extends React.Component {
       })
     }
 
+    resendValidationMail() {
+      console.log(this.state.valueUsername)
+      axios.post('http://localhost:3001/resend_activation_mail', {
+        "username": this.state.valueUsername
+      })
+      .then(response => {
+        console.log(response)
+        this.setState({ validMessage: `A link to change validate your account has been sent at : ${response.data.mail}` })
+        this.setState({ validLog: '_'})
+      })
+    }
+
     submitForm(event) {
       let match = this.checkMatch(this.state.valueUsername, this.state.valuePassword);
       console.log(match);
@@ -72,6 +88,10 @@ class SignIn extends React.Component {
         if (match === 1) {
           this.setState({validLog: 'Wrong password'});
           this.setState({validMessage: 'Forgot it ? Click here'})
+        }
+        else if (match === 3) {
+          this.setState({validLog: 'User not activ yet'});
+          this.setState({validMessage: 'Resend me the activation link'})
         }
         else
           this.setState({validLog: 'Username doesn\'t exist'});
@@ -94,6 +114,10 @@ class SignIn extends React.Component {
       else if (this.state.validMessage === 'Forgot it ? Click here') {
         validMessageColor = 'SignIn_validBlack'
         validMessage = <div onClick={this.resendPassword}>{this.state.validMessage}</div>
+      }
+      else if (this.state.validMessage === 'Resend me the activation link') {
+        validMessageColor = 'SignIn_validBlack'
+        validMessage = <div onClick={this.resendValidationMail}>{this.state.validMessage}</div>
       }
       else
         validMessageColor = 'SignIn_validBlue'
