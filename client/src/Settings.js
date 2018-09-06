@@ -14,12 +14,20 @@ class Settings extends React.Component {
     super(props)  
     
     this.state = {
+      users: [],
+      user: {},
       ageMin: 16,
       ageMax: 38,
       maxDistance: 1,
       sex: 2,
       tags: [],
-      sugggestions: []
+      sugggestions: [],
+      valueMail: '',
+      valueOldPwd: '',
+      valueNewPwd1: '',
+      valueNewPwd2: '',
+      validPwd: '',      
+      validMail: ''
     }
     this.changeValuesAge = this.changeValuesAge.bind(this)
     this.changeValuesMaxDistance = this.changeValuesMaxDistance.bind(this)
@@ -27,9 +35,34 @@ class Settings extends React.Component {
     this.setValuesDb = this.setValuesDb.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.handleAddition = this.handleAddition.bind(this)
+    this.changeMailValue = this.changeMailValue.bind(this)
+    this.changeOldPwdValue = this.changeOldPwdValue.bind(this)
+    this.changeNewPwd1Value = this.changeNewPwd1Value.bind(this)
+    this.changeNewPwd2Value = this.changeNewPwd2Value.bind(this)    
+    this.submitChangeMail = this.submitChangeMail.bind(this)
+    this.submitChangePwd = this.submitChangePwd.bind(this)    
+    this.onEnterPressMail = this.onEnterPressMail.bind(this)
+    this.onEnterPressPwd = this.onEnterPressPwd.bind(this)
   }
 
   componentDidMount() {
+    axios.get('http://localhost:3001/users')
+    .then(response => {
+      this.setState({
+        users: response.data
+      })   
+    })
+
+    axios.post('http://localhost:3001/load_user_info', {
+      "userId": Cookies.get('id')
+    })
+    .then(response => {
+      this.setState({
+        user: response.data,
+        valueMail: response.data.mail
+      })   
+    })
+    
     axios.post('http://localhost:3001/load_preferences', {
         "userId": Cookies.get('id')
     })
@@ -44,6 +77,7 @@ class Settings extends React.Component {
         })
         console.log(response.data)
     })
+
   }
 
   changeValuesAge(values) {
@@ -95,13 +129,135 @@ class Settings extends React.Component {
     })
   }
 
-  logOut() {
-    Cookies.remove('id')
-    Cookies.remove('username')
+  changeMailValue(e) {
+    this.setState({
+      valueMail: e.target.value,
+      validMail: ''
+    })
   }
 
+  changeOldPwdValue(e) {
+    this.setState({
+      valueOldPwd: e.target.value,
+      validPwd: ''
+    })
+  }
+
+  changeNewPwd1Value(e) {
+    this.setState({
+      valueNewPwd1: e.target.value,
+      validPwd: ''
+    })
+  }
+
+  changeNewPwd2Value(e) {
+    this.setState({
+      valueNewPwd2: e.target.value,
+      validPwd: ''
+    })
+  }
+
+  onEnterPressMail(event) {
+    if(event.keyCode === 13) {
+        event.preventDefault()
+        this.submitChangeMail()
+    }
+  }
+
+  onEnterPressPwd(event) {
+    if(event.keyCode === 13) {
+        event.preventDefault()
+        this.submitChangePwd()
+    }
+  }
+
+  submitChangeMail() {
+    let checkMail = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    if (this.state.valueMail.length > 30)
+      this.setState({validMail: 'Mail too long'})
+    else if (checkMail.test(this.state.valueMail)) {
+      let taken = 0
+      this.state.users.forEach((user) => {
+        if (user.mail.toUpperCase() === this.state.valueMail.toUpperCase() && user.id !== parseInt(Cookies.get('id'), 10)) {
+          this.setState({validMail: 'Mail already taken'})
+          taken = 1
+          return
+        }
+        else if (user.mail.toUpperCase() === this.state.valueMail.toUpperCase() && user.id === parseInt(Cookies.get('id'), 10)) {
+          this.setState({validMail: ''})
+          taken = 1
+          return
+        }
+      })
+      if (taken === 0) {
+        let newUsers = this.state.users
+        newUsers.forEach(elem => {
+          if (elem.id === parseInt(Cookies.get('id'), 10)) {
+            elem.mail = this.state.valueMail
+            return
+          }
+        })
+        this.setState({
+          validMail: 'Mail has been modify',
+          users: newUsers
+        })
+        axios.post('http://localhost:3001/update_mail', {
+          "userId": Cookies.get('id'),
+          "mail": this.state.valueMail
+        })
+      }
+    }
+    else
+      this.setState({validMail: 'Mail unvalid'});
+  }
+
+  submitChangePwd() {
+    let checkMail = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    if (this.state.valueMail.length > 30)
+      this.setState({validMail: 'Mail too long'})
+    else if (checkMail.test(this.state.valueMail)) {
+      let taken = 0
+      this.state.users.forEach((user) => {
+        if (user.mail.toUpperCase() === this.state.valueMail.toUpperCase() && user.id !== parseInt(Cookies.get('id'), 10)) {
+          this.setState({validMail: 'Mail already taken'})
+          taken = 1
+          return
+        }
+        else if (user.mail.toUpperCase() === this.state.valueMail.toUpperCase() && user.id === parseInt(Cookies.get('id'), 10)) {
+          this.setState({validMail: ''})
+          taken = 1
+          return
+        }
+      })
+      if (taken === 0) {
+        let newUsers = this.state.users
+        newUsers.forEach(elem => {
+          if (elem.id === parseInt(Cookies.get('id'), 10)) {
+            elem.mail = this.state.valueMail
+            return
+          }
+        })
+        this.setState({
+          validMail: 'Mail has been modify',
+          users: newUsers
+        })
+        axios.post('http://localhost:3001/update_mail', {
+          "userId": Cookies.get('id'),
+          "mail": this.state.valueMail
+        })
+      }
+    }
+    else
+      this.setState({validMail: 'Mail unvalid'});
+  }
+
+  // logOut() {
+  //   Cookies.remove('id')
+  //   Cookies.remove('username')
+  // }
+
   render() {
-    console.log(this.state.sugggestions)
+    console.log(this.state.valueMail)
     return (
       <div id='Settings_wrapper'>
         <div id='Settings_block'>
@@ -130,7 +286,16 @@ class Settings extends React.Component {
           <div>
             <ReactTags delimiterChars={[',', ' ', '.', '  ']} allowBackspace={false} minQueryLength={1} placeholder='Add new # or click to delete it' tags={this.state.tags} suggestions={this.state.suggestions} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />
           </div>
-          <div id='Settings_logOut' onClick={this.logOut}>Log Out</div>
+          <input className='Settings_changeMail' onChange={this.changeMailValue} value={this.state.valueMail} onKeyDown={this.onEnterPressMail} type="text"/>
+          <input id='Settings_submitMail' value="Change mail" onClick={this.submitChangeMail} type='submit'/>
+          <div id='Settings_validMail'>{this.state.validMail}</div>
+
+          <input className='Settings_changeMail' onChange={this.changeOldPwdValue} value={this.state.valueOldPwd} onKeyDown={this.onEnterPressPwd} type="password"/>
+          <input className='Settings_changeMail' onChange={this.changeNewPwd1Value} value={this.state.valueNewPwd1} onKeyDown={this.onEnterPressPwd} type="password"/>
+          <input className='Settings_changeMail' onChange={this.changeNewPwd2Value} value={this.state.valueNewPwd2} onKeyDown={this.onEnterPressPwd} type="password"/>          
+          <input id='Settings_submitMail' value="Change password" onClick={this.submitChangeMail} type='submit'/>
+          <div id='Settings_validMail'>{this.state.validMail}</div>
+          {/* <div id='Settings_logOut' onClick={this.logOut}>Log Out</div> */}
         </div>
       </div>
     );

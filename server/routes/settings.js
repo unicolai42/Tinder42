@@ -1,6 +1,16 @@
 const express = require('express')
 const router = express.Router()
 
+router.post('/load_user_info', (req, res) => {
+    req.db.query("SElECT * FROM Users WHERE id = ?;",
+    [req.body.userId], (err, rows, fields) => {
+        if (err)
+            return (res.send(err) && console.log(err))
+        
+        res.json(rows[0])
+    })
+})
+
 router.post('/load_preferences', (req, res) => {
     let userPreferences
     req.db.query("SELECT * FROM Preferences WHERE user_id = ?;",
@@ -95,6 +105,16 @@ router.post('/remove_hashtag_settings', (req, res) => {
         [req.body.userId, hashtagId])
     })
     res.end()
+})
+
+router.post('/update_mail', (req, res) => {
+    req.db.query("UPDATE Users SET mail = ? WHERE id = ?;",
+    [req.body.mail, req.body.userId], (err, rows, fields) => {
+        if (err)
+            return (res.send(err) && console.log(err))
+        
+        res.end()
+    })
 })
 
 

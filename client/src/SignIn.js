@@ -43,18 +43,16 @@ class SignIn extends React.Component {
       let valueMatch = 0;
 
       users.forEach((user) => {
-        console.log(user['username']);
         if (user['username'].toUpperCase() === valueUsername.toUpperCase()) {
           valueMatch = 1;
-          console.log(user.password);
           if (user.password === valuePassword) {
             valueMatch = 2;
-            if (user.randomKey !== 1)
+            if (parseInt(user.randomKey, 10) !== 1)
               valueMatch = 3
           }
         }
-      });
-      return valueMatch;
+      })
+      return valueMatch
     }
 
     resendPassword() {
