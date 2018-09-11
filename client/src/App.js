@@ -5,6 +5,7 @@ import Home from './Match';
 import Profile from './Profile'
 import Chat from './Chat'
 import Settings from './Settings'
+import ResetPwd from './ResetPwd'
 import Cookies from 'js-cookie'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 
@@ -43,12 +44,13 @@ class App extends React.Component {
     }
 
     render() {
-        console.log(this.state.chatActiv)
+        console.log(window.location.href)
         let homePage = (Cookies.get('username')) ? Home : Landing
         return (
             <Router>
                 <div>
-                    {(Cookies.get('username')) ? (
+                    {(window.location.href === 'http://localhost:3000/reset_pwd') ? <Route path='/reset_pwd' component={ResetPwd}></Route> :
+                    (Cookies.get('username')) ? (
                     <div>
                         <Nav chatActiv={this.state.chatActiv} chatSelected={this.chatSelected} otherSelected={this.otherSelected}/>
                         <Route exact path='/' component={homePage}></Route>

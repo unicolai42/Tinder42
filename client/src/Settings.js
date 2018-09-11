@@ -26,7 +26,7 @@ class Settings extends React.Component {
       valueOldPwd: '',
       valueNewPwd1: '',
       valueNewPwd2: '',
-      validPwd: '',      
+      validPwd: '',
       validMail: ''
     }
     this.changeValuesAge = this.changeValuesAge.bind(this)
@@ -212,43 +212,41 @@ class Settings extends React.Component {
   }
 
   submitChangePwd() {
-    let checkMail = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-    if (this.state.valueMail.length > 30)
-      this.setState({validMail: 'Mail too long'})
-    else if (checkMail.test(this.state.valueMail)) {
-      let taken = 0
-      this.state.users.forEach((user) => {
-        if (user.mail.toUpperCase() === this.state.valueMail.toUpperCase() && user.id !== parseInt(Cookies.get('id'), 10)) {
-          this.setState({validMail: 'Mail already taken'})
-          taken = 1
-          return
-        }
-        else if (user.mail.toUpperCase() === this.state.valueMail.toUpperCase() && user.id === parseInt(Cookies.get('id'), 10)) {
-          this.setState({validMail: ''})
-          taken = 1
-          return
-        }
-      })
-      if (taken === 0) {
-        let newUsers = this.state.users
-        newUsers.forEach(elem => {
-          if (elem.id === parseInt(Cookies.get('id'), 10)) {
-            elem.mail = this.state.valueMail
-            return
-          }
-        })
-        this.setState({
-          validMail: 'Mail has been modify',
-          users: newUsers
-        })
-        axios.post('http://localhost:3001/update_mail', {
+    axios.post('http://localhost:3001/check_old_pwd', {
+      "pwd": this.state.user.password,
+      "input": this.state.valueOldPwd
+    })
+    .then(response => {
+      if (response.data === false)
+        this.setState({validPwd: 'Password wrong. Retry or click on Forget Password'})
+
+      else if (this.state.valueNewPwd1 !== this.state.valueNewPwd2)
+        this.setState({validPwd: 'The second password isn\'t the same than the first'})
+
+      else if (this.state.valueNewPwd1.length > 15)
+        this.setState({validPwd: 'The new password is too long'})
+
+      else if (!new RegExp(/.{4,}/).test(this.state.valueNewPwd1))
+        this.setState({validPwd: 'New password too weak'})
+      
+      else {
+        this.setState({validPwd: 'Password has been modify'})
+        axios.post('http://localhost:3001/change_pwd', {
           "userId": Cookies.get('id'),
-          "mail": this.state.valueMail
+          "pwd": this.state.valueNewPwd1
+        })
+        .then(response => {
+          this.setState({user: {password: response.data}})
         })
       }
-    }
-    else
-      this.setState({validMail: 'Mail unvalid'});
+    })
+  }
+
+  submitForgotPwd() {
+    axios.post('http://localhost:3001/send_mail_forgot_pwd', {
+      "user": this.state.user
+    })
+    this.setState({validPwd: `Mail has been send to ${this.state.user.mail}`})
   }
 
   // logOut() {
@@ -257,7 +255,9 @@ class Settings extends React.Component {
   // }
 
   render() {
-    console.log(this.state.valueMail)
+    let resendPwd = (this.state.validPwd && this.state.validPwd !== 'Password has been modify') ?
+      <input id='Settings_submitForgotPwd' value="Forgot password ? Click and go in your mailbox" onClick={this.submitForgotPwd} type='submit'/> :
+      null
     return (
       <div id='Settings_wrapper'>
         <div id='Settings_block'>
@@ -290,15 +290,16 @@ class Settings extends React.Component {
           <input id='Settings_submitMail' value="Change mail" onClick={this.submitChangeMail} type='submit'/>
           <div id='Settings_validMail'>{this.state.validMail}</div>
 
-          <input className='Settings_changeMail' onChange={this.changeOldPwdValue} value={this.state.valueOldPwd} onKeyDown={this.onEnterPressPwd} type="password"/>
-          <input className='Settings_changeMail' onChange={this.changeNewPwd1Value} value={this.state.valueNewPwd1} onKeyDown={this.onEnterPressPwd} type="password"/>
-          <input className='Settings_changeMail' onChange={this.changeNewPwd2Value} value={this.state.valueNewPwd2} onKeyDown={this.onEnterPressPwd} type="password"/>          
-          <input id='Settings_submitMail' value="Change password" onClick={this.submitChangeMail} type='submit'/>
-          <div id='Settings_validMail'>{this.state.validMail}</div>
+          <input className='Settings_changePwd' onChange={this.changeOldPwdValue} value={this.state.valueOldPwd} onKeyDown={this.onEnterPressPwd} type="password"/>
+          <input className='Settings_changePwd' onChange={this.changeNewPwd1Value} value={this.state.valueNewPwd1} onKeyDown={this.onEnterPressPwd} type="password"/>
+          <input className='Settings_changePwd' onChange={this.changeNewPwd2Value} value={this.state.valueNewPwd2} onKeyDown={this.onEnterPressPwd} type="password"/>          
+          <input id='Settings_submitPwd' value="Change password" onClick={this.submitChangePwd} type='submit'/>
+          <div id='Settings_validPwd'>{this.state.validPwd}</div>
+          {resendPwd}
           {/* <div id='Settings_logOut' onClick={this.logOut}>Log Out</div> */}
         </div>
       </div>
-    );
+    )
   }
 }
 export default Settings

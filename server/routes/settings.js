@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express.Router()
+const bcrypt = require('bcrypt')
+
 
 router.post('/load_user_info', (req, res) => {
     req.db.query("SElECT * FROM Users WHERE id = ?;",
@@ -117,5 +119,64 @@ router.post('/update_mail', (req, res) => {
     })
 })
 
+router.post('/check_old_pwd', (req, res) => {
+    bcrypt.compare(req.body.input, req.body.pwd, function(err, result) {
+        res.json(result)
+    })
+})
+
+router.post('/change_pwd', (req, res) => {
+    const saltRounds = 10;
+    const password = req.body.pwd
+
+    bcrypt.hash(password, saltRounds, function(err, hashPassword) {
+        console.log(hashPassword)
+        req.db.query(`UPDATE Users SET password = ? WHERE id = ?;`,
+        [hashPassword, req.body.userId], (err, rows, fields) => {
+            if(err)
+                return(res.send(err) && console.log(err))
+            res.json(hashPassword)
+        })
+    })
+})
+
+router.post('/send_mail_forgot_pwd', (req, res) => {
+    console.log(req.body.user)
+    sendPwdValidation(req.body.user)
+})
+
+
 
 module.exports = router
+
+
+function sendPwdValidation(userData) {
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        port: 25,
+        secure: false,
+        auth: {
+            user: 'matchamatcha12342@gmail.com', // generated ethereal user
+            pass: 'matcha123' // generated ethereal password
+        },
+        tls: {
+            rejectUnauthorised: false
+        }
+    });
+
+    // setup email data with unicode symbols
+    let mailOptions = {
+        from: '"no-reply" <matchamatcha12342@gmail.com>', // sender address
+        to: userData.mail, // list of receivers
+        subject: 'Reset Password',
+        text: `Click on this link to reset your password : http://localhost:3000/reset_pwd?username=${encodeURI(userData.username)}&key=${encodeURI(userData.password)};`
+    };
+
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error)
+        }
+        console.log('Message sent: %s', info.messageId)
+    });
+}

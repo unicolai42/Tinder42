@@ -50,7 +50,7 @@ class SignUp extends React.Component {
       else if (elem === 'password' && value) {
         let checkPasswordWeak = new RegExp(/.{4,}/);
         let checkPasswordSecure = new RegExp(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$|^.{12,}$/);
-        if (value.length > 30)
+        if (value.length > 15)
           this.setState({validPassword: 'tooLong'});
         else if (checkPasswordSecure.test(value))
           this.setState({validPassword: 'secure'});
