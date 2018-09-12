@@ -142,7 +142,7 @@ function sendMailValidation(userData) {
         from: '"no-reply" <matchamatcha12342@gmail.com>', // sender address
         to: userData.mail, // list of receivers
         subject: 'Mail de validation',
-        text: `Cliquez sur ce lien pour finalisez la création de votre compte : http://localhost:3001/activate_user?username=${encodeURI(userData.username)}&key=${encodeURI(userData.randomKey)};`
+        text: `Cliquez sur ce lien pour finalisez la création de votre compte : http://localhost:3001/activate_user?username=${encodeURI(userData.username)}&key=${encodeURI(userData.randomKey)}`
     };
 
     // send mail with defined transport object

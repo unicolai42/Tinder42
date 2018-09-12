@@ -43,6 +43,8 @@ class Settings extends React.Component {
     this.submitChangePwd = this.submitChangePwd.bind(this)    
     this.onEnterPressMail = this.onEnterPressMail.bind(this)
     this.onEnterPressPwd = this.onEnterPressPwd.bind(this)
+    this.submitForgotPwd = this.submitForgotPwd.bind(this)
+
   }
 
   componentDidMount() {

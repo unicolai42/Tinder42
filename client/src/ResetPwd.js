@@ -1,8 +1,6 @@
 import React from 'react'
-import Cookies from 'js-cookie'
 import axios from 'axios'
-
-
+import queryString from 'query-string'
 
 
 class ResetPwd extends React.Component {
@@ -10,18 +8,25 @@ class ResetPwd extends React.Component {
     super(props)  
     
     this.state = {
-      users: []
+      valuePwd: '',
+      validPwd: ''
     }
     this.onEnterPressPwd = this.onEnterPressPwd.bind(this)
-    this.changePwdValue = this.changePwdValue.bind(this)    
+    this.changePwdValue = this.changePwdValue.bind(this)
+    this.submitChangePwd = this.submitChangePwd.bind(this)
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3001/users')
-    .then(response => {
-      this.setState({
-        users: response.data
-      })   
+    const param = queryString.parse(this.props.location.search)
+
+    console.log(param)
+    // axios.post('http://localhost:3001/compare_old_pwd', {
+    //   "username": decodeURI(param.username),
+    //   "oldPwd": decodeURI(param.key)
+    // })
+    fetch(`/`, {
+      "username": decodeURI(param.username),
+      "oldPwd": decodeURI(param.key)
     })
   }
 
@@ -34,40 +39,30 @@ class ResetPwd extends React.Component {
 
   changePwdValue(e) {
     this.setState({
-      valueNewPwd2: e.target.value,
+      valuePwd: e.target.value,
       validPwd: ''
     })
   }
 
   submitChangePwd() {
-    axios.post('http://localhost:3001/check_old_pwd', {
-      "pwd": this.state.user.password,
-      "input": this.state.valueOldPwd
-    })
-    .then(response => {
-      if (response.data === false)
-        this.setState({validPwd: 'Password wrong. Retry or click on Forget Password'})
+    console.log('ppppp')
+    const param = queryString.parse(this.props.location.search)
+    
+  
+    if (this.state.valuePwd.length > 15)
+      this.setState({validPwd: 'The new password is too long'})
 
-      else if (this.state.valueNewPwd1 !== this.state.valueNewPwd2)
-        this.setState({validPwd: 'The second password isn\'t the same than the first'})
-
-      else if (this.state.valueNewPwd1.length > 15)
-        this.setState({validPwd: 'The new password is too long'})
-
-      else if (!new RegExp(/.{4,}/).test(this.state.valueNewPwd1))
-        this.setState({validPwd: 'New password too weak'})
-      
-      else {
-        this.setState({validPwd: 'Password has been modify'})
-        axios.post('http://localhost:3001/change_pwd', {
-          "userId": Cookies.get('id'),
-          "pwd": this.state.valueNewPwd1
-        })
-        .then(response => {
-          this.setState({user: {password: response.data}})
-        })
-      }
-    })
+    else if (!new RegExp(/.{4,}/).test(this.state.valuePwd))
+      this.setState({validPwd: 'New password too weak'})
+    
+    else {
+      console.log('ok')
+      this.setState({validPwd: 'Password has been modify'})
+      axios.post('http://localhost:3001/change_new_pwd', {
+        "username": decodeURI(param.username),
+        "pwd": this.state.valuePwd
+      })
+    }
   }
 
   render() {

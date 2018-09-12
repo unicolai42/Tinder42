@@ -44,12 +44,11 @@ class App extends React.Component {
     }
 
     render() {
-        console.log(window.location.href)
         let homePage = (Cookies.get('username')) ? Home : Landing
         return (
             <Router>
-                <div>
-                    {(window.location.href === 'http://localhost:3000/reset_pwd') ? <Route path='/reset_pwd' component={ResetPwd}></Route> :
+                <div>                    
+                    {(window.location.pathname === "/reset_pwd") ? <Route path='/reset_pwd' component={ResetPwd}></Route> :
                     (Cookies.get('username')) ? (
                     <div>
                         <Nav chatActiv={this.state.chatActiv} chatSelected={this.chatSelected} otherSelected={this.otherSelected}/>

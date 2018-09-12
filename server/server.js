@@ -18,17 +18,18 @@ const app = express()
 app.use(bodyParser.json({limit: '10mb'}))
 app.use(bodyParser.urlencoded({extended: false, limit: '10mb'}))
 app.use(cookieParser())
-app.use(cors())
 app.use(fileUpload())
+app.use(cors())
 app.use((req, res, next) => {
     req.db = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: '00000000',
         database: 'Matcha'
-    });
-    next();
+    })
+    next()
 });
+
 
 app.use(routerDbQuery)
 app.use(routerLogIn)

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
+const nodemailer = require('nodemailer')
 
 
 router.post('/load_user_info', (req, res) => {
@@ -130,7 +131,6 @@ router.post('/change_pwd', (req, res) => {
     const password = req.body.pwd
 
     bcrypt.hash(password, saltRounds, function(err, hashPassword) {
-        console.log(hashPassword)
         req.db.query(`UPDATE Users SET password = ? WHERE id = ?;`,
         [hashPassword, req.body.userId], (err, rows, fields) => {
             if(err)
@@ -141,11 +141,32 @@ router.post('/change_pwd', (req, res) => {
 })
 
 router.post('/send_mail_forgot_pwd', (req, res) => {
-    console.log(req.body.user)
     sendPwdValidation(req.body.user)
 })
 
+router.post('/compare_old_pwd', (req, res) => {
+    req.db.query(`SELECT password FROM Users WHERE username = ?;`,
+    [req.body.username], (err, rows, fields) => {
+        console.log(rows[0].password, req.body.oldPwd)
+        if (rows[0].password === req.body.oldPwd)
+            res.end()
+        else {
+            console.log('ok')
+            const redir = { redirect: '/'};
+            return res.json(redir);          
+        }
+    })
+})
 
+router.post('/change_new_pwd', (req, res) => {
+    req.db.query(`UPDATE Users SET password = ? WHERE username = ?;`,
+    [req.body.pwd, req.body.username], (err, rows, fields) => {
+        if(err)
+            return(res.send(err) && console.log(err))
+        
+        setTimeout(() => {res.redirect('http://localhost:3000')}, 3000)            
+    })
+})
 
 module.exports = router
 
@@ -169,7 +190,7 @@ function sendPwdValidation(userData) {
         from: '"no-reply" <matchamatcha12342@gmail.com>', // sender address
         to: userData.mail, // list of receivers
         subject: 'Reset Password',
-        text: `Click on this link to reset your password : http://localhost:3000/reset_pwd?username=${encodeURI(userData.username)}&key=${encodeURI(userData.password)};`
+        text: `Click on this link to reset your password : http://localhost:3000/reset_pwd?username=${encodeURI(userData.username)}&key=${encodeURI(userData.password)}`
     };
 
     // send mail with defined transport object
