@@ -144,16 +144,16 @@ router.post('/send_mail_forgot_pwd', (req, res) => {
     sendPwdValidation(req.body.user)
 })
 
-router.post('/compare_old_pwd', (req, res) => {
+router.get('/compare_old_pwd', (req, res) => {    
+    console.log(req.query)
     req.db.query(`SELECT password FROM Users WHERE username = ?;`,
-    [req.body.username], (err, rows, fields) => {
-        console.log(rows[0].password, req.body.oldPwd)
-        if (rows[0].password === req.body.oldPwd)
+    [req.query.username], (err, rows, fields) => {
+        if (rows[0].password === req.query.key)
+            // res.json('stay')
             res.end()
         else {
-            console.log('ok')
-            const redir = { redirect: '/'};
-            return res.json(redir);          
+            // res.json('redirect')
+            res.redirect('localhost:3000')
         }
     })
 })
