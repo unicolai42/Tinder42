@@ -33,6 +33,7 @@ router.post('/update_location', (req, res) => {
 })
 
 router.post('/load_user_data_match', (req, res) => {
+    console.log('fergrddfevrgddf')
     req.db.query("SELECT * FROM Users WHERE id = ?;",
     [req.body.userId], (err, rows, fields) => {
         const userLatitude = rows[0].latitude
@@ -70,9 +71,8 @@ router.post('/load_user_data_match', (req, res) => {
                             if (err)
                                 return (res.send(err) && console.log(err))
                         
-
-                            req.db.query("SELECT * FROM Users WHERE id IN (?) AND sex IN (?) AND age > ? AND age < ? ORDER BY popularity DESC;",
-                            [usersId, sexPreference, preferences.age_min, preferences.age_max], (err, rows, fields) => {
+                            req.db.query("SELECT * FROM Users WHERE id IN (?) AND sex IN (?) AND age > ? AND age < ? AND popularity > ? ORDER BY popularity DESC;",
+                            [usersId, sexPreference, preferences.age_min, preferences.age_max, preferences.popularity_min], (err, rows, fields) => {
                                 if (err)
                                     return (res.send(err) && console.log(err))
 
@@ -121,9 +121,9 @@ router.post('/load_user_data_match', (req, res) => {
                         })
                     })
                 }
-                else {
-                    req.db.query("SELECT * FROM Users WHERE id != ? AND sex IN (?) AND age > ? AND age < ? ORDER BY popularity DESC;",
-                    [req.body.userId, sexPreference, preferences.age_min, preferences.age_max], (err, rows, fields) => {
+                else {                 
+                    req.db.query("SELECT * FROM Users WHERE id != ? AND sex IN (?) AND age > ? AND age < ? AND popularity > ? ORDER BY popularity DESC;",
+                    [req.body.userId, sexPreference, preferences.age_min, preferences.age_max, preferences.popularity_min], (err, rows, fields) => {
                         if (err)
                             return (res.send(err) && console.log(err))
                         
