@@ -1,7 +1,6 @@
 import React from 'react'
 // import axios from 'axios'
 import queryString from 'query-string'
-import { Navigation } from 'react-router'
 
 
 class ResetPwd extends React.Component {
@@ -10,7 +9,8 @@ class ResetPwd extends React.Component {
     
     this.state = {
       valuePwd: '',
-      validPwd: ''
+      validPwd: '',
+      redirect: false
     }
     this.onEnterPressPwd = this.onEnterPressPwd.bind(this)
     this.changePwdValue = this.changePwdValue.bind(this)
@@ -25,18 +25,12 @@ class ResetPwd extends React.Component {
     //   "username": decodeURI(param.username),
     //   "oldPwd": decodeURI(param.key)
     // })
-    fetch(`http://localhost:3001/compare_old_pwd?username=${param.username}&key=${param.key}`, {      
-      headers: {
-        'Access-Control-Allow-Origin': "*"
-      },
-      mode: 'cors'
+    fetch(`http://localhost:3001/compare_old_pwd?username=${param.username}&key=${param.key}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data === 'redirect')
+        this.setState({redirect: true})
     })
-    // .then(response => response.json())
-    // .then(data => {
-    //   console.log(data)
-    //   if (data === 'redirect')
-    //     Navigation.transitionTo('/')
-    // })
   }
 
   onEnterPressPwd(event) {
@@ -79,10 +73,19 @@ class ResetPwd extends React.Component {
           "pwd": this.state.valuePwd
         })
       })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({redirect: true})
+      })
     }
   }
 
   render() {
+    if (this.state.redirect && this.state.validPwd === 'Password has been modify')
+      setTimeout(() => {window.location = '/'}, 800)
+    else if (this.state.redirect)
+      window.location = '/'
+
     return (
         <div>
             <input className='ResetPwd_changePwd' onChange={this.changePwdValue} value={this.state.valuePwd} onKeyDown={this.onEnterPressPwd} type="password"/>          

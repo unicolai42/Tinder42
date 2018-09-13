@@ -149,12 +149,9 @@ router.get('/compare_old_pwd', (req, res) => {
     req.db.query(`SELECT password FROM Users WHERE username = ?;`,
     [req.query.username], (err, rows, fields) => {
         if (rows[0].password === req.query.key)
-            // res.json('stay')
-            res.end()
-        else {
-            // res.json('redirect')
-            res.redirect('localhost:3000')
-        }
+            res.json('stay')
+        else
+            res.json('redirect')
     })
 })
 
@@ -164,7 +161,7 @@ router.post('/change_new_pwd', (req, res) => {
         if(err)
             return(res.send(err) && console.log(err))
         
-        setTimeout(() => {res.redirect('http://localhost:3000')}, 3000)            
+        res.json('redirect')
     })
 })
 
