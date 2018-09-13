@@ -60,25 +60,27 @@ class Profile extends React.Component {
   
   uploadPicture(file) {
     for (let i = 0; i < file.length; i++) {
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        axios.post('http://localhost:3001/upload_picture', {
-          "userId": Cookies.get('id'),
-          "picture": e.target.result
-        })
-        .then(response => {
-          const pictures = this.state.pictures
-          console.log(pictures)
-          let i
-          for (i = 0; i < pictures.length; i++) {
-            if (pictures[i] === null)
-              break
-          }
-          pictures.splice(i, 1, response.data)
-          this.setState({pictures: pictures})
-        })
+      if (file[i].type === 'image/jpeg' || file[i].type === 'image/jpg' || file[i].type === 'image/png') {
+        var reader = new FileReader();
+        reader.onload = (e) => {
+          axios.post('http://localhost:3001/upload_picture', {
+            "userId": Cookies.get('id'),
+            "picture": e.target.result
+          })
+          .then(response => {
+            const pictures = this.state.pictures
+            console.log(pictures)
+            let i
+            for (i = 0; i < pictures.length; i++) {
+              if (pictures[i] === null)
+                break
+            }
+            pictures.splice(i, 1, response.data)
+            this.setState({pictures: pictures})
+          })
+        }
+        reader.readAsDataURL(file[i])
       }
-      reader.readAsDataURL(file[i])
     }
   }
 

@@ -3,6 +3,11 @@ import './InfoUser.css'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import ReactTags from 'react-tag-autocomplete'
+import Slider from 'rc-slider'
+import 'rc-slider/assets/index.css'
+import Geocode from "react-geocode"
+
+// Geocode.setApiKey("https://maps.googleapis.com/maps/api/js?key=AIzaSyAtijSawTOdoLHBiMO-gGfdGCx2QRUwT3s")
 
 
 class InfoUser extends React.Component {
@@ -10,14 +15,18 @@ class InfoUser extends React.Component {
         super(props);
         this.state = {
             name: '',
-            location: '',
+            latitude: 0,
+            longitude: 0,
+            location: '',            
             age: '',
             description: '',
             work: '',
             tags: [],
             language: '',
             editButton: 'Edit',
-            suggestions: []
+            suggestions: [],
+            sex: 1,
+            popularity: 0
         }
     
         this.editInfo = this.editInfo.bind(this)
@@ -26,6 +35,7 @@ class InfoUser extends React.Component {
         this.changeDescription = this.changeDescription.bind(this)
         this.changeLocation = this.changeLocation.bind(this)
         this.changeWork = this.changeWork.bind(this)
+        this.changeSex = this.changeSex.bind(this)
         // this.changeTags = this.changeTags.bind(this)
         this.changeLanguage = this.changeLanguage.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
@@ -37,15 +47,39 @@ class InfoUser extends React.Component {
             "userId": Cookies.get('id')
         })
         .then(response => {
+            if (response.data.latitude && response.data.longitude) {
+                Geocode.fromLatLng(response.data.latitude, response.data.longitude).then(res => {
+                    let city = res.results[0].formatted_address
+                    let end
+                    let start
+                    let i = city.length - 1
+                    while (i) {
+                        if (city[i] === ',')
+                            end = i
+                        if (/\d/.test(city[i])) {
+                            start = i + 2
+                            break
+                        }
+                        i--
+                    }
+                    city = city.substr(start, end - start)
+                    this.setState({location: city})                
+                }, error => {
+                    console.error(error)
+                })
+            }
             this.setState({
                 name: response.data.username,
-                location: response.data.location,
+                latitude: response.data.latitude,
+                longitude: response.data.longitude,
                 age: response.data.age,
                 description: response.data.description,
                 work: response.data.work,
                 tags: response.data.hashtags,
                 suggestions: response.data.suggestions,
-                language: response.data.language
+                language: response.data.language,
+                sex: response.data.sex,
+                popularity: response.data.popularity
             })
         })
     }
@@ -59,36 +93,49 @@ class InfoUser extends React.Component {
             this.setState({
                 editButton: 'Edit'
             })
-            axios.post('http://localhost:3001/edit_info_user', {
-                "userId": Cookies.get('id'),
-                "name": this.state.name,
-                "location": this.state.location,
-                "age": this.state.age,
-                "description": this.state.description,
-                "work": this.state.work,
-                "language": this.state.language
+            Geocode.fromAddress(this.state.location).then(response => {
+                const { lat, lng } = response.results[0].geometry.location;
+                console.log(lat, lng)
+                axios.post('http://localhost:3001/edit_info_user', {
+                    "userId": Cookies.get('id'),
+                    "name": this.state.name,
+                    "latitude": lat,
+                    "longitude": lng,
+                    "age": this.state.age,
+                    "description": this.state.description,
+                    "work": this.state.work,
+                    "language": this.state.language,
+                    "sex": this.state.sex
+                })
+            }, error => {
+                console.error(error);
             })
         }
     }
 
     changeName(e) {
-        this.setState({name: e.target.value})
+        if (this.state.name.length < 20)
+            this.setState({name: e.target.value})
     }
 
     changeAge(e) {
-        this.setState({age: e.target.value})
+        if (e.target.value.length < 3 && !isNaN(e.target.value))
+            this.setState({age: e.target.value})
     }
 
     changeDescription(e) {
-        this.setState({description: e.target.value})
+        if (e.target.value.length < 300)
+            this.setState({description: e.target.value})
     }
 
     changeLocation(e) {
-        this.setState({location: e.target.value})
+        if (e.target.value.length < 30)
+            this.setState({location: e.target.value})
     }
 
     changeWork(e) {
-        this.setState({work: e.target.value})
+        if (e.target.value.length < 60)
+            this.setState({work: e.target.value})
     }
 
     // changeTags(e) {
@@ -97,7 +144,12 @@ class InfoUser extends React.Component {
     // }
 
     changeLanguage(e) {
-        this.setState({language: e.target.value})
+        if (e.target.value.length < 60)
+            this.setState({language: e.target.value})
+    }
+
+    changeSex(value) {
+        this.setState({sex: value})
     }
 
     handleDelete(i) {
@@ -122,8 +174,27 @@ class InfoUser extends React.Component {
         })
       }
 
-
+      
     render() {
+
+///////////////////////////////////////////// 
+        // console.log(this.state.latitude, this.state.longitude)
+        // Geocode.fromLatLng(43.6578919, 7.122337).then(response => {
+        //     const address = response.results[0].formatted_address
+        //     console.log(address);
+        // }, error => {
+        //     console.error(error);
+        // })
+            
+        //     // Get latidude & longitude from address.
+        // Geocode.fromAddress("Villeneuve-loubet").then(response => {
+        //     const { lat, lng } = response.results[0].geometry.location;
+        //     console.log(lat, lng);
+        // }, error => {
+        //     console.error(error);
+        // })
+
+//////////////////////////////////////////
         let tags_li = []
         if (this.state.tags)
             this.state.tags.forEach(element => {
@@ -133,6 +204,14 @@ class InfoUser extends React.Component {
         let modify = []
         modify.push(<input key={1} className='InfoUser_input' type="text" placeholder='Name' value={(this.state.name) ? this.state.name : ''} onChange={this.changeName} />)
         modify.push(<input key={2} className='InfoUser_input' type="text" placeholder='Age' value={(this.state.age) ? this.state.age : ''} onChange={this.changeAge} />)
+        modify.push(<div key={9} id='InfoUser_sex'>
+                        <div className='InfoUser_description'>
+                            <div className='InfoUser_sexText'>Men</div>
+                            <div className='InfoUser_sexText'>Unknown</div>
+                            <div className='InfoUser_sexText'>Women</div>
+                        </div>
+                        <Slider style={{width: '90%', margin: 'auto'}} min={0} max={2} value={this.state.sex} onChange={this.changeSex} />
+                    </div>)
         modify.push(<input key={3} className='InfoUser_input' type="text" placeholder='Description' value={(this.state.description) ? this.state.description : ''} onChange={this.changeDescription} />)
         modify.push(<input key={4} className='InfoUser_input' type="text" placeholder='Location' value={(this.state.location) ? this.state.location : ''} onChange={this.changeLocation} />)
         modify.push(<input key={5} className='InfoUser_input' type="text" placeholder='Work' value={(this.state.work) ? this.state.work: ''} onChange={this.changeWork} />)
@@ -179,6 +258,19 @@ class InfoUser extends React.Component {
                 </div>
             )
         }
+        if (this.state.sex === 0 || this.state.sex === 1 || this.state.sex === 2) {
+            info.push(
+                <div key={11} className='InfoUser_line'/>
+            )
+            info.push(
+                <div key={12} className='InfoUser_box'>
+                    <div className='InfoUser_aboutText' style={this.state.borderEdit}>
+                        {(this.state.sex === 0) ? 'Men' : (this.state.sex !== 1) ? 'Women' : 'Other'}
+                    </div>
+                    <div id='InfoUser_aboutSex' className='InfoUser_aboutImg'/>
+                </div>
+            )
+        }
         if (this.state.work) {
             info.push(
                 <div key={5} className='InfoUser_line'/>
@@ -218,6 +310,17 @@ class InfoUser extends React.Component {
                 </div>
             )
         }
+        info.push(
+            <div key={13} className='InfoUser_line'/>
+        )
+        info.push(
+            <div key={14} className='InfoUser_box'>
+                <div className='InfoUser_aboutText' style={this.state.borderEdit}>
+                    {this.state.popularity}
+                </div>
+                <div id='InfoUser_aboutPopularity' className='InfoUser_aboutImg'/>
+            </div>
+        )
 
         let display = (this.state.editButton === 'Edit') ? info : <div id='InfoUser_modify'>{modify}</div>
 

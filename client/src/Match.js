@@ -15,6 +15,7 @@ class Match extends React.Component {
     super(props)  
     
     this.state = {
+      user: {},
       allUsers: [],
       nbUsersNoMatched: 0,
       indexUser1: 0,
@@ -35,9 +36,16 @@ class Match extends React.Component {
 
     this.likeClick = this.likeClick.bind(this)
     this.dislikeClick = this.dislikeClick.bind(this)
+    this.redirectToProfile = this.redirectToProfile.bind(this)
   }
 
   componentDidMount() {
+    axios.post('http://localhost:3001/load_info_user', {
+      "userId": Cookies.get('id')
+    })
+    .then(response => {
+        this.setState({user: response.data})
+    })
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         console.log(position.coords.latitude, position.coords.longitude)
@@ -46,26 +54,22 @@ class Match extends React.Component {
           "latitude": position.coords.latitude,
           "longitude": position.coords.longitude
         })
-      }, (err) => {
-        console.log(err)
-        axios.post('http://localhost:3001/update_location', {
-          "userId": Cookies.get('id')
+        .then(() => {
+          axios.post('http://localhost:3001/load_user_data_match', {
+            "userId": Cookies.get('id')
+          })
+          .then(response => {
+              this.setState({
+                allUsers: response.data,
+                nbUsersNoMatched: response.data.length
+              })
+          })
         })
-      })
+      }, err => console.log(err))
     }
     else {
       console.log("Le service de géolocalisation n'est pas disponible sur votre ordinateur.")
     }
-    console.log('okokok')
-    axios.post('http://localhost:3001/load_user_data_match', {
-        "userId": Cookies.get('id')
-    })
-    .then(response => {
-        this.setState({
-          allUsers: response.data,
-          nbUsersNoMatched: response.data.length
-        })
-    })
   }
   
   likeClick() {
@@ -85,7 +89,7 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matcherId": this.state.allUsers[this.state.indexUser1].id,
+        "matcher": this.state.allUsers[this.state.indexUser1],
         "liked": 1
       })
     }
@@ -106,7 +110,7 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matcherId": this.state.allUsers[this.state.indexUser2].id,
+        "matcher": this.state.allUsers[this.state.indexUser2],
         "liked": 1
       })
     }
@@ -127,11 +131,12 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matcherId": this.state.allUsers[this.state.indexUser3].id,
+        "matcher": this.state.allUsers[this.state.indexUser3],
         "liked": 1
       })
     }
   }
+
   dislikeClick() {
     if (this.state.actualUser === 'FirstUser') {
       this.setState(
@@ -149,7 +154,7 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matcherId": this.state.allUsers[this.state.indexUser1].id,
+        "matcher": this.state.allUsers[this.state.indexUser1],
         "liked": 0
       })
     }
@@ -170,7 +175,7 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matcherId": this.state.allUsers[this.state.indexUser2].id,
+        "matcher": this.state.allUsers[this.state.indexUser2],
         "liked": 0
       })
     }
@@ -191,10 +196,14 @@ class Match extends React.Component {
       )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
-        "matcherId": this.state.allUsers[this.state.indexUser3].id,
+        "matcher": this.state.allUsers[this.state.indexUser3],
         "liked": 0
       })
     }
+  }
+
+  redirectToProfile() {
+    setTimeout(() => {window.location = '/profile'}, 3000)
   }
 
   render() {
@@ -217,6 +226,11 @@ class Match extends React.Component {
     if (this.state.nbUsersNoMatched) {
       displayButtons.push(<div id='Match_dislike' key='Match_dislike' style={this.state.displayButtons} onClick={this.dislikeClick}></div>)
       displayButtons.push(<div id='Match_like' key='Match_like' style={this.state.displayButtons} onClick={this.likeClick}></div>)
+    }
+
+    if ((this.state.user.username && !this.state.user.picture1) || (this.state.user.username && !this.state.user.age) || (this.state.user.username && this.state.user.sex === 1)) {
+      this.redirectToProfile()
+      arrayUserMatch = <div id='Match_missInfo' key={1}>You have to add your age, and a profil picture to start matching users</div>
     }
     return (
         <div id='Match_wrapper'>

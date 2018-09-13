@@ -41,8 +41,8 @@
 @media screen and (min-width: 800px) {
     #NavSettings {
         flex-direction: initial;
-        order: 5;
-        margin: auto 40px auto 0;
+        order: 4;
+        margin: auto 40px auto auto;        
     }
         #NavSettings_img {
             width: 25px;

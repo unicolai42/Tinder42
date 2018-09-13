@@ -19,6 +19,8 @@ class Settings extends React.Component {
       ageMin: 16,
       ageMax: 38,
       maxDistance: 1,
+      popularity: 0,
+      maxPopularity: 0,
       sex: 2,
       tags: [],
       sugggestions: [],
@@ -31,6 +33,7 @@ class Settings extends React.Component {
     }
     this.changeValuesAge = this.changeValuesAge.bind(this)
     this.changeValuesMaxDistance = this.changeValuesMaxDistance.bind(this)
+    this.changeValuesPopularityMin = this.changeValuesPopularityMin.bind(this)
     this.changeValuesSex = this.changeValuesSex.bind(this)
     this.setValuesDb = this.setValuesDb.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
@@ -50,9 +53,17 @@ class Settings extends React.Component {
   componentDidMount() {
     axios.get('http://localhost:3001/users')
     .then(response => {
+      let popularityMax = 0
+      response.data.forEach(elem => {
+        console.log(elem.popularity)
+        if (elem.popularity > popularityMax)
+          popularityMax = elem.popularity
+      })
+      console.log(popularityMax)
       this.setState({
-        users: response.data
-      })   
+        users: response.data,
+        maxPopularity: popularityMax
+      })
     })
 
     axios.post('http://localhost:3001/load_user_info', {
@@ -75,11 +86,11 @@ class Settings extends React.Component {
             maxDistance: response.data.max_distance,
             sex: response.data.sex,
             tags: response.data.hashtags,
-            suggestions: response.data.suggestions
+            suggestions: response.data.suggestions,
+            popularity: response.data.popularity_min
         })
         console.log(response.data)
     })
-
   }
 
   changeValuesAge(values) {
@@ -95,6 +106,12 @@ class Settings extends React.Component {
     })
   }
 
+  changeValuesPopularityMin(value) {
+    this.setState({
+      popularity: value
+    })
+  }
+
   changeValuesSex(value) {
     this.setState({sex: value})
   }
@@ -105,7 +122,8 @@ class Settings extends React.Component {
       "ageMin": this.state.ageMin,
       "ageMax" : this.state.ageMax,
       "maxDistance": this.state.maxDistance * 1000,
-      "sex": this.state.sex
+      "sex": this.state.sex,
+      "popularityMin": this.state.popularity
     })
   }
 
@@ -251,11 +269,6 @@ class Settings extends React.Component {
     this.setState({validPwd: `Mail has been send to ${this.state.user.mail}`})
   }
 
-  // logOut() {
-  //   Cookies.remove('id')
-  //   Cookies.remove('username')
-  // }
-
   render() {
     let resendPwd = (this.state.validPwd && this.state.validPwd !== 'Password has been modify') ?
       <input id='Settings_submitForgotPwd' value="Forgot password ? Click and go in your mailbox" onClick={this.submitForgotPwd} type='submit'/> :
@@ -284,6 +297,13 @@ class Settings extends React.Component {
               <div className='Settings_sexText'>Women</div>
             </div>
             <Slider style={{width: '90%', margin: 'auto'}} min={0} max={2} value={this.state.sex} onChange={this.changeValuesSex} onAfterChange={this.setValuesDb} />
+          </div>
+          <div id='Settings_popularityMin'>
+            <div className='Settings_description'>
+              <div id='Settings_popularityMinText'>Popularity minimum</div>
+              <div id='Settings_popularityMinNumber'>{this.state.popularity} / {this.state.maxPopularity}</div>
+            </div>
+            <Slider min={0} max={this.state.maxPopularity} value={this.state.popularity} onChange={this.changeValuesPopularityMin} onAfterChange={this.setValuesDb} />
           </div>
           <div>
             <ReactTags delimiterChars={[',', ' ', '.', '  ']} allowBackspace={false} minQueryLength={1} placeholder='Add new # or click to delete it' tags={this.state.tags} suggestions={this.state.suggestions} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />

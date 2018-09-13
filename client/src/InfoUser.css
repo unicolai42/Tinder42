@@ -65,6 +65,9 @@
 #InfoUser_aboutLocation {
   background-image: url("./ressources/location.png"); }
 
+#InfoUser_aboutSex {
+  background-image: url("./ressources/gender.png"); }
+
 #InfoUser_aboutWork {
   background-image: url("./ressources/work.png"); }
 
@@ -73,6 +76,13 @@
 
 #InfoUser_aboutLanguage {
   background-image: url("./ressources/language.png"); }
+
+#InfoUser_aboutPopularity {
+  background-image: url("./ressources/trophy.png"); }
+
+.InfoUser_description {
+  display: flex;
+  justify-content: space-between; }
 
 #InfoUser_modify {
   display: flex;

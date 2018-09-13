@@ -74,7 +74,6 @@ class MatchUser extends React.Component {
         console.log(this.state.pictures.length, 'length')
         for (let i = 0; i < this.state.pictures.length; i++) {
             pictures.push(<div className='MatchUser_picture' key={i} style={{backgroundImage: `url(${this.state.pictures[i]})`, transform: `translateX(${this.state.changePicture}%)`}}></div>)
-            console.log(this.state.pictures[i])
         }
         let arrows = []
         if (this.state.pictures.length > 1)

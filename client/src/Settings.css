@@ -20,7 +20,3 @@
     #Settings_wrapper #Settings_block .Settings_description {
       display: flex;
       justify-content: space-between; }
-    #Settings_wrapper #Settings_block #Settings_logOut {
-      border: 1px solid red;
-      margin: auto;
-      cursor: pointer; }

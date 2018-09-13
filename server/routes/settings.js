@@ -60,8 +60,9 @@ router.post('/load_preferences', (req, res) => {
 })
 
 router.post('/set_preferences', (req, res) => {
-    req.db.query("UPDATE Preferences SET age_min = ?, age_max = ?, max_distance = ?, sex = ? WHERE user_id = ?;",
-    [req.body.ageMin, req.body.ageMax, req.body.maxDistance, req.body.sex, req.body.userId], (err, rows, fields) => {
+    console.log(req.body.popularityMin, 'dewfdwed')
+    req.db.query("UPDATE Preferences SET age_min = ?, age_max = ?, max_distance = ?, sex = ?, popularity_min = ? WHERE user_id = ?;",
+    [req.body.ageMin, req.body.ageMax, req.body.maxDistance, req.body.sex, req.body.popularityMin, req.body.userId], (err, rows, fields) => {
         if (err)
             return (res.send(err) && console.log(err))
         
@@ -84,7 +85,7 @@ router.post('/add_hashtag_settings', (req, res) => {
         else {
             req.db.query("INSERT INTO Hashtags (name) VALUES (?);",
             [req.body.hashtagName], (err, rows, fields) => {
-                req.db.query("SELECT * FROM Hashtags WHERE name = ?;", 
+                req.db.query("SELECT * FROM Hashtags WHERE name = ?;",
                 [req.body.hashtagName], (err, rows, fields) => {
                     const hashtagId = rows[0].id
                     req.db.query("INSERT INTO HashtagUsers (user_id, hashtag_id) VALUES (?, ?);",

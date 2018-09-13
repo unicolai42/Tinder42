@@ -92,8 +92,8 @@ router.post('/load_info_user', (req, res) => {
 })
 
 router.post('/edit_info_user', (req, res) => {
-    req.db.query("UPDATE Users SET username = ?, age = ?, description = ?, location = ?, work = ?, language = ? WHERE id = ?;",
-    [req.body.name, req.body.age, req.body.description, req.body.location, req.body.work, req.body.language, req.body.userId], (err, rows, fields) => {
+    req.db.query("UPDATE Users SET username = ?, age = ?, description = ?, work = ?, language = ?, latitude = ?, longitude = ?, sex = ? WHERE id = ?;",
+    [req.body.name, req.body.age, req.body.description, req.body.work, req.body.language, req.body.latitude, req.body.longitude, req.body.sex, req.body.userId], (err, rows, fields) => {
         if (err)
             return (res.send(err) && console.log(err))
         res.end()

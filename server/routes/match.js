@@ -41,7 +41,7 @@ router.post('/load_user_data_match', (req, res) => {
         req.db.query("SELECT * FROM Preferences WHERE user_id = ?;",
         [req.body.userId], (err, rows, fields) => {
             let preferences = rows[0]
-            let sexPreference = (preferences.sex === 1) ? [0, 1, 2] : [preferences.sex]
+            let sexPreference = (preferences.sex === 1) ? [0, 2] : [preferences.sex]
 
             req.db.query("SELECT hashtag_id FROM HashtagPreferences WHERE user_id = ?;",
             [req.body.userId], (err, rows, fields) => {
@@ -176,38 +176,45 @@ router.post('/load_user_data_match', (req, res) => {
 })
 
 router.post('/check_match', (req, res) => {
+    console.log(req.body.matcher)
     req.db.query("INSERT INTO CheckedUsers (checker_id, checked_id) VALUES (?, ?);",
-    [req.body.userId, req.body.matcherId], (err, rows, fields) => {
+    [req.body.userId, req.body.matcher.id], (err, rows, fields) => {
         if (err)
             return (res.send(err) && console.log(err))
 
         if (req.body.liked) {
             req.db.query("INSERT INTO LikeUsers (liker_id, liked_id) VALUES (?, ?);",
-            [req.body.userId, req.body.matcherId], (err, rows, fields) => {
+            [req.body.userId, req.body.matcher.id], (err, rows, fields) => {
                 if (err)
                     return (res.send(err) && console.log(err))
 
-                req.db.query("SELECT * FROM LikeUsers WHERE liker_id = ? && liked_id = ?;",
-                [req.body.matcherId, req.body.userId], (err, rows, fields) => {
+                req.db.query("UPDATE Users SET popularity = ? WHERE id = ?;",
+                [req.body.matcher.popularity + 1, req.body.matcher.id], (err, rows, fields) => {
                     if (err)
                         return (res.send(err) && console.log(err))
+        
+                    req.db.query("SELECT * FROM LikeUsers WHERE liker_id = ? && liked_id = ?;",
+                    [req.body.matcher.id, req.body.userId], (err, rows, fields) => {
+                        if (err)
+                            return (res.send(err) && console.log(err))
 
-                    if (rows[0]) {
-                        req.db.query("INSERT INTO Matchs (user1, user2) VALUES (?, ?);",
-                        [req.body.userId, req.body.matcherId], (err, rows, fields) => {
-                            if (err)
-                                return (res.send(err) && console.log(err))
-                            
-                            req.db.query("INSERT INTO Notifications (sender_id, receiver_id, content) VALUES (?, ?, 'matched');",
-                            [req.body.userId, req.body.matcherId], (err, rows, fields) => {
+                        if (rows[0]) {
+                            req.db.query("INSERT INTO Matchs (user1, user2) VALUES (?, ?);",
+                            [req.body.userId, req.body.matcher.id], (err, rows, fields) => {
                                 if (err)
                                     return (res.send(err) && console.log(err))
-                                res.end()
+                                
+                                req.db.query("INSERT INTO Notifications (sender_id, receiver_id, content) VALUES (?, ?, 'matched');",
+                                [req.body.userId, req.body.matcher.id], (err, rows, fields) => {
+                                    if (err)
+                                        return (res.send(err) && console.log(err))
+                                    res.end()
+                                })
                             })
-                        })
-                    }
-                    else
-                        res.end()
+                        }
+                        else
+                            res.end()
+                    })
                 })
             })
         }
