@@ -95,7 +95,6 @@ class InfoUser extends React.Component {
             })
             Geocode.fromAddress(this.state.location).then(response => {
                 const { lat, lng } = response.results[0].geometry.location;
-                console.log(lat, lng, this.state.sex)
                 axios.post('http://localhost:3001/edit_info_user', {
                     "userId": Cookies.get('id'),
                     "name": this.state.name,
@@ -108,7 +107,17 @@ class InfoUser extends React.Component {
                     "sex": this.state.sex
                 })
             }, error => {
-                console.error(error);
+                axios.post('http://localhost:3001/edit_info_user', {
+                    "userId": Cookies.get('id'),
+                    "name": this.state.name,
+                    "latitude": this.state.latitude,
+                    "longitude": this.state.longitude,
+                    "age": this.state.age,
+                    "description": this.state.description,
+                    "work": this.state.work,
+                    "language": this.state.language,
+                    "sex": this.state.sex
+                })
             })
         }
     }
@@ -129,7 +138,7 @@ class InfoUser extends React.Component {
     }
 
     changeLocation(e) {
-        if (e.target.value.length < 30)
+        if (e.target.value.length < 90)
             this.setState({location: e.target.value})
     }
 

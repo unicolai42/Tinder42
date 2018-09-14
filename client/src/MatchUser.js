@@ -1,13 +1,13 @@
 import React from 'react'
 import './MatchUser.css'
-import InfoUser from './InfoUser';
+import InfoMatch from './InfoMatch';
 
 class MatchUser extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            pictures: this.props.pictures,
-            picturePrincipale: this.props.pictures[0],
+            pictures: this.props.userInfo.pictures,
+            picturePrincipale: this.props.userInfo.pictures[0],
             changePicture: 0,
             clickedInfo: false,
             about: 'flex',
@@ -97,7 +97,7 @@ class MatchUser extends React.Component {
                     <div id='MatchUser_disliked' style={this.props.disliked}>NOPE</div>
                     {arrows}
                     <div id='MatchUser_informations'>
-                        <div id='MatchUser_nameAge' style={{display: this.state.about}}>{this.props.name}, {this.props.age}</div>
+                        <div id='MatchUser_nameAge' style={{display: this.state.about}}>{this.props.userInfo.username}, {this.props.userInfo.age}</div>
                         <div id='MatchUser_location' style={{display: this.state.about}}>
                             <div id='MatchUser_locationLogo'></div>
                             <div id='MatchUser_locationText'>Paris</div>  
@@ -107,7 +107,7 @@ class MatchUser extends React.Component {
                     <div id='MatchUser_moreInfo' style={{display: this.state.info}}>
                         <div id='MatchUser_close' onClick={this.clickedInfo}></div>
                         <div id='MatchUser_frameInfo'>
-                            <InfoUser/>
+                            <InfoMatch userInfo={this.props.userInfo}/>
                         </div>    
                     </div>
                     <div id='MatchUser_frameBulletpoint'>

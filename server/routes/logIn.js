@@ -59,8 +59,11 @@ router.post('/check_valid_user', (req, res) => {
             if (rows[i].username.toUpperCase() === req.body.username.toUpperCase()) {
                 find = 1
                 bcrypt.compare(req.body.password, rows[i].password, function(err, result) {
-                    console.log(result)
-                    if (result) {
+                    console.log(rows[i].randomKey, 'defe')
+                    if (result && rows[i].randomKey !== '1') {
+                        res.json(3)
+                    }
+                    else if (result && rows[i].randomKey === '1') {
                         res.json(2)
                     }
                     else {

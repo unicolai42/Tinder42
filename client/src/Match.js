@@ -212,11 +212,11 @@ class Match extends React.Component {
 
     if (this.state.allUsers.length > 0) {
       if (this.state.allUsers[this.state.indexUser1])
-        arrayUserMatch.push(<MatchUser key={this.state.indexUser1} name={this.state.allUsers[this.state.indexUser1].username} pictures={this.state.allUsers[this.state.indexUser1].pictures} liked={this.state.likedFirstUser} disliked={this.state.dislikedFirstUser} addStyle={this.state.styleFirstUser}/>)
+        arrayUserMatch.push(<MatchUser key={this.state.indexUser1} userInfo={this.state.allUsers[this.state.indexUser1]} liked={this.state.likedFirstUser} disliked={this.state.dislikedFirstUser} addStyle={this.state.styleFirstUser}/>)
       if (this.state.allUsers[this.state.indexUser2])
-        arrayUserMatch.push(<MatchUser key={this.state.indexUser2} name={this.state.allUsers[this.state.indexUser2].username} pictures={this.state.allUsers[this.state.indexUser2].pictures} liked={this.state.likedSecondUser} disliked={this.state.dislikedSecondUser} addStyle={this.state.styleSecondUser}/>)
+        arrayUserMatch.push(<MatchUser key={this.state.indexUser2} userInfo={this.state.allUsers[this.state.indexUser2]} liked={this.state.likedSecondUser} disliked={this.state.dislikedSecondUser} addStyle={this.state.styleSecondUser}/>)
       if (this.state.allUsers[this.state.indexUser3])
-        arrayUserMatch.push(<MatchUser key={this.state.indexUser3} name={this.state.allUsers[this.state.indexUser3].username} pictures={this.state.allUsers[this.state.indexUser3].pictures} liked={this.state.likedThirdUser} disliked={this.state.dislikedThirdUser} addStyle={this.state.styleThirdUser}/>)
+        arrayUserMatch.push(<MatchUser key={this.state.indexUser3} userInfo={this.state.allUsers[this.state.indexUser3]} liked={this.state.likedThirdUser} disliked={this.state.dislikedThirdUser} addStyle={this.state.styleThirdUser}/>)
     }
     else {
       arrayUserMatch.push(<div id='Match_noMoreMatch' key={0}>Adjust your parameters if you looking for new matches</div>)
@@ -229,9 +229,7 @@ class Match extends React.Component {
       displayButtons.push(<div id='Match_like' key='Match_like' style={this.state.displayButtons} onClick={this.likeClick}></div>)
     }
 
-    console.log(this.state.user.username, this.state.user.picture1, this.state.user.age, this.state.user.sex === 1)
     if ((this.state.user.username && !this.state.user.picture1) || (this.state.user.username && !this.state.user.age) || (this.state.user.username && this.state.user.sex === 1)) {
-      console.log('okokok')
       this.redirectToProfile()
       arrayUserMatch = <div id='Match_missInfo' key={1}>You have to add your age, and a profil picture to start matching users</div>
     }
