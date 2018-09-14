@@ -53,20 +53,27 @@ router.post('/check_valid_user', (req, res) => {
     (err, rows, fields) => {
         if(err)
             return(res.send(err) && console.log(err));
-        rows.forEach((elem, i) => {
-            if (elem.username.toUpperCase() === req.body.username.toUpperCase()) {
-                bcrypt.compare(req.body.password, elem.password, function(err, result) {
+        
+        let find = 0
+        for (let i = 0; i < rows.length - 1; i++) {
+            if (rows[i].username.toUpperCase() === req.body.username.toUpperCase()) {
+                bcrypt.compare(req.body.password, rows[i].password, function(err, result) {
                     console.log(result)
-                    if (result)
-                        return res.json(2)
-                    else
-                        return res.json(1)                    
+                    if (result) {
+                        find = 1
+                        res.json(2)
+                        console.log('pp')
+                    }
+                    else {
+                        find = 1
+                        res.json(1)
+                        console.log('ooo')
+                    }                
                 })
             }
-            else if (i === rows.length - 1)
+            if (i === rows.length - 1 && find === 0)
                 res.json(0)
-            console.log(i)
-        })
+        }
     })
 })
 
@@ -87,22 +94,24 @@ router.get('/mail_change_password', (req, res) => {
         sendMailChangePwd(userData)
         res.json(userData)
     })
-});
+})
 
-router.post('/connect_user', (req, res) => {
-    res.cookie('username', req.body.username)
-    findUserData('username', req.body.username, req, (userData) => {
-        console.log(userData)
-        res.cookie('id', userData.id)
-        console.log(req.headers.cookie, 'defre')    
-        res.redirect('http://localhost:3000')
+router.post('/find_id_user', (req, res) => {
+    req.db.query(`SELECT * FROM users;`,
+    (err, rows, fields) => {
+        if(err)
+            return(res.send(err) && console.log(err));
+
+        rows.forEach(elem => {
+            if (elem.username.toUpperCase() === req.body.username.toUpperCase())
+                res.json(elem.id)
+        })
     })
 })
 
 router.get('/activate_user', (req, res) => {
     req.db.query(`SELECT * FROM Users WHERE username = ?;`,
     [req.query.username, req.query.key], (err, rows, fields) => {
-        console.log(rows)
         if (rows[0]) {
             req.db.query(`UPDATE Users SET randomKey = 1 WHERE username = ?;`,
             [req.query.username], (err, rows, fields) => {

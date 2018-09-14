@@ -2,6 +2,7 @@ import React from 'react'
 import './SignIn.css'
 import axios from 'axios'
 // import { domainName } from './domain_name';
+import Cookies from 'js-cookie'
 
 
 class SignIn extends React.Component {
@@ -17,7 +18,6 @@ class SignIn extends React.Component {
       this.changeUsername = this.changeUsername.bind(this);
       this.changePassword = this.changePassword.bind(this);
       this.submitForm = this.submitForm.bind(this);
-      this.checkMatch = this.checkMatch.bind(this);
       this.resendPassword = this.resendPassword.bind(this)
       this.resendValidationMail = this.resendValidationMail.bind(this)
     }
@@ -36,14 +36,6 @@ class SignIn extends React.Component {
 
     changePassword(event) {
       this.setState({valuePassword: event.target.value});
-    }
-
-    checkMatch(valueUsername, valuePassword) {
-      return axios.post('http://localhost:3001/check_valid_user', {
-        "username": valueUsername,
-        "password": valuePassword
-      })
-      .then(response => response.data)
     }
 
     resendPassword() {
@@ -69,20 +61,27 @@ class SignIn extends React.Component {
 
     submitForm(event) {
       event.preventDefault()
-      this.setState({valuePassword: ''})   
-      this.checkMatch(this.state.valueUsername, this.state.valuePassword).then((match) => {
+      this.setState({valuePassword: ''})
+      axios.post('http://localhost:3001/check_valid_user', {
+        "username": this.state.valueUsername,
+        "password": this.state.valuePassword
+      })
+      .then(response => {
+        let match = response.data
         console.log(match)
         if (match === 1) {
           this.setState({validLog: 'Wrong password'});
           this.setState({validMessage: 'Forgot it ? Click here'})
         }
         else if (match === 2) {
-          axios.post('http://localhost:3001/connect_user', {
+          Cookies.set('username', this.state.valueUsername)
+          axios.post('http://localhost:3001/find_id_user', {
             "username": this.state.valueUsername
           })
-          // .then(() => {
-          //   window.location = 'http://localhost:3000'
-          // })
+          .then(response => {
+            Cookies.set('id', response.data)
+            window.location = 'http://localhost:3000'
+          })
         }
         else if (match === 3) {
           this.setState({validLog: 'User not activ yet'});
