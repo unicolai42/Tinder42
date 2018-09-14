@@ -44,6 +44,7 @@ class Match extends React.Component {
       "userId": Cookies.get('id')
     })
     .then(response => {
+      console.log(response.data)
         this.setState({user: response.data})
     })
     if ("geolocation" in navigator) {
@@ -228,7 +229,9 @@ class Match extends React.Component {
       displayButtons.push(<div id='Match_like' key='Match_like' style={this.state.displayButtons} onClick={this.likeClick}></div>)
     }
 
+    console.log(this.state.user.username, this.state.user.picture1, this.state.user.age, this.state.user.sex === 1)
     if ((this.state.user.username && !this.state.user.picture1) || (this.state.user.username && !this.state.user.age) || (this.state.user.username && this.state.user.sex === 1)) {
+      console.log('okokok')
       this.redirectToProfile()
       arrayUserMatch = <div id='Match_missInfo' key={1}>You have to add your age, and a profil picture to start matching users</div>
     }

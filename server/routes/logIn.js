@@ -55,22 +55,20 @@ router.post('/check_valid_user', (req, res) => {
             return(res.send(err) && console.log(err));
         
         let find = 0
-        for (let i = 0; i < rows.length - 1; i++) {
+        for (let i = 0; i < rows.length; i++) {
             if (rows[i].username.toUpperCase() === req.body.username.toUpperCase()) {
+                find = 1
                 bcrypt.compare(req.body.password, rows[i].password, function(err, result) {
                     console.log(result)
                     if (result) {
-                        find = 1
                         res.json(2)
-                        console.log('pp')
                     }
                     else {
-                        find = 1
                         res.json(1)
-                        console.log('ooo')
                     }                
                 })
             }
+            console.log(find)
             if (i === rows.length - 1 && find === 0)
                 res.json(0)
         }

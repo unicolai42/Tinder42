@@ -7,7 +7,7 @@ import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
 import Geocode from "react-geocode"
 
-// Geocode.setApiKey("https://maps.googleapis.com/maps/api/js?key=AIzaSyAtijSawTOdoLHBiMO-gGfdGCx2QRUwT3s")
+Geocode.setApiKey()
 
 
 class InfoUser extends React.Component {
@@ -95,7 +95,7 @@ class InfoUser extends React.Component {
             })
             Geocode.fromAddress(this.state.location).then(response => {
                 const { lat, lng } = response.results[0].geometry.location;
-                console.log(lat, lng)
+                console.log(lat, lng, this.state.sex)
                 axios.post('http://localhost:3001/edit_info_user', {
                     "userId": Cookies.get('id'),
                     "name": this.state.name,
@@ -150,6 +150,7 @@ class InfoUser extends React.Component {
 
     changeSex(value) {
         this.setState({sex: value})
+        console.log(this.state.sex)
     }
 
     handleDelete(i) {
