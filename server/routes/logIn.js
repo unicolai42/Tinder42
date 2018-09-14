@@ -15,9 +15,7 @@ router.post('/check_signUp', (req, res) => {
         [req.body.username, hashPassword, req.body.mail, randomKey, 1], (err, rows, fields) => {
             if(err)
                 return(res.send(err) && console.log(err))
-            // bcrypt.compare('ffffff', '$2b$10$6707gWLRGjqGwKJzXx6Dt.CH00c0rRlioy8KdcWc4ze18LoL2YHeC', function(err, res) {
-            //     console.log(res)
-            // });
+            
             req.db.query(`SELECT * FROM Users WHERE username = ?;`,
             [req.body.username], (err, rows, fields) => {
                 if(err)
@@ -50,6 +48,28 @@ router.post('/check_signUp', (req, res) => {
     })
 })
 
+router.post('/check_valid_user', (req, res) => {
+    req.db.query(`SELECT * FROM users;`,
+    (err, rows, fields) => {
+        if(err)
+            return(res.send(err) && console.log(err));
+        rows.forEach((elem, i) => {
+            if (elem.username.toUpperCase() === req.body.username.toUpperCase()) {
+                bcrypt.compare(req.body.password, elem.password, function(err, result) {
+                    console.log(result)
+                    if (result)
+                        return res.json(2)
+                    else
+                        return res.json(1)                    
+                })
+            }
+            else if (i === rows.length - 1)
+                res.json(0)
+            console.log(i)
+        })
+    })
+})
+
 router.post('/resend_activation_mail', (req, res) => {
     req.db.query(`SELECT * FROM users WHERE username = ?;`,
     [req.body.username], (err, rows, fields) => {
@@ -72,8 +92,10 @@ router.get('/mail_change_password', (req, res) => {
 router.post('/connect_user', (req, res) => {
     res.cookie('username', req.body.username)
     findUserData('username', req.body.username, req, (userData) => {
+        console.log(userData)
         res.cookie('id', userData.id)
-        res.redirect('/')
+        console.log(req.headers.cookie, 'defre')    
+        res.redirect('http://localhost:3000')
     })
 })
 

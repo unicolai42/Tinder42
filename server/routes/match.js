@@ -44,132 +44,141 @@ router.post('/load_user_data_match', (req, res) => {
             let preferences = rows[0]
             let sexPreference = (preferences.sex === 1) ? [0, 2] : [preferences.sex]
 
-            req.db.query("SELECT hashtag_id FROM HashtagPreferences WHERE user_id = ?;",
+            req.db.query("SELECT * FROM Users WHERE id != ?",
             [req.body.userId], (err, rows, fields) => {
                 if (err)
                     return (res.send(err) && console.log(err))
 
-                const hashtagId = []
+                rows.forEach(elem => {
+                    console.log(elem.latitude, elem.longitude)
+                })
+                req.db.query("SELECT hashtag_id FROM HashtagPreferences WHERE user_id = ?;",
+                [req.body.userId], (err, rows, fields) => {
+                    if (err)
+                        return (res.send(err) && console.log(err))
 
-                if (rows[0]) {
-                    rows.forEach(e => {
-                        hashtagId.push(e.hashtag_id)
-                    });
+                    const hashtagId = []
 
-                    req.db.query("SELECT user_id FROM HashtagUsers WHERE hashtag_id IN (?);",
-                    [hashtagId], (err, rows, fields) => {
-                        if (err)
-                            return (res.send(err) && console.log(err))
-                        
-                        let usersId = []
+                    if (rows[0]) {
                         rows.forEach(e => {
-                            usersId.push(e.user_id)
+                            hashtagId.push(e.hashtag_id)
                         });
-                        
-                        req.db.query("SELECT checked_id FROM CheckedUsers WHERE checker_id = ?;",
-                        [req.body.userId], (err, rows, fields) => {
+
+                        req.db.query("SELECT user_id FROM HashtagUsers WHERE hashtag_id IN (?);",
+                        [hashtagId], (err, rows, fields) => {
                             if (err)
                                 return (res.send(err) && console.log(err))
-                        
-                            req.db.query("SELECT * FROM Users WHERE id IN (?) AND sex IN (?) AND age > ? AND age < ? AND popularity > ? ORDER BY popularity DESC;",
-                            [usersId, sexPreference, preferences.age_min, preferences.age_max, preferences.popularity_min], (err, rows, fields) => {
+                            
+                            let usersId = []
+                            rows.forEach(e => {
+                                usersId.push(e.user_id)
+                            });
+                            
+                            req.db.query("SELECT checked_id FROM CheckedUsers WHERE checker_id = ?;",
+                            [req.body.userId], (err, rows, fields) => {
                                 if (err)
                                     return (res.send(err) && console.log(err))
-
-                                const usersDataNoChecked = rows
-
-                                req.db.query("SELECT * FROM checkedUsers WHERE checker_id = ?;",
-                                [req.body.userId], (err, rows, fields) => {
+                            
+                                req.db.query("SELECT * FROM Users WHERE id IN (?) AND sex IN (?) AND age > ? AND age < ? AND popularity > ? ORDER BY popularity DESC;",
+                                [usersId, sexPreference, preferences.age_min, preferences.age_max, preferences.popularity_min], (err, rows, fields) => {
                                     if (err)
                                         return (res.send(err) && console.log(err))
-                                    let checkedId = []
 
-                                    rows.forEach(row => {
-                                        checkedId.push(row.checked_id)
-                                    })
+                                    const usersDataNoChecked = rows
 
-                                    let usersData = []
-                                    let usersDataChecked = []
+                                    req.db.query("SELECT * FROM checkedUsers WHERE checker_id = ?;",
+                                    [req.body.userId], (err, rows, fields) => {
+                                        if (err)
+                                            return (res.send(err) && console.log(err))
+                                        let checkedId = []
 
-                                    usersDataNoChecked.forEach(user => {
-                                        let res = checkedId.find(id => {
-                                            return id === user.id
+                                        rows.forEach(row => {
+                                            checkedId.push(row.checked_id)
                                         })
-                                        if (!res)
-                                            usersDataChecked.push(user)
+
+                                        let usersData = []
+                                        let usersDataChecked = []
+
+                                        usersDataNoChecked.forEach(user => {
+                                            let res = checkedId.find(id => {
+                                                return id === user.id
+                                            })
+                                            if (!res)
+                                                usersDataChecked.push(user)
+                                        })
+
+                                        usersDataChecked.forEach(userData => {
+                                            let pictures = []
+
+                                            for (let i = 1; i < 6 && userData[`picture${i}`] !== null; i++)
+                                                pictures.push(userData[`picture${i}`])
+                                            userData.pictures = pictures
+
+                                            const distance = geolib.getDistance(
+                                                                {latitude: userData.latitude, longitude: userData.longitude},
+                                                                {latitude: userLatitude, longitude: userLongitude}
+                                                            )
+
+                                            if (distance < preferences.max_distance)
+                                                if (checkedId.findIndex(e => { return e === userData.id}))
+                                                    usersData.push(userData)
+                                        })
+                                        res.json(usersData)
                                     })
-
-                                    usersDataChecked.forEach(userData => {
-                                        let pictures = []
-
-                                        for (let i = 1; i < 6 && userData[`picture${i}`] !== null; i++)
-                                            pictures.push(userData[`picture${i}`])
-                                        userData.pictures = pictures
-
-                                        const distance = geolib.getDistance(
-                                                            {latitude: userData.latitude, longitude: userData.longitude},
-                                                            {latitude: userLatitude, longitude: userLongitude}
-                                                        )
-
-                                        if (distance < preferences.max_distance)
-                                            if (checkedId.findIndex(e => { return e === userData.id}))
-                                                usersData.push(userData)
-                                    })
-                                    res.json(usersData)
                                 })
                             })
                         })
-                    })
-                }
-                else {                 
-                    req.db.query("SELECT * FROM Users WHERE id != ? AND sex IN (?) AND age > ? AND age < ? AND popularity > ? ORDER BY popularity DESC;",
-                    [req.body.userId, sexPreference, preferences.age_min, preferences.age_max, preferences.popularity_min], (err, rows, fields) => {
-                        if (err)
-                            return (res.send(err) && console.log(err))
-                        
-                        const usersDataNoChecked = rows
-
-                        req.db.query("SELECT * FROM checkedUsers WHERE checker_id = ?;",
-                        [req.body.userId], (err, rows, fields) => {
+                    }
+                    else {                 
+                        req.db.query("SELECT * FROM Users WHERE id != ? AND sex IN (?) AND age > ? AND age < ? AND popularity > ? ORDER BY popularity DESC;",
+                        [req.body.userId, sexPreference, preferences.age_min, preferences.age_max, preferences.popularity_min], (err, rows, fields) => {
                             if (err)
                                 return (res.send(err) && console.log(err))
-                            let checkedId = []
+                            
+                            const usersDataNoChecked = rows
 
-                            rows.forEach(row => {
-                                checkedId.push(row.checked_id)
-                            })
+                            req.db.query("SELECT * FROM checkedUsers WHERE checker_id = ?;",
+                            [req.body.userId], (err, rows, fields) => {
+                                if (err)
+                                    return (res.send(err) && console.log(err))
+                                let checkedId = []
 
-                            let usersData = []
-                            let usersDataChecked = []
-
-                            usersDataNoChecked.forEach(user => {
-                                let res = checkedId.find(id => {
-                                    return id === user.id
+                                rows.forEach(row => {
+                                    checkedId.push(row.checked_id)
                                 })
-                                if (!res)
-                                    usersDataChecked.push(user)
+
+                                let usersData = []
+                                let usersDataChecked = []
+
+                                usersDataNoChecked.forEach(user => {
+                                    let res = checkedId.find(id => {
+                                        return id === user.id
+                                    })
+                                    if (!res)
+                                        usersDataChecked.push(user)
+                                })
+
+                                usersDataChecked.forEach(userData => {
+                                    let pictures = []
+
+                                    for (let i = 1; i < 6 && userData[`picture${i}`] !== null; i++)
+                                        pictures.push(userData[`picture${i}`])
+                                    userData.pictures = pictures
+
+                                    const distance = geolib.getDistance(
+                                                        {latitude: userData.latitude, longitude: userData.longitude},
+                                                        {latitude: userLatitude, longitude: userLongitude}
+                                                    )
+
+                                    if (distance < preferences.max_distance)
+                                        if (checkedId.findIndex(e => { return e === userData.id}))
+                                            usersData.push(userData)
+                                })
+                                res.json(usersData)
                             })
-
-                            usersDataChecked.forEach(userData => {
-                                let pictures = []
-
-                                for (let i = 1; i < 6 && userData[`picture${i}`] !== null; i++)
-                                    pictures.push(userData[`picture${i}`])
-                                userData.pictures = pictures
-
-                                const distance = geolib.getDistance(
-                                                    {latitude: userData.latitude, longitude: userData.longitude},
-                                                    {latitude: userLatitude, longitude: userLongitude}
-                                                )
-
-                                if (distance < preferences.max_distance)
-                                    if (checkedId.findIndex(e => { return e === userData.id}))
-                                        usersData.push(userData)
-                            })
-                            res.json(usersData)
                         })
-                    })
-                }
+                    }
+                })
             })
         })
     })

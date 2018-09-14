@@ -39,20 +39,11 @@ class SignIn extends React.Component {
     }
 
     checkMatch(valueUsername, valuePassword) {
-      let users = this.props.users;
-      let valueMatch = 0;
-
-      users.forEach((user) => {
-        if (user['username'].toUpperCase() === valueUsername.toUpperCase()) {
-          valueMatch = 1;
-          if (user.password === valuePassword) {
-            valueMatch = 2;
-            if (parseInt(user.randomKey, 10) !== 1)
-              valueMatch = 3
-          }
-        }
+      return axios.post('http://localhost:3001/check_valid_user', {
+        "username": valueUsername,
+        "password": valuePassword
       })
-      return valueMatch
+      .then(response => response.data)
     }
 
     resendPassword() {
@@ -77,23 +68,29 @@ class SignIn extends React.Component {
     }
 
     submitForm(event) {
-      let match = this.checkMatch(this.state.valueUsername, this.state.valuePassword);
-      console.log(match);
-      if (match !== 2) {
-        event.preventDefault();
-        this.setState({valuePassword: ''});
-
+      event.preventDefault()
+      this.setState({valuePassword: ''})   
+      this.checkMatch(this.state.valueUsername, this.state.valuePassword).then((match) => {
+        console.log(match)
         if (match === 1) {
           this.setState({validLog: 'Wrong password'});
           this.setState({validMessage: 'Forgot it ? Click here'})
+        }
+        else if (match === 2) {
+          axios.post('http://localhost:3001/connect_user', {
+            "username": this.state.valueUsername
+          })
+          // .then(() => {
+          //   window.location = 'http://localhost:3000'
+          // })
         }
         else if (match === 3) {
           this.setState({validLog: 'User not activ yet'});
           this.setState({validMessage: 'Resend me the activation link'})
         }
         else
-          this.setState({validLog: 'Username doesn\'t exist'});
-      }
+          this.setState({validLog: 'Username doesn\'t exist'})
+      })
     }
   
     render() {
