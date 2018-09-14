@@ -6,9 +6,9 @@ import ReactTags from 'react-tag-autocomplete'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
 import Geocode from "react-geocode"
+import Key from "./Key"
 
-Geocode.setApiKey()
-
+Geocode.setApiKey(Key.googleMapKey)
 
 class InfoUser extends React.Component {
     constructor(props) {
