@@ -62,13 +62,10 @@ io.on('connection', (socket) => {
         })
     })
 
-    socket.on('idUsersAlreadyConnected', data => {
-        console.log(data)
-        socket.emit('addUserConnected', {
-            userId: data.userId
-        }) //// CA BALANCE PAS CES PUTAINS DE DATA
-        console.log(data.userId, 'YEAH')
-    })
+    // socket.on('idUsersAlreadyConnected', data => {
+    //     console.log(data.userId, 'YEAH')
+
+    // })
     
     socket.on('userLogOut', data => {
         console.log(data.userId)

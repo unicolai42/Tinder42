@@ -9,6 +9,8 @@ import ResetPwd from './ResetPwd'
 import Cookies from 'js-cookie'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import socketIOClient from "socket.io-client"
+import axios from 'axios'
+
 
 const socket = socketIOClient('http://127.0.0.1:3002')
 
@@ -35,14 +37,15 @@ class App extends React.Component {
             socket.on('newUserConnected', data => {
                 let newUsersConnected = this.state.usersConnected
                 newUsersConnected.push(data.id)
+                axios.post('http://localhost:3001/maj_users_connected', {
+                    "userSignInId": data.id,
+                    "userAlreadySignInId": Cookies.get('id')
+                }) ///// RAJOUTER DANS LA DB UNE COLUMN USER CONNECTE ET AJOUTER POUR LES 2 COMME QUOI LES 2 SONT CONNECTES
                 console.log(data, 'AAAA')
                 this.setState({usersConnected: newUsersConnected})
-                socket.emit('idUsersAlreadyConnected', {
-                    userId: Cookies.get('id')
-                })
-            })
-            socket.on('addUserConnected', data => {
-                console.log(data.userId, 'QQQQWW')
+                // socket.emit('idUsersAlreadyConnected', {
+                //     userId: Cookies.get('id')
+                // })
             })
             socket.on('userDisconnected', data => {
                 let newUsersConnected = this.state.usersConnected
