@@ -118,7 +118,6 @@ router.post('/load_user_data_match', (req, res) => {
                                             if (checkedId.findIndex(e => { return e === userData.id}))
                                                 usersData.push(userData)
                                     })
-                                    console.log(usersData, 'QQQQQQQQQQ')
                                     res.json(usersData)
                                 })
                             })
@@ -134,7 +133,6 @@ router.post('/load_user_data_match', (req, res) => {
                         
                         const usersDataNoChecked = rows
 
-                        console.log(usersDataNoChecked, 'OOOOOOO')
                         req.db.query("SELECT * FROM checkedUsers WHERE checker_id = ?;",
                         [req.body.userId], (err, rows, fields) => {
                             if (err)
@@ -156,7 +154,6 @@ router.post('/load_user_data_match', (req, res) => {
                             })
                             
                             let usersData = []
-
                             usersDataChecked.forEach(userData => {
                                 let pictures = []
 
@@ -173,7 +170,6 @@ router.post('/load_user_data_match', (req, res) => {
                                     if (checkedId.findIndex(e => { return e === userData.id}))
                                         usersData.push(userData)
                             })
-                            console.log(usersData, 'MMMMMMMMMM')
                             res.json(usersData)
                         })
                     })
@@ -228,6 +224,61 @@ router.post('/check_match', (req, res) => {
         }
         else
             res.end()
+    })
+})
+
+router.post('/report_user', (req, res) => {
+    console.log('lllllll')
+    req.db.query("UPDATE Users SET report = report + 1 WHERE id = ?;",
+    [req.body.userId], (err, rows, fields) => {
+        if (err)
+            return (res.send(err) && console.log(err))
+        
+        req.db.query("SELECT report FROM Users WHERE id = ?;",
+        [req.body.userId], (err, rows, fields) => {
+            if (err)
+                return (res.send(err) && console.log(err))
+            console.log(rows[0].report)
+            if (rows[0].report > 19) {
+                req.db.query("DELETE FROM Chat WHERE sender_id = ? OR receiver_id = ?;",
+                [req.body.userId, req.body.userId], (err, rows, fields) => {
+                    if (err)
+                        return (res.send(err) && console.log(err))
+                    
+                    req.db.query("DELETE FROM CheckedUsers WHERE checker_id = ? OR checked_id = ?;",
+                    [req.body.userId, req.body.userId], (err, rows, fields) => {
+                        if (err)
+                            return (res.send(err) && console.log(err))
+                        
+                        req.db.query("DELETE FROM LikeUsers WHERE liker_id = ? OR liked_id = ?;",
+                        [req.body.userId, req.body.userId], (err, rows, fields) => {
+                            if (err)
+                                return (res.send(err) && console.log(err))
+
+                            req.db.query("DELETE FROM Matchs WHERE user1 = ? OR user2 = ?;",
+                            [req.body.userId, req.body.userId], (err, rows, fields) => {
+                                if (err)
+                                    return (res.send(err) && console.log(err))
+    
+                                req.db.query("DELETE FROM Preferences WHERE user_id = ?;",
+                                [req.body.userId], (err, rows, fields) => {
+                                    if (err)
+                                        return (res.send(err) && console.log(err))
+                                    
+                                    req.db.query("DELETE FROM Users WHERE id = ?;",
+                                    [req.body.userId], (err, rows, fields) => {
+                                        if (err)
+                                            return (res.send(err) && console.log(err))
+                                    })
+                                }) 
+                            })
+                        })
+                    })
+                })
+            }
+            else
+                res.end()
+        })
     })
 })
 

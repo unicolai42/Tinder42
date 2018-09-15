@@ -150,6 +150,24 @@
     font-size: 18px;
     font-family: 'Encode Sans Semi Expanded', sans-serif; }
 
+.InfoUser_button {
+  display: flex;
+  border: 1px solid blue; }
+
+.InfoUser_blockUser {
+  border: 1px solid red;
+  background-color: rgba(30, 35, 114, 0.7);
+  padding: 2px 5px;
+  border-radius: 5px;
+  cursor: pointer; }
+
+.InfoUser_reportUser {
+  margin-left: 20px;
+  background-color: rgba(201, 22, 22, 0.7);
+  padding: 2px 5px;
+  border-radius: 5px;
+  cursor: pointer; }
+
 ul {
   list-style: none;
   margin-left: 0;

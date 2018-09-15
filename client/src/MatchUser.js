@@ -107,7 +107,7 @@ class MatchUser extends React.Component {
                     <div id='MatchUser_moreInfo' style={{display: this.state.info}}>
                         <div id='MatchUser_close' onClick={this.clickedInfo}></div>
                         <div id='MatchUser_frameInfo'>
-                            <InfoMatch userInfo={this.props.userInfo}/>
+                            <InfoMatch userInfo={this.props.userInfo} dislikeUser={this.props.dislikeUser}/>
                         </div>    
                     </div>
                     <div id='MatchUser_frameBulletpoint'>

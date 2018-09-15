@@ -4,11 +4,6 @@ import MatchUser from './MatchUser';
 import Cookies from 'js-cookie'
 import axios from 'axios'
 
-// import pic1 from './ressources/picture1.jpg';
-// import pic2 from './ressources/picture2.jpg';
-// import pic3 from './ressources/picture3.jpg';
-// import pic4 from './ressources/picture4.jpg';
-// import pic5 from './ressources/picture5.jpg';
 
 class Match extends React.Component {
   constructor(props) {
@@ -51,32 +46,50 @@ class Match extends React.Component {
     })
     .then(response => {
       console.log(response.data)
-        this.setState({user: response.data})
+      this.setState({user: response.data})
+      
+      if (!response.data.latitude && !response.data.longitude) {
+        console.log('ddefergrerfwesLLLLL')
+        navigator.geolocation.getCurrentPosition(position => {
+          console.log(position.coords.latitude, position.coords.longitude)
+          axios.post('http://localhost:3001/update_location', {
+            "userId": Cookies.get('id'),
+            "latitude": position.coords.latitude,
+            "longitude": position.coords.longitude
+          })
+          .then(() => {
+            axios.post('http://localhost:3001/load_user_data_match', {
+              "userId": Cookies.get('id')
+            })
+            .then(response => {
+                this.setState({
+                  allUsers: response.data,
+                  nbUsersNoMatched: response.data.length
+                })
+            })
+          })
+        }, err => console.log(err))
+      }
+      else {
+        axios.post('http://localhost:3001/load_user_data_match', {
+          "userId": Cookies.get('id')
+        })
+        .then(response => {
+            this.setState({
+              allUsers: response.data,
+              nbUsersNoMatched: response.data.length
+            })
+        })
+        navigator.geolocation.getCurrentPosition(position => {
+          console.log(position.coords.latitude, position.coords.longitude)
+          axios.post('http://localhost:3001/update_location', {
+            "userId": Cookies.get('id'),
+            "latitude": position.coords.latitude,
+            "longitude": position.coords.longitude
+          })
+        }, err => console.log(err))
+      }
     })
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        console.log(position.coords.latitude, position.coords.longitude)
-        axios.post('http://localhost:3001/update_location', {
-          "userId": Cookies.get('id'),
-          "latitude": position.coords.latitude,
-          "longitude": position.coords.longitude
-        })
-        .then(() => {
-          axios.post('http://localhost:3001/load_user_data_match', {
-            "userId": Cookies.get('id')
-          })
-          .then(response => {
-              this.setState({
-                allUsers: response.data,
-                nbUsersNoMatched: response.data.length
-              })
-          })
-        })
-      }, err => console.log(err))
-    }
-    else {
-      console.log("Le service de géolocalisation n'est pas disponible sur votre ordinateur.")
-    }
   }
   
   likeClick() {
@@ -218,11 +231,11 @@ class Match extends React.Component {
 
     if (this.state.allUsers.length > 0) {
       if (this.state.allUsers[this.state.indexUser1])
-        arrayUserMatch.push(<MatchUser key={this.state.indexUser1} userInfo={this.state.allUsers[this.state.indexUser1]} liked={this.state.likedFirstUser} disliked={this.state.dislikedFirstUser} addStyle={this.state.styleFirstUser}/>)
+        arrayUserMatch.push(<MatchUser key={this.state.indexUser1} userInfo={this.state.allUsers[this.state.indexUser1]} liked={this.state.likedFirstUser} disliked={this.state.dislikedFirstUser} addStyle={this.state.styleFirstUser} dislikeUser={this.dislikeClick}/>)
       if (this.state.allUsers[this.state.indexUser2])
-        arrayUserMatch.push(<MatchUser key={this.state.indexUser2} userInfo={this.state.allUsers[this.state.indexUser2]} liked={this.state.likedSecondUser} disliked={this.state.dislikedSecondUser} addStyle={this.state.styleSecondUser}/>)
+        arrayUserMatch.push(<MatchUser key={this.state.indexUser2} userInfo={this.state.allUsers[this.state.indexUser2]} liked={this.state.likedSecondUser} disliked={this.state.dislikedSecondUser} addStyle={this.state.styleSecondUser} dislikeUser={this.dislikeClick}/>)
       if (this.state.allUsers[this.state.indexUser3])
-        arrayUserMatch.push(<MatchUser key={this.state.indexUser3} userInfo={this.state.allUsers[this.state.indexUser3]} liked={this.state.likedThirdUser} disliked={this.state.dislikedThirdUser} addStyle={this.state.styleThirdUser}/>)
+        arrayUserMatch.push(<MatchUser key={this.state.indexUser3} userInfo={this.state.allUsers[this.state.indexUser3]} liked={this.state.likedThirdUser} disliked={this.state.dislikedThirdUser} addStyle={this.state.styleThirdUser} dislikeUser={this.dislikeClick}/>)
     }
     else {
       arrayUserMatch.push(<div id='Match_noMoreMatch' key={0}>Adjust your parameters if you looking for new matches</div>)

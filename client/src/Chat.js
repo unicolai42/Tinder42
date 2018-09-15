@@ -37,6 +37,9 @@ class Chat extends React.Component {
 
     componentDidMount() {
         socket.removeListener('displayNotif1')
+        // socket.on('userDisconnected', data => {
+        //     console.log(data, 'BBBB') 
+        // })
         socket.on('displayMessage', data => {
             const oldLastUser = this.state.usersInfo[this.state.usersInfo.length - 1]
 
@@ -243,22 +246,22 @@ class Chat extends React.Component {
     componentDidUpdate() {
         this.scrollToBottom()
 
-        // if (this.state.usersInfo[this.state.idChatPrincipal]) {
-        //     let i = this.state.usersChat[this.state.idChatPrincipal].length - 1
-        //     let lastMessageOtherUserSend = this.state.usersChat[this.state.idChatPrincipal][this.state.usersChat[this.state.idChatPrincipal].length - 1]
+        if (this.state.usersInfo[this.state.idChatPrincipal]) {
+            let i = this.state.usersChat[this.state.idChatPrincipal].length - 1
+            let lastMessageOtherUserSend = this.state.usersChat[this.state.idChatPrincipal][this.state.usersChat[this.state.idChatPrincipal].length - 1]
             
-        //     while (lastMessageOtherUserSend.receiver_id !== parseInt(Cookies.get('id'), 10) && i > -1) {
-        //         lastMessageOtherUserSend = this.state.usersChat[this.state.idChatPrincipal][i]
-        //         i--
-        //     }
+            while (lastMessageOtherUserSend.receiver_id !== parseInt(Cookies.get('id'), 10) && i > -1) {
+                lastMessageOtherUserSend = this.state.usersChat[this.state.idChatPrincipal][i]
+                i--
+            }
             
-        //     if (i !== -1 && lastMessageOtherUserSend.read_message === 0) {
-        //         axios.post('http://localhost:3001/chat_read', {
-        //             "userId": Cookies.get('id'),
-        //             "matcherId": this.state.usersInfo[this.state.idChatPrincipal].id
-        //         })
-        //     }
-        // }
+            if (i !== -1 && lastMessageOtherUserSend.read_message === 0) {
+                axios.post('http://localhost:3001/chat_read', {
+                    "userId": Cookies.get('id'),
+                    "matcherId": this.state.usersInfo[this.state.idChatPrincipal].id
+                })
+            }
+        }
     }
 
     onEnterPress(event) {
@@ -484,6 +487,7 @@ class Chat extends React.Component {
 
                 let lastMessageOtherUserSend
                 let j = this.state.usersChat[i].length - 1
+
                 if (this.state.usersChat[i][0]) {
                     lastMessageOtherUserSend = this.state.usersChat[i][this.state.usersChat[i].length - 1]
                     if (lastMessageOtherUserSend) {
@@ -493,7 +497,8 @@ class Chat extends React.Component {
                         }
                     }
                 }
-                let readLastMessage = (j === -1) ? 1 : (lastMessageOtherUserSend === 0) ? 0 : (lastMessageOtherUserSend.read_message === 0) ? 0 : 1
+                console.log(lastMessageOtherUserSend)
+                let readLastMessage = (j === -1) ? 1 : (lastMessageOtherUserSend === 0 || !lastMessageOtherUserSend) ? 0 : (lastMessageOtherUserSend.read_message === 0) ? 0 : 1
                 let urlPicture1 = (this.state.usersInfo[i].picture1) ? {backgroundImage: `url(${this.state.usersInfo[i].picture1})`} : null
                 users.push(
                 <div className='Chat_profile' style={(!usersInfo[i].readNotif || !readLastMessage) ? {backgroundColor: 'rgba(67, 166, 252, 0.1)'} : {}} onClick={this.selectUser} data-id={i} key={i}>
@@ -517,6 +522,7 @@ class Chat extends React.Component {
         const pictureOrNoMatch = (this.state.usersChat[0]) ? <div id='Chat_stripPicture' style={urlPicturePrincipal}></div> : <div id='Chat_noMatch'>No match yet</div>
         let userWriting = (this.state.usersInfo[this.state.idChatPrincipal]) ?<div id='Chat_otherUserWritingMessage' style={{display: this.state.writing}}>{this.state.usersInfo[this.state.idChatPrincipal].username} writing a message...</div> : null
 
+        console.log(this.props.usersConnected, 'HERE')
         return (
         <div id='Chat_wrapper'>
             <div id='Chat_blackOpacity' style={{display: this.state.blackOpacity}} onClick={this.removeAllMatchs}></div>

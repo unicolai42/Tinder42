@@ -8,7 +8,9 @@ import Settings from './Settings'
 import ResetPwd from './ResetPwd'
 import Cookies from 'js-cookie'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
+import socketIOClient from "socket.io-client"
 
+const socket = socketIOClient('http://127.0.0.1:3002')
 
 class App extends React.Component {
     constructor(props) {
@@ -16,13 +18,43 @@ class App extends React.Component {
 
         this.state = {
             nav: true,
-            chatActiv: false
+            chatActiv: false,
+            usersConnected: []
         }
 
         this.displayNav = this.displayNav.bind(this)
         this.closeNav = this.closeNav.bind(this)
         this.chatSelected = this.chatSelected.bind(this)
         this.otherSelected = this.otherSelected.bind(this)
+    }
+
+    componentDidMount() {
+        socket.removeListener('newUserConnected')
+        socket.removeListener('userDisconnected')        
+        if (Cookies.get('id')) {
+            socket.on('newUserConnected', data => {
+                let newUsersConnected = this.state.usersConnected
+                newUsersConnected.push(data.id)
+                console.log(data, 'AAAA')
+                this.setState({usersConnected: newUsersConnected})
+                socket.emit('idUsersAlreadyConnected', {
+                    userId: Cookies.get('id')
+                })
+            })
+            socket.on('addUserConnected', data => {
+                console.log(data.userId, 'QQQQWW')
+            })
+            socket.on('userDisconnected', data => {
+                let newUsersConnected = this.state.usersConnected
+                const i = newUsersConnected.indexOf(data.id)
+                if (i > -1) {
+                  newUsersConnected.splice(i, 1)
+                }
+                console.log(data.id, 'BBBB')
+                this.setState({usersConnected: newUsersConnected})
+                
+            })
+        }
     }
 
     displayNav() {
@@ -44,6 +76,8 @@ class App extends React.Component {
     }
 
     render() {
+        console.log(this.state.usersConnected, 'ERERE')
+        
         let homePage = (Cookies.get('username')) ? Home : Landing
         return (
             <Router>
@@ -54,7 +88,7 @@ class App extends React.Component {
                         <Nav chatActiv={this.state.chatActiv} chatSelected={this.chatSelected} otherSelected={this.otherSelected}/>
                         <Route exact path='/' component={homePage}></Route>
                         <Route path='/profile' component={Profile}></Route>
-                        <Route path='/chat' render={() => <Chat/>}></Route>
+                        <Route path='/chat' render={() => <Chat usersConnected={this.state.usersConnected}/>}></Route>
                         <Route path='/settings' component={Settings}></Route>
                     </div>
                     ) : (

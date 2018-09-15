@@ -23,6 +23,8 @@ class InfoMatch extends React.Component {
             sex: this.props.userInfo.sex,
             popularity: this.props.userInfo.popularity
         }
+
+        this.reportUser = this.reportUser.bind(this)
     }
 
     componentDidMount() {
@@ -55,6 +57,13 @@ class InfoMatch extends React.Component {
                 tags: response.data.hashtags
             })
         })
+    }
+
+    reportUser() {
+        axios.post('http://localhost:3001/report_user', {
+            "userId": this.props.userInfo.id
+        })
+        this.props.dislikeUser()
     }
 
       
@@ -165,6 +174,17 @@ class InfoMatch extends React.Component {
                     {this.state.popularity}
                 </div>
                 <div id='InfoUser_aboutPopularity' className='InfoUser_aboutImg'/>
+            </div>
+        )
+
+        info.push(
+            <div key={15} className='InfoUser_button'>
+                <div className='InfoUser_blockUser' style={this.state.borderEdit} onClick={this.props.dislikeUser}>
+                    BLOCK
+                </div>
+                <div className='InfoUser_reportUser' style={this.state.borderEdit} onClick={this.reportUser}>
+                    REPORT
+                </div>
             </div>
         )
 

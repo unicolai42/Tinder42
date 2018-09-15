@@ -3,6 +3,10 @@ import './SignIn.css'
 import axios from 'axios'
 // import { domainName } from './domain_name';
 import Cookies from 'js-cookie'
+import socketIOClient from "socket.io-client"
+
+
+const socket = socketIOClient('http://127.0.0.1:3002')
 
 
 class SignIn extends React.Component {
@@ -80,6 +84,9 @@ class SignIn extends React.Component {
         })
         .then(response => {
           Cookies.set('id', response.data)
+          socket.emit('getId', {
+            userId: Cookies.get('id')
+          })
           window.location = 'http://localhost:3000'
         })
       }

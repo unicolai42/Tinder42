@@ -55,6 +55,28 @@ var io = require('socket.io')(server)
 server.listen(3002)
 
 io.on('connection', (socket) => {
+    socket.on('getId', data => {
+        console.log(data.userId, 'HHHHHHHHHHHHH')
+        socket.broadcast.emit('newUserConnected', {
+            id: data.userId
+        })
+    })
+
+    socket.on('idUsersAlreadyConnected', data => {
+        console.log(data)
+        socket.emit('addUserConnected', {
+            userId: data.userId
+        }) //// CA BALANCE PAS CES PUTAINS DE DATA
+        console.log(data.userId, 'YEAH')
+    })
+    
+    socket.on('userLogOut', data => {
+        console.log(data.userId)
+        socket.broadcast.emit('userDisconnected', {
+            id: data.userId
+        })
+    })
+
     socket.on('writeMessage', data => {
         console.log(data)
         if (data.message)
