@@ -191,22 +191,24 @@ function sendMailChangePwd(userData) {
     console.log(userData.username)
 
     let transporter = nodemailer.createTransport({
-        host: 'nomdemonsite.com',
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        service: 'gmail',
+        port: 25,
+        secure: false,
         auth: {
-            user: 'Matcha', // generated ethereal user
-            pass: '0000000000' // generated ethereal password
+            user: 'matchamatcha12342@gmail.com', // generated ethereal user
+            pass: 'matcha123' // generated ethereal password
+        },
+        tls: {
+            rejectUnauthorised: false
         }
     });
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: '"Ugo" <confirm-subscription@tinder42.com>', // sender address
+        from: '"no-reply" <matchamatcha12342@gmail.com>', // sender address
         to: userData.mail, // list of receivers
         subject: 'Change password', // Subject line
-        text: 'Hello world?sssssssss', // plain text body
-        html: '<b>Hello world?</b>' // html body
+        text: `Click on the link to change password : http://localhost:3000/reset_pwd?username=${encodeURI(userData.username)}&key=${encodeURI(userData.password)}`,
     };
 
     // send mail with defined transport object

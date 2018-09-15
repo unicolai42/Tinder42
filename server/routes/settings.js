@@ -123,13 +123,14 @@ router.post('/check_old_pwd', (req, res) => {
     })
 })
 
-router.post('/change_pwd', (req, res) => {
+router.post('/change_new_pwd', (req, res) => {
     const saltRounds = 10;
     const password = req.body.pwd
 
     bcrypt.hash(password, saltRounds, function(err, hashPassword) {
-        req.db.query(`UPDATE Users SET password = ? WHERE id = ?;`,
-        [hashPassword, req.body.userId], (err, rows, fields) => {
+        console.log(hashPassword, req.body.userId)
+        req.db.query(`UPDATE Users SET password = ? WHERE username = ?;`,
+        [hashPassword, req.body.username], (err, rows, fields) => {
             if(err)
                 return(res.send(err) && console.log(err))
             res.json(hashPassword)
@@ -148,16 +149,6 @@ router.get('/compare_old_pwd', (req, res) => {
             res.json('stay')
         else
             res.json('redirect')
-    })
-})
-
-router.post('/change_new_pwd', (req, res) => {
-    req.db.query(`UPDATE Users SET password = ? WHERE username = ?;`,
-    [req.body.pwd, req.body.username], (err, rows, fields) => {
-        if(err)
-            return(res.send(err) && console.log(err))
-        
-        res.json('redirect')
     })
 })
 
