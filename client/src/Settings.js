@@ -83,7 +83,7 @@ class Settings extends React.Component {
         this.setState({
             ageMin: response.data.age_min,
             ageMax: response.data.age_max,
-            maxDistance: response.data.max_distance,
+            maxDistance: response.data.max_distance / 1000,
             sex: response.data.sex,
             tags: response.data.hashtags,
             suggestions: response.data.suggestions,
@@ -288,7 +288,7 @@ class Settings extends React.Component {
               <div id='Settings_maxDistanceText'>Maximum Distance</div>
               <div id='Settings_maxDistanceNumber'>{this.state.maxDistance}km</div>
             </div>
-            <Slider min={1} max={50} value={this.state.maxDistance} onChange={this.changeValuesMaxDistance} onAfterChange={this.setValuesDb} />
+            <Slider min={1} max={1000} value={this.state.maxDistance} onChange={this.changeValuesMaxDistance} onAfterChange={this.setValuesDb} />
           </div>
           <div id='Settings_sex'>
             <div className='Settings_description'>

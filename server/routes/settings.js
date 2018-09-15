@@ -29,9 +29,7 @@ router.post('/load_preferences', (req, res) => {
                 hashtagId.push(e.hashtag_id)
             })
             let hashtags = []
-            console.log(hashtagId, '1')
             req.db.query("SELECT * FROM Hashtags;", (err, rows, fields) => {
-                console.log(rows, '4')
                 let suggestions = []
                 rows.forEach((e, i) => {
                     suggestions.push({id: i, name: e.name})
@@ -40,13 +38,11 @@ router.post('/load_preferences', (req, res) => {
 
                 req.db.query("SELECT name FROM Hashtags WHERE id IN (?);",
                 [hashtagId], (err, rows, fields) => {
-                    console.log(rows, '2')
                     if (rows) {
                         rows.forEach((e, i) => {
                             hashtags.push({id: i, name: e.name})
                         })
                         userPreferences.hashtags = hashtags
-                        console.log(userPreferences, '3')
                         res.json(userPreferences)
                     }
                     else {
@@ -60,7 +56,7 @@ router.post('/load_preferences', (req, res) => {
 })
 
 router.post('/set_preferences', (req, res) => {
-    console.log(req.body.popularityMin, 'dewfdwed')
+    console.log(req.body.maxDistance)
     req.db.query("UPDATE Preferences SET age_min = ?, age_max = ?, max_distance = ?, sex = ?, popularity_min = ? WHERE user_id = ?;",
     [req.body.ageMin, req.body.ageMax, req.body.maxDistance, req.body.sex, req.body.popularityMin, req.body.userId], (err, rows, fields) => {
         if (err)
@@ -146,7 +142,6 @@ router.post('/send_mail_forgot_pwd', (req, res) => {
 })
 
 router.get('/compare_old_pwd', (req, res) => {    
-    console.log(req.query)
     req.db.query(`SELECT password FROM Users WHERE username = ?;`,
     [req.query.username], (err, rows, fields) => {
         if (rows[0].password === req.query.key)

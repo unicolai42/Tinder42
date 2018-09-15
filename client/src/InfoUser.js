@@ -294,7 +294,7 @@ class InfoUser extends React.Component {
                 </div>
             )
         }
-        if (this.state.tags) {
+        if (this.state.tags[0]) {
             info.push(
                 <div key={7} className='InfoUser_line'/>
             )

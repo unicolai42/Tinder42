@@ -66,7 +66,7 @@ CREATE TABLE `CheckedUsers` (
   KEY `checked_id` (`checked_id`),
   CONSTRAINT `checkedusers_ibfk_1` FOREIGN KEY (`checker_id`) REFERENCES `Users` (`id`),
   CONSTRAINT `checkedusers_ibfk_2` FOREIGN KEY (`checked_id`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,7 +75,7 @@ CREATE TABLE `CheckedUsers` (
 
 LOCK TABLES `CheckedUsers` WRITE;
 /*!40000 ALTER TABLE `CheckedUsers` DISABLE KEYS */;
-INSERT INTO `CheckedUsers` VALUES (57,1,2),(58,2,1),(59,6,1),(60,6,2),(61,1,6),(62,2,6),(63,13,5),(64,13,1),(65,13,10),(66,1,10),(67,1,13),(68,2,10),(69,2,13);
+INSERT INTO `CheckedUsers` VALUES (57,1,2),(58,2,1),(59,6,1),(60,6,2),(61,1,6),(62,2,6),(63,13,5),(64,13,1),(65,13,10),(66,1,10),(67,1,13),(68,2,10),(69,2,13),(70,14,1),(71,14,2);
 /*!40000 ALTER TABLE `CheckedUsers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,7 +95,7 @@ CREATE TABLE `HashtagPreferences` (
   KEY `hashtag_id` (`hashtag_id`),
   CONSTRAINT `hashtagpreferences_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`),
   CONSTRAINT `hashtagpreferences_ibfk_2` FOREIGN KEY (`hashtag_id`) REFERENCES `Hashtags` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,6 +104,7 @@ CREATE TABLE `HashtagPreferences` (
 
 LOCK TABLES `HashtagPreferences` WRITE;
 /*!40000 ALTER TABLE `HashtagPreferences` DISABLE KEYS */;
+INSERT INTO `HashtagPreferences` VALUES (1,14,4);
 /*!40000 ALTER TABLE `HashtagPreferences` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +124,7 @@ CREATE TABLE `HashtagUsers` (
   KEY `hashtag_id` (`hashtag_id`),
   CONSTRAINT `hashtagusers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`),
   CONSTRAINT `hashtagusers_ibfk_2` FOREIGN KEY (`hashtag_id`) REFERENCES `Hashtags` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +148,7 @@ CREATE TABLE `Hashtags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +157,7 @@ CREATE TABLE `Hashtags` (
 
 LOCK TABLES `Hashtags` WRITE;
 /*!40000 ALTER TABLE `Hashtags` DISABLE KEYS */;
-INSERT INTO `Hashtags` VALUES (1,'Hacker'),(2,'Self-taught'),(3,'Growth'),(4,'Worker'),(5,'Sport'),(6,'Try Hard'),(7,'Designer'),(8,'Photo'),(9,'Tchouleur'),(10,'Hustle');
+INSERT INTO `Hashtags` VALUES (1,'Hacker'),(2,'Self-taught'),(3,'Growth'),(4,'Worker'),(5,'Sport'),(6,'Try Hard'),(7,'Designer'),(8,'Photo'),(9,'Tchouleur'),(10,'Hustle'),(11,'98'),(12,'Avenue'),(13,'De');
 /*!40000 ALTER TABLE `Hashtags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,7 +177,7 @@ CREATE TABLE `LikeUsers` (
   KEY `liked_id` (`liked_id`),
   CONSTRAINT `likeusers_ibfk_1` FOREIGN KEY (`liker_id`) REFERENCES `Users` (`id`),
   CONSTRAINT `likeusers_ibfk_2` FOREIGN KEY (`liked_id`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,38 +186,8 @@ CREATE TABLE `LikeUsers` (
 
 LOCK TABLES `LikeUsers` WRITE;
 /*!40000 ALTER TABLE `LikeUsers` DISABLE KEYS */;
-INSERT INTO `LikeUsers` VALUES (41,1,2),(42,2,1),(43,6,1),(44,6,2),(45,1,6),(46,2,6),(47,13,5),(48,13,1),(49,13,10),(50,1,10),(51,1,13),(52,2,10),(53,2,13);
+INSERT INTO `LikeUsers` VALUES (41,1,2),(42,2,1),(43,6,1),(44,6,2),(45,1,6),(46,2,6),(47,13,5),(48,13,1),(49,13,10),(50,1,10),(51,1,13),(52,2,10),(53,2,13),(54,14,1),(55,14,2);
 /*!40000 ALTER TABLE `LikeUsers` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Preferences`
---
-
-DROP TABLE IF EXISTS `Preferences`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Preferences` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `age_min` int(10) unsigned NOT NULL,
-  `age_max` int(10) unsigned NOT NULL,
-  `max_distance` int(10) unsigned NOT NULL,
-  `sex` int(10) unsigned NOT NULL,
-  `user_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `preferences_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Preferences`
---
-
-LOCK TABLES `Preferences` WRITE;
-/*!40000 ALTER TABLE `Preferences` DISABLE KEYS */;
-INSERT INTO `Preferences` VALUES (1,16,38,50000,1,1),(2,16,38,50000,1,2),(3,16,38,50000,1,9),(4,16,38,50000,1,10),(5,20,35,20000,1,6),(6,16,38,50000,1,11),(7,16,38,50000,1,12),(8,16,38,50000,1,13);
-/*!40000 ALTER TABLE `Preferences` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -248,7 +219,7 @@ CREATE TABLE `Users` (
   `longitude` decimal(11,8) DEFAULT '0.00000000',
   `sex` int(10) unsigned DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -257,7 +228,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Ugo','u0','u@u.uu',0,'u',0,'http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533814281/qmjwhvkncokjkifgkr3a.jpg','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477852/znxgo1spp1mlrlubjsm5.png','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477852/ck4xg3x9vv2o6kalar76.png','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477027/jsluurjsbuekjwwxxkgv.png',NULL,24,'',NULL,'French, English',0,48.87922850,2.38619830,1),(2,'Alice','a0','a@a.aa',0,'a',0,'https://firebasestorage.googleapis.com/v0/b/tinder42matcha.appspot.com/o/alice.jpg?alt=media&token=879456eb-347e-4c79-a72f-9cfad45a8f2a',NULL,NULL,NULL,NULL,22,NULL,NULL,NULL,0,48.87922370,2.38618570,2),(5,'Arlo','tttttt','t@t.tt',0,'Vo54TsEUwP45ncS',0,'https://firebasestorage.googleapis.com/v0/b/tinder42matcha.appspot.com/o/arlo.jpeg?alt=media&token=43409694-01c4-458f-bc40-aced9bd4e31e',NULL,NULL,NULL,NULL,22,NULL,NULL,NULL,0,0.00000000,0.00000000,1),(6,'test','plp','t@t.tt',0,'dc',0,'http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477852/znxgo1spp1mlrlubjsm5.png',NULL,NULL,NULL,NULL,22,NULL,NULL,NULL,0,43.66168660,7.12158330,1),(9,'Gary','0000','g@g.gg',0,'cdsfsd',0,'http://res.cloudinary.com/dzhnhtkyv/image/upload/v1534115764/gary_zj8qvo.jpg',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,48.86485100,2.37676500,0),(10,'test2','$2b$10$EyNIUm2ojGc8Nx97prsQc.ix1GwfELzD6T.OjuXVtVvpbcuOjzgg6','test@test.test',0,'YnBEYf86f8MjO6m',0,NULL,NULL,NULL,NULL,NULL,24,NULL,NULL,NULL,0,48.87925050,2.38620850,1),(11,'wwww','$2b$10$vaL5DbIqpE2dMvvpNc.cB.KQ/pdUZcy63gUQqoI6E5Fzz12ks0uYC','ww@ww.ww',0,'XyhZwY5q0kkMwbV',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,48.87926610,2.38618270,1),(12,'okok','$2b$10$Ppbw/NyZhYqxEu2DC8BB8ObYm1o2nAo46cCkBiPn6dElk2g0JA2om','okok@okok.okok',0,'YEaBpmn3dCpcOcp',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,48.86107260,2.38765810,1),(13,'qqqq','$2b$10$clWFYUSNWpUJ0JaAIh4GiOHAnwfDMqtGwe6tOzTkWuADi/2PoK9k2','q@q.qq',0,'rmZ9YA2kyDwDIrr',0,NULL,NULL,NULL,NULL,NULL,24,NULL,NULL,NULL,0,48.87926200,2.38619510,1);
+INSERT INTO `Users` VALUES (1,'Ugo','$2b$10$8t4nYGlBPjeeo0iPAIyyAuQSX7kV3ZD270l2928JMHoSQGGU5t/ny','ugo@sharklasers.com',0,'1',0,'http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533814281/qmjwhvkncokjkifgkr3a.jpg','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477852/znxgo1spp1mlrlubjsm5.png','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477852/ck4xg3x9vv2o6kalar76.png','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477027/jsluurjsbuekjwwxxkgv.png',NULL,24,'',NULL,'French, English',1,48.87923220,2.38620460,0),(2,'Alice','a0','a@a.aa',0,'a',0,'https://firebasestorage.googleapis.com/v0/b/tinder42matcha.appspot.com/o/alice.jpg?alt=media&token=879456eb-347e-4c79-a72f-9cfad45a8f2a',NULL,NULL,NULL,NULL,22,NULL,NULL,NULL,1,48.87925430,2.38621520,2),(5,'Arlo','tttttt','t@t.tt',0,'Vo54TsEUwP45ncS',0,'https://firebasestorage.googleapis.com/v0/b/tinder42matcha.appspot.com/o/arlo.jpeg?alt=media&token=43409694-01c4-458f-bc40-aced9bd4e31e',NULL,NULL,NULL,NULL,22,NULL,NULL,NULL,0,0.00000000,0.00000000,1),(6,'test','plp','t@t.tt',0,'dc',0,'http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477852/znxgo1spp1mlrlubjsm5.png',NULL,NULL,NULL,NULL,22,NULL,NULL,NULL,0,43.66168660,7.12158330,1),(9,'Gary','0000','g@g.gg',0,'cdsfsd',0,'http://res.cloudinary.com/dzhnhtkyv/image/upload/v1534115764/gary_zj8qvo.jpg',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,48.86485100,2.37676500,0),(10,'test2','$2b$10$EyNIUm2ojGc8Nx97prsQc.ix1GwfELzD6T.OjuXVtVvpbcuOjzgg6','test@test.test',0,'YnBEYf86f8MjO6m',0,NULL,NULL,NULL,NULL,NULL,24,NULL,NULL,NULL,0,48.87925050,2.38620850,1),(11,'wwww','$2b$10$vaL5DbIqpE2dMvvpNc.cB.KQ/pdUZcy63gUQqoI6E5Fzz12ks0uYC','ww@ww.ww',0,'XyhZwY5q0kkMwbV',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,48.87926610,2.38618270,1),(12,'okok','$2b$10$Ppbw/NyZhYqxEu2DC8BB8ObYm1o2nAo46cCkBiPn6dElk2g0JA2om','okok@okok.okok',0,'YEaBpmn3dCpcOcp',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,48.86107260,2.38765810,1),(13,'qqqq','$2b$10$clWFYUSNWpUJ0JaAIh4GiOHAnwfDMqtGwe6tOzTkWuADi/2PoK9k2','q@q.qq',0,'rmZ9YA2kyDwDIrr',0,NULL,NULL,NULL,NULL,NULL,24,NULL,NULL,NULL,0,48.87926200,2.38619510,1),(14,'luca','$2b$10$8QYfmfSIK1GpSfL5xFm/pOwy0xIVZ7gowQNatpsj8Xwue/K4J1g6m','luca@sharklasers.com',0,'1',0,'http://res.cloudinary.com/dzhnhtkyv/image/upload/v1536956118/cdek0dvqou8n4g0dsbda.png',NULL,NULL,NULL,NULL,20,NULL,NULL,NULL,0,48.85661400,2.35222190,0);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -291,6 +262,37 @@ LOCK TABLES `matchs` WRITE;
 INSERT INTO `matchs` VALUES (12,2,1,'2018-09-02 12:23:53',1),(13,1,6,'2018-09-02 12:25:41',1),(14,2,6,'2018-09-02 18:08:59',1),(15,1,13,'2018-09-03 19:24:18',1);
 /*!40000 ALTER TABLE `matchs` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `preferences`
+--
+
+DROP TABLE IF EXISTS `preferences`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `preferences` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `age_min` int(10) unsigned NOT NULL,
+  `age_max` int(10) unsigned NOT NULL,
+  `max_distance` int(10) unsigned NOT NULL,
+  `sex` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `popularity_min` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `preferences_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `preferences`
+--
+
+LOCK TABLES `preferences` WRITE;
+/*!40000 ALTER TABLE `preferences` DISABLE KEYS */;
+INSERT INTO `preferences` VALUES (1,16,38,645000,1,1,0),(2,16,38,50000,1,2,0),(3,16,38,50000,1,9,0),(4,16,38,50000,1,10,0),(5,20,35,20000,1,6,0),(6,16,38,50000,1,11,0),(7,16,38,50000,1,12,0),(8,16,38,50000,1,13,0),(9,16,38,50000,1,14,0);
+/*!40000 ALTER TABLE `preferences` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -301,4 +303,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-05 15:47:02
+-- Dump completed on 2018-09-15  3:27:44

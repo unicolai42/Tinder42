@@ -60,9 +60,9 @@ class SignUp extends React.Component {
           this.setState({validPassword: 'unsafe'});
       }
       else if (elem === 'username' && value) {
-        let checkUsernameCaracters = new RegExp(/^[^\s!@#$&*.><?`~%^()+=§"'|\\/]+$/);
+        let checkUsernameCaracters = new RegExp(/^[^\s!@#$&*.><?`~%^()+=§"'|\\/]+$/)
         if (value.length > 30)
-          this.setState({validUsername: 'tooLong'});
+          this.setState({validUsername: 'tooLong'})
         else if (!checkUsernameCaracters.test(value))
           this.setState({validUsername: false});
         else
