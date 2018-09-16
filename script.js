@@ -1,18 +1,25 @@
 const mysql = require('mysql')
+const fs = require('fs')
 
-const req = mysql.createConnection({
+const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '00000000',
-    ssl  : {
-        ca : fs.readFileSync('database_tinder42.sql')
-    }    
+    database: 'Matcha',    
+    multipleStatements: true
 })
 
-// req.db.query("UPDATE Users SET latitude = ?, longitude = ? WHERE id = ?;",
-// [latitude, longitude, req.body.userId], (err, rows, fields) => {
-//     if (err)
-//         return (res.send(err) && console.log(err))
-    
-//     res.end()
-// })
+const sqlFile = fs.readFileSync('database_tinder42.sql').toString()
+
+db.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+    db.query(sqlFile, function (err, result) {
+        if (err) throw err;
+        console.log("Result: " + result);
+      });
+    db.end()
+});
+
+
+

@@ -41,7 +41,6 @@ class App extends React.Component {
                     "userSignInId": data.id,
                     "userAlreadySignInId": Cookies.get('id')
                 })
-                console.log(this.state.usersConnected, newUsersConnected, 'QSV')
                 this.setState({usersConnected: newUsersConnected})
             })
             socket.on('userDisconnected', data => {
@@ -49,9 +48,7 @@ class App extends React.Component {
                 const i = newUsersConnected.indexOf(parseInt(data.id, 10))
                 if (i > -1) {
                   newUsersConnected.splice(i, 1)
-                }
-                console.log(this.state.usersConnected, newUsersConnected, 'QSW')                
-                console.log(data.id, 'BBBB')
+                }         
                 this.setState({usersConnected: newUsersConnected})
                 
             })
@@ -60,7 +57,6 @@ class App extends React.Component {
                 "userId": Cookies.get('id')
             })
             .then(response => {
-                console.log(response.data)
                 this.setState({usersConnected: response.data})
             })
         }

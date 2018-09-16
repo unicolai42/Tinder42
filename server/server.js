@@ -28,7 +28,7 @@ app.use((req, res, next) => {
         database: 'Matcha'
     })
     next()
-});
+})
 
 
 app.use(routerDbQuery)
