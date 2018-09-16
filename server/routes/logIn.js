@@ -21,7 +21,7 @@ router.post('/check_signUp', (req, res) => {
                 if(err)
                     return(res.send(err) && console.log(err));
                 const userId = rows[0].id
-                req.db.query(`INSERT INTO Preferences (age_min, age_max, max_distance, sex, user_id) VALUES (16, 38, 50000, 1, ?);`,
+                req.db.query(`INSERT INTO Preferences (age_min, age_max, max_distance, sex, user_id) VALUES (16, 70, 50000, 1, ?);`,
                 [userId], (err, rows, fields) => {
                     if(err)
                         return(res.send(err) && console.log(err))

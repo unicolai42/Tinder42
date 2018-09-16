@@ -17,7 +17,7 @@ class Settings extends React.Component {
       users: [],
       user: {},
       ageMin: 16,
-      ageMax: 38,
+      ageMax: 70,
       maxDistance: 1,
       popularity: 0,
       maxPopularity: 0,
@@ -281,7 +281,7 @@ class Settings extends React.Component {
               <div id='Settings_ageText'>Age Range</div>
               <div id='Settings_ageNumber'>{this.state.ageMin} - {this.state.ageMax} ans</div>
             </div>
-            <Range min={16} max={38} value={[this.state.ageMin, this.state.ageMax]} onChange={this.changeValuesAge} onAfterChange={this.setValuesDb} />
+            <Range min={16} max={70} value={[this.state.ageMin, this.state.ageMax]} onChange={this.changeValuesAge} onAfterChange={this.setValuesDb} />
           </div>
           <div id='Settings_maxDistance'>
             <div className='Settings_description'>
