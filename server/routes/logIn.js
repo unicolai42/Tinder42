@@ -128,6 +128,21 @@ router.get('/activate_user', (req, res) => {
     })
 })
 
+router.post('/maj_last_connection_and_deconnect_user', (req, res) => {
+    req.db.query(`UPDATE Users SET last_connection = CURRENT_TIMESTAMP WHERE id = ?;`,
+    [req.body.userId], (err, rows, fields) => {
+        if(err)
+            return(res.send(err) && console.log(err));
+
+        req.db.query(`DELETE FROM ConnectedUsers WHERE user1 = ? OR user2 = ?;`,
+        [req.body.userId, req.body.userId], (err, rows, fields) => {
+            if(err)
+                return(res.send(err) && console.log(err))
+            res.end()
+        })
+    })
+})
+
 module.exports = router
 
 

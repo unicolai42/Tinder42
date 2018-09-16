@@ -1,26 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-// router.get('/ok', (req, res) => {
-//     req.db.query("SELECT * FROM Chat WHERE sender_id = 1 OR receiver_id = 1 ORDER BY match_id, date;",
-//     (err, rows, fields) => {
-//         if (err)
-//             return (res.send(err) && console.log(err))
-//         let conversationsId = []
-//         rows.forEach(row => {
-//             let add = 1
-//             for (let i = 0; i < conversationsId.length; i++)
-//                 if (row.match_id === conversationsId[i])
-//                     add = 0
-//             if (add === 1)
-//                 conversationsId.push(row.match_id)
-//             add = 1
-//         })
-//         req.db.query()
-//         res.json(rows)
-//     })
-// })
-
 
 router.post('/chat_conversation', (req, res) => {
     req.db.query("SELECT * FROM Chat WHERE sender_id = ? OR receiver_id = ? ORDER BY match_id, date;",
@@ -106,7 +86,7 @@ router.post('/chat_conversation', (req, res) => {
 router.post('/find_match_info', (req, res) => {
     const usersMatchedId = req.body.usersMatched
 
-    req.db.query(`SELECT id, username, picture1 FROM Users WHERE id IN (?);`,
+    req.db.query(`SELECT * FROM Users WHERE id IN (?);`,
     [usersMatchedId], (err, rows, fields) => {
         if(err)
             return(res.send(err) && console.log(err));
@@ -185,5 +165,39 @@ router.post('/chat_read', (req, res) => {
         res.end()
     })
 })
+
+router.post('/get_users_connected', (req, res) => {
+    req.db.query('SELECT * FROM ConnectedUsers WHERE user1 = ? OR user2 = ?;',
+    [req.body.userId, req.body.userId], (err, rows, fields) => {
+        if(err)
+            return(res.send(err) && console.log(err))
+        
+        let usersConnected = []
+        rows.forEach(elem => {
+            if (elem.user1 !== parseInt(req.body.userId, 10)) {
+                const i = usersConnected.indexOf(elem.user1)
+                if (i === -1)
+                  usersConnected.push(elem.user1)
+            }
+            else if (elem.user2 !== parseInt(req.body.userId, 10)) {
+                const i = usersConnected.indexOf(elem.user2)
+                if (i === -1)
+                    usersConnected.push(elem.user2)             
+            }
+        })
+        console.log(usersConnected, 'pps')
+        res.json(usersConnected)
+    })
+})
+
+router.post('/add_new_user_connected', (req, res) => {
+    req.db.query('INSERT INTO ConnectedUsers (user1, user2) VALUES (?, ?);',
+    [req.body.userSignInId, req.body.userAlreadySignInId], (err, rows, fields) => {
+        if(err)
+            return(res.send(err) && console.log(err))
+        res.end()
+    })
+})
+
 
 module.exports = router

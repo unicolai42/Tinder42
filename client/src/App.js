@@ -30,22 +30,18 @@ class App extends React.Component {
         this.otherSelected = this.otherSelected.bind(this)
     }
 
-    componentDidMount() {
-        socket.removeListener('newUserConnected')
-        socket.removeListener('userDisconnected')        
+    componentDidMount() {       
         if (Cookies.get('id')) {
+            socket.removeListener('newUserConnected')
+            socket.removeListener('userDisconnected') 
             socket.on('newUserConnected', data => {
                 let newUsersConnected = this.state.usersConnected
                 newUsersConnected.push(data.id)
-                axios.post('http://localhost:3001/maj_users_connected', {
+                axios.post('http://localhost:3001/add_new_user_connected', {
                     "userSignInId": data.id,
                     "userAlreadySignInId": Cookies.get('id')
-                }) ///// RAJOUTER DANS LA DB UNE COLUMN USER CONNECTE ET AJOUTER POUR LES 2 COMME QUOI LES 2 SONT CONNECTES
-                console.log(data, 'AAAA')
+                })
                 this.setState({usersConnected: newUsersConnected})
-                // socket.emit('idUsersAlreadyConnected', {
-                //     userId: Cookies.get('id')
-                // })
             })
             socket.on('userDisconnected', data => {
                 let newUsersConnected = this.state.usersConnected
@@ -56,6 +52,14 @@ class App extends React.Component {
                 console.log(data.id, 'BBBB')
                 this.setState({usersConnected: newUsersConnected})
                 
+            })
+
+            axios.post('http://localhost:3001/get_users_connected', {
+                "userId": Cookies.get('id')
+            })
+            .then(response => {
+                console.log(response.data)
+                this.setState({usersConnected: response.data})
             })
         }
     }
@@ -79,8 +83,6 @@ class App extends React.Component {
     }
 
     render() {
-        console.log(this.state.usersConnected, 'ERERE')
-        
         let homePage = (Cookies.get('username')) ? Home : Landing
         return (
             <Router>

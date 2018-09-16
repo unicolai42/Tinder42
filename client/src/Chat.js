@@ -8,6 +8,7 @@ import axios from 'axios'
 import sendBlue from './ressources/send.png'
 import sendWhite from './ressources/send_white.png'
 
+
 const socket = socketIOClient('http://127.0.0.1:3002')
 
 class Chat extends React.Component {
@@ -488,6 +489,14 @@ class Chat extends React.Component {
                 let lastMessageOtherUserSend
                 let j = this.state.usersChat[i].length - 1
 
+                let res = this.props.usersConnected.find(id => {
+                    return id === usersInfo[i].id
+                })
+
+                const dateLastLog = new Date(usersInfo[i].last_connection).toString()
+                console.log(dateLastLog)
+                const userConnectedOrNot = (res) ? 'Connected' : dateLastLog
+
                 if (this.state.usersChat[i][0]) {
                     lastMessageOtherUserSend = this.state.usersChat[i][this.state.usersChat[i].length - 1]
                     if (lastMessageOtherUserSend) {
@@ -497,7 +506,6 @@ class Chat extends React.Component {
                         }
                     }
                 }
-                console.log(lastMessageOtherUserSend)
                 let readLastMessage = (j === -1) ? 1 : (lastMessageOtherUserSend === 0 || !lastMessageOtherUserSend) ? 0 : (lastMessageOtherUserSend.read_message === 0) ? 0 : 1
                 let urlPicture1 = (this.state.usersInfo[i].picture1) ? {backgroundImage: `url(${this.state.usersInfo[i].picture1})`} : null
                 users.push(
@@ -506,6 +514,7 @@ class Chat extends React.Component {
                     <div className='Chat_text'>
                         <div className='Chat_username'>{this.state.usersInfo[i].username}</div>
                         {lastMessage}
+                        <div className='Chat_connectedOrNot'>{userConnectedOrNot}</div>
                     </div>
                 </div>)
             }
