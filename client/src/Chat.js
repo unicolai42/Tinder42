@@ -494,7 +494,6 @@ class Chat extends React.Component {
                 })
 
                 const dateLastLog = new Date(usersInfo[i].last_connection).toString()
-                console.log(dateLastLog)
                 const userConnectedOrNot = (res) ? 'Connected' : dateLastLog
 
                 if (this.state.usersChat[i][0]) {

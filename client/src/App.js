@@ -36,19 +36,21 @@ class App extends React.Component {
             socket.removeListener('userDisconnected') 
             socket.on('newUserConnected', data => {
                 let newUsersConnected = this.state.usersConnected
-                newUsersConnected.push(data.id)
+                newUsersConnected.push(parseInt(data.id, 10))
                 axios.post('http://localhost:3001/add_new_user_connected', {
                     "userSignInId": data.id,
                     "userAlreadySignInId": Cookies.get('id')
                 })
+                console.log(this.state.usersConnected, newUsersConnected, 'QSV')
                 this.setState({usersConnected: newUsersConnected})
             })
             socket.on('userDisconnected', data => {
                 let newUsersConnected = this.state.usersConnected
-                const i = newUsersConnected.indexOf(data.id)
+                const i = newUsersConnected.indexOf(parseInt(data.id, 10))
                 if (i > -1) {
                   newUsersConnected.splice(i, 1)
                 }
+                console.log(this.state.usersConnected, newUsersConnected, 'QSW')                
                 console.log(data.id, 'BBBB')
                 this.setState({usersConnected: newUsersConnected})
                 
