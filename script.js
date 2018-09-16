@@ -15,6 +15,9 @@ const db = mysql.createConnection({
 
 const sqlFile = fs.readFileSync('database_tinder42.sql').toString()
 
+const fr_coords = {lat: {min: 41.314330, max: 51.124200}, lon: {min: -5.559100, max: 9.662500}}
+fr_coords.lon_diff = fr_coords.lon.max - fr_coords.lon.min
+fr_coords.lat_diff = fr_coords.lat.max - fr_coords.lat.min 
 
 db.connect(function(err) {
     if (err) throw err
@@ -35,8 +38,11 @@ db.connect(function(err) {
         
             bcrypt.hash(password, saltRounds, function(err, hashPassword) {
                 const randomKey = randomString.generate(15)
-                db.query(`INSERT INTO Users (username, password, mail, randomKey, picture1, age, sex) VALUES (?, ?, ?, ?, ?, ?, ?);`,
-                [elem.login.username, hashPassword, elem.email, randomKey, elem.picture.medium, elem.dob.age, sex], (err, rows, fields) => {
+                let longitude = Math.random() * fr_coords.lon_diff + fr_coords.lon.min
+                let latitude = Math.random() * fr_coords.lat_diff + fr_coords.lat.min
+
+                db.query(`INSERT INTO Users (username, password, mail, randomKey, picture1, age, latitude, longitude, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                [elem.login.username, hashPassword, elem.email, randomKey, elem.picture.large, elem.dob.age, latitude, longitude, sex], (err, rows, fields) => {
                     if(err)
                         return(console.log(err))
                     

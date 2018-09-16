@@ -130,7 +130,7 @@ router.post('/load_user_data_match', (req, res) => {
                     [req.body.userId, sexPreference, preferences.age_min, preferences.age_max, preferences.popularity_min], (err, rows, fields) => {
                         if (err)
                             return (res.send(err) && console.log(err))
-                        
+                            
                         const usersDataNoChecked = rows
 
                         req.db.query("SELECT * FROM checkedUsers WHERE checker_id = ?;",
@@ -138,11 +138,9 @@ router.post('/load_user_data_match', (req, res) => {
                             if (err)
                                 return (res.send(err) && console.log(err))
                             let checkedId = []
-
                             rows.forEach(row => {
                                 checkedId.push(row.checked_id)
                             })
-
                             let usersDataChecked = []
 
                             usersDataNoChecked.forEach(user => {
@@ -170,6 +168,7 @@ router.post('/load_user_data_match', (req, res) => {
                                     if (checkedId.findIndex(e => { return e === userData.id}))
                                         usersData.push(userData)
                             })
+                            console.log(usersData, 'lll')                                                        
                             res.json(usersData)
                         })
                     })

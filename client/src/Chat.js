@@ -251,16 +251,18 @@ class Chat extends React.Component {
             let i = this.state.usersChat[this.state.idChatPrincipal].length - 1
             let lastMessageOtherUserSend = this.state.usersChat[this.state.idChatPrincipal][this.state.usersChat[this.state.idChatPrincipal].length - 1]
             
-            while (lastMessageOtherUserSend.receiver_id !== parseInt(Cookies.get('id'), 10) && i > -1) {
-                lastMessageOtherUserSend = this.state.usersChat[this.state.idChatPrincipal][i]
-                i--
-            }
-            
-            if (i !== -1 && lastMessageOtherUserSend.read_message === 0) {
-                axios.post('http://localhost:3001/chat_read', {
-                    "userId": Cookies.get('id'),
-                    "matcherId": this.state.usersInfo[this.state.idChatPrincipal].id
-                })
+            if (lastMessageOtherUserSend) {
+                while (lastMessageOtherUserSend.receiver_id !== parseInt(Cookies.get('id'), 10) && i > -1) {
+                    lastMessageOtherUserSend = this.state.usersChat[this.state.idChatPrincipal][i]
+                    i--
+                }
+                
+                if (i !== -1 && lastMessageOtherUserSend.read_message === 0) {
+                    axios.post('http://localhost:3001/chat_read', {
+                        "userId": Cookies.get('id'),
+                        "matcherId": this.state.usersInfo[this.state.idChatPrincipal].id
+                    })
+                }
             }
         }
     }
