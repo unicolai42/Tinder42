@@ -23,7 +23,7 @@ db.connect(function(err) {
         if (err) throw err
         console.log("Result: " + result)
     })
-    fetch('https://randomuser.me/api/?results=5&nat=fr')
+    fetch('https://randomuser.me/api/?results=500&nat=fr')
     .then(response => response.json())
     .then(data => {
         const users = data.results
@@ -50,7 +50,7 @@ db.connect(function(err) {
                         [userId], (err, rows, fields) => {
                             if(err)
                                 return(console.log(err))
-                                
+
                             if (i === data.results.length - 1)
                                 db.end()
                         })
