@@ -1,6 +1,11 @@
 import React from 'react'
 import './MatchUser.css'
 import InfoMatch from './InfoMatch';
+import Geocode from "react-geocode"
+import Key from "./Key"
+
+Geocode.setApiKey(Key.googleMapKey)
+
 
 class MatchUser extends React.Component {
     constructor(props) {
@@ -11,7 +16,8 @@ class MatchUser extends React.Component {
             changePicture: 0,
             clickedInfo: false,
             about: 'flex',
-            info: 'none'
+            info: 'none',
+            location: ''
         }
       
         this.clickBulletpoint = this.clickBulletpoint.bind(this)
@@ -20,13 +26,33 @@ class MatchUser extends React.Component {
         this.nextPicture = this.nextPicture.bind(this)
         this.clickedInfo = this.clickedInfo.bind(this)
     }
+
+    componentDidMount() {
+        Geocode.fromLatLng(this.props.userInfo.latitude, this.props.userInfo.longitude).then(res => {
+            let city = res.results[0].formatted_address
+            let end
+            let start
+            let i = city.length - 1
+            while (i) {
+                if (city[i] === ',')
+                    end = i
+                if (/\d/.test(city[i])) {
+                    start = i + 2
+                    break
+                }
+                i--
+            }
+            city = city.substr(start, end - start)
+            this.setState({location: city})                
+        }, error => {
+            this.setState({location: ''}) 
+        })
+    }
       
     clickedInfo() {
-        console.log(this.state.clickedInfo)
         this.setState((prevState) => {
             return {clickedInfo: !prevState.clickedInfo}
         })
-        console.log(this.state.clickedInfo)
         if (!this.state.clickedInfo)
             this.setState({about: 'none', info: 'flex'})
         else
@@ -43,7 +69,6 @@ class MatchUser extends React.Component {
     }
     
     nextPicture() {
-        console.log(this.state.changePicture)
         if (this.state.changePicture / -100 !== this.state.pictures.length - 1)
             this.setState((prevState) => {
             return {changePicture: prevState.changePicture += 100 * -1}
@@ -53,7 +78,6 @@ class MatchUser extends React.Component {
     }
     
     clickBulletpoint(e) {
-        console.log(e.target)
         this.setState({changePicture: e.target.dataset.id * -100})
         e.target.style.background = 'white';
     }
@@ -69,9 +93,7 @@ class MatchUser extends React.Component {
     }
 
     render() {
-        console.log('check')
         let pictures = []
-        console.log(this.state.pictures.length, 'length')
         for (let i = 0; i < this.state.pictures.length; i++) {
             pictures.push(<div className='MatchUser_picture' key={i} style={{backgroundImage: `url(${this.state.pictures[i]})`, transform: `translateX(${this.state.changePicture}%)`}}></div>)
         }
@@ -100,7 +122,7 @@ class MatchUser extends React.Component {
                         <div id='MatchUser_nameAge' style={{display: this.state.about}}>{this.props.userInfo.username}, {this.props.userInfo.age}</div>
                         <div id='MatchUser_location' style={{display: this.state.about}}>
                             <div id='MatchUser_locationLogo'></div>
-                            <div id='MatchUser_locationText'>Paris</div>  
+                            <div id='MatchUser_locationText'>{this.state.location}</div>  
                         </div>
                     </div>
                     <div id='MatchUser_about' onClick={this.clickedInfo} style={{display: this.state.about}}></div>
