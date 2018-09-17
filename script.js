@@ -21,10 +21,9 @@ fr_coords.lat_diff = fr_coords.lat.max - fr_coords.lat.min
 
 db.connect(function(err) {
     if (err) throw err
-    console.log("Connected!");
+    
     db.query(sqlFile, (err, result) => {
         if (err) throw err
-        console.log("Result: " + result)
     })
     fetch('https://randomuser.me/api/?results=500&nat=fr')
     .then(response => response.json())
@@ -57,8 +56,10 @@ db.connect(function(err) {
                             if(err)
                                 return(console.log(err))
 
-                            if (i === data.results.length - 1)
+                            if (i === data.results.length - 1) {
+                                console.log('Completed database')
                                 db.end()
+                            }
                         })
                     })
                 })

@@ -50,7 +50,7 @@ class InfoMatch extends React.Component {
                     city = city.substr(start, end - start)
                     this.setState({location: city})                
                 }, error => {
-                    console.error(error)
+                    this.setState({location: ''}) 
                 })
             }
             this.setState({

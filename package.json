@@ -17,6 +17,7 @@
     "es6-promise": "^4.2.5",
     "isomorphic-fetch": "^2.2.1",
     "mysql": "^2.16.0",
-    "randomstring": "^1.1.5"
+    "randomstring": "^1.1.5",
+    "react-geocode": "^0.1.2"
   }
 }
