@@ -304,6 +304,7 @@ CREATE TABLE `users` (
   `latitude` decimal(10,8) DEFAULT '0.00000000',
   `longitude` decimal(11,8) DEFAULT '0.00000000',
   `sex` int(10) unsigned DEFAULT '1',
+  `last_connection` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
