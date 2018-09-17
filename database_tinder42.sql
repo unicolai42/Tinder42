@@ -315,7 +315,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Ugo','$2b$10$8t4nYGlBPjeeo0iPAIyyAuQSX7kV3ZD270l2928JMHoSQGGU5t/ny','ugo@sharklasers.com',0,'1',0,'http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533814281/qmjwhvkncokjkifgkr3a.jpg','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477852/znxgo1spp1mlrlubjsm5.png','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477852/ck4xg3x9vv2o6kalar76.png','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477027/jsluurjsbuekjwwxxkgv.png',NULL,24,'',NULL,'French, English',1,48.89673600,2.31834290,0);
+INSERT INTO `users` VALUES (1,'Ugo','$2b$10$8t4nYGlBPjeeo0iPAIyyAuQSX7kV3ZD270l2928JMHoSQGGU5t/ny','ugo@sharklasers.com',0,'1',0,'http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533814281/qmjwhvkncokjkifgkr3a.jpg','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477852/znxgo1spp1mlrlubjsm5.png','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477852/ck4xg3x9vv2o6kalar76.png','http://res.cloudinary.com/dzhnhtkyv/image/upload/v1533477027/jsluurjsbuekjwwxxkgv.png',NULL,24,'',NULL,'French, English',1,48.89673600,2.31834290,0, CURRENT_TIMESTAMP);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
