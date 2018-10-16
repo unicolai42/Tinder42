@@ -1,87 +1,68 @@
 @import url("https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:300");
 #Profile_wrapper {
-  display: flex;
-  height: calc(100vh - 57px);
-  overflow: scroll; }
+  display: flex; }
   #Profile_wrapper #Profile_block {
-    margin: auto auto 5vh auto;
-    display: flex;
-    flex-direction: column;
+    margin: 20px auto 80px auto;
     width: 80vw;
     max-width: 65vh;
     min-width: 40vw;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77); }
-    #Profile_wrapper #Profile_block #Profile_firstPicture {
-      margin: 0 auto;
-      background-position: center;
-      background-size: cover;
-      width: 80vw;
-      height: 80vw;
-      max-height: 65vh;
-      max-width: 65vh;
-      min-height: 40vw;
-      min-width: 40vw;
-      border-radius: 15px 15px 0 0;
-      box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77); }
-    #Profile_wrapper #Profile_block #Profile_secondPicture {
-      margin: 2vw 0;
-      display: flex;
-      width: 100%;
-      height: 17vw;
-      min-height: 10vh;
-      max-height: 12.5vh; }
-      #Profile_wrapper #Profile_block #Profile_secondPicture .Profile_boxPictures {
+    #Profile_wrapper #Profile_block #Profile_picture {
+      height: 80vh;
+      min-height: 50vw;
+      max-height: 100vw; }
+      #Profile_wrapper #Profile_block #Profile_picture #Profile_firstPicture {
+        margin: 0 auto;
         background-position: center;
         background-size: cover;
-        width: 15.5vw;
-        height: 15.5vw;
-        max-width: 12.5vh;
-        max-height: 12.5vh;
-        min-width: 7.5vw;
-        min-height: 7.5vw;
-        margin: auto;
-        border-radius: 2vh;
-        box-shadow: 0 5px 16px 0 rgba(0, 0, 0, 0.09);
+        width: 80vw;
+        height: 80vw;
+        max-height: 65vh;
+        max-width: 65vh;
+        min-height: 40vw;
+        min-width: 40vw;
+        border-radius: 15px 15px 0 0;
+        box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77); }
+      #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture {
+        margin: 2vw 0;
         display: flex;
-        cursor: pointer; }
-        #Profile_wrapper #Profile_block #Profile_secondPicture .Profile_boxPictures:hover .Profile_emptyPictures {
-          background-image: url("./ressources/add_green.png"); }
-      #Profile_wrapper #Profile_block #Profile_secondPicture .Profile_emptyPictures {
-        background-position: center;
-        background-size: cover;
-        background-image: url("./ressources/add.png");
-        width: 5.2vw;
-        height: 5.2vw;
-        max-width: 4.2vh;
-        max-height: 4.2vh;
-        min-width: 2.5vw;
-        min-height: 2.5vw;
-        margin: auto; }
+        justify-content: space-around;
+        height: 17vw;
+        min-height: 10vh;
+        max-height: 12.5vh; }
+        #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_boxPictures {
+          background-position: center;
+          background-size: cover;
+          width: 15.5vw;
+          height: 15.5vw;
+          max-width: 12.5vh;
+          max-height: 12.5vh;
+          min-width: 7.5vw;
+          min-height: 7.5vw;
+          margin: auto 0;
+          border-radius: 2vh;
+          box-shadow: 0 5px 16px 0 rgba(0, 0, 0, 0.09);
+          display: flex;
+          cursor: pointer; }
+          #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_boxPictures:hover .Profile_emptyPictures {
+            background-image: url("./ressources/add_green.png"); }
+          #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_boxPictures input {
+            width: 100%; }
+        #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_emptyPictures {
+          background-position: center;
+          background-size: cover;
+          background-image: url("./ressources/add.png");
+          width: 5.2vw;
+          height: 5.2vw;
+          max-width: 4.2vh;
+          max-height: 4.2vh;
+          min-width: 2.5vw;
+          min-height: 2.5vw;
+          margin: auto; }
     #Profile_wrapper #Profile_block #Profile_about {
       margin: 0 10px;
       font-family: 'Encode Sans Semi Expanded', sans-serif;
       font-size: 14px;
-      font-weight: 300;
-      height: 100%; }
-
-@media screen and (min-width: 800px) {
-  #Profile_wrapper {
-    margin-top: 6vh;
-    height: calc(100vh - 6vh); }
-    #Profile_wrapper #Profile_block {
-      flex-direction: initial;
-      margin: auto;
-      width: 80vw;
-      max-height: 90vh;
-      max-width: initial; }
-      #Profile_wrapper #Profile_block #Profile_firstPicture {
-        border-radius: 15px 15px 15px 0; }
-      #Profile_wrapper #Profile_block #Profile_secondPicture {
-        margin: 0.7vh 0 auto 0; }
-      #Profile_wrapper #Profile_block #Profile_about {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between; } }
+      font-weight: 300; }

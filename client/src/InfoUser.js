@@ -216,12 +216,9 @@ class InfoUser extends React.Component {
         modify.push(<input key={1} className='InfoUser_input' type="text" placeholder='Name' value={(this.state.name) ? this.state.name : ''} onChange={this.changeName} />)
         modify.push(<input key={2} className='InfoUser_input' type="text" placeholder='Age' value={(this.state.age) ? this.state.age : ''} onChange={this.changeAge} />)
         modify.push(<div key={9} id='InfoUser_sex'>
-                        <div className='InfoUser_description'>
-                            <div className='InfoUser_sexText'>Men</div>
-                            <div className='InfoUser_sexText'>Unknown</div>
-                            <div className='InfoUser_sexText'>Women</div>
-                        </div>
-                        <Slider style={{width: '90%', margin: 'auto'}} min={0} max={2} value={this.state.sex} onChange={this.changeSex} />
+                        <div className='InfoUser_sexText'>Men</div>
+                        <div className='InfoUser_sexText'>Women</div>
+                        {/* <Slider style={{width: '90%', margin: 'auto'}} min={0} max={2} value={this.state.sex} onChange={this.changeSex} /> */}
                     </div>)
         modify.push(<input key={3} className='InfoUser_input' type="text" placeholder='Description' value={(this.state.description) ? this.state.description : ''} onChange={this.changeDescription} />)
         modify.push(<input key={4} className='InfoUser_input' type="text" placeholder='Location' value={(this.state.location) ? this.state.location : ''} onChange={this.changeLocation} />)
@@ -243,7 +240,7 @@ class InfoUser extends React.Component {
                 </div>
                 <div id='InfoUser_NameAgeEdit' onClick={this.editInfo}>
                     <span id='InfoUser_NameAgeEditText'>
-                        {this.state.editButton}
+                        {/* {this.state.editButton} */}
                     </span>
                     <span className='InfoUser_aboutImg' id='InfoUser_NameAgeEditImg'/>
                 </div>
