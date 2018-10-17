@@ -3,7 +3,6 @@ import './InfoUser.css'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import ReactTags from 'react-tag-autocomplete'
-import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
 import Geocode from "react-geocode"
 import Key from "./Key"
@@ -37,7 +36,6 @@ class InfoUser extends React.Component {
         this.changeLocation = this.changeLocation.bind(this)
         this.changeWork = this.changeWork.bind(this)
         this.changeSex = this.changeSex.bind(this)
-        // this.changeTags = this.changeTags.bind(this)
         this.changeLanguage = this.changeLanguage.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
         this.handleAddition = this.handleAddition.bind(this)
@@ -160,7 +158,7 @@ class InfoUser extends React.Component {
 
     changeSex(value) {
         this.setState({sex: value})
-        console.log(this.state.sex)
+        console.log(value)
     }
 
     handleDelete(i) {
@@ -216,9 +214,8 @@ class InfoUser extends React.Component {
         modify.push(<input key={1} className='InfoUser_input' type="text" placeholder='Name' value={(this.state.name) ? this.state.name : ''} onChange={this.changeName} />)
         modify.push(<input key={2} className='InfoUser_input' type="text" placeholder='Age' value={(this.state.age) ? this.state.age : ''} onChange={this.changeAge} />)
         modify.push(<div key={9} id='InfoUser_sex'>
-                        <div className='InfoUser_sexText'>Men</div>
-                        <div className='InfoUser_sexText'>Women</div>
-                        {/* <Slider style={{width: '90%', margin: 'auto'}} min={0} max={2} value={this.state.sex} onChange={this.changeSex} /> */}
+                        <div className='InfoUser_sexText' onClick={() => this.changeSex(0)} style={(this.state.sex === 0) ? {background: 'linear-gradient(190deg,#68efc6 30%,#3be961 70%,#18e23a 90%)', color: 'white'} : null}>Men</div>
+                        <div className='InfoUser_sexText' onClick={() => this.changeSex(2)} style={(this.state.sex === 2) ? {background: 'linear-gradient(190deg,#68efc6 30%,#3be961 70%,#18e23a 90%)', color: 'white'} : null}>Women</div>
                     </div>)
         modify.push(<input key={3} className='InfoUser_input' type="text" placeholder='Description' value={(this.state.description) ? this.state.description : ''} onChange={this.changeDescription} />)
         modify.push(<input key={4} className='InfoUser_input' type="text" placeholder='Location' value={(this.state.location) ? this.state.location : ''} onChange={this.changeLocation} />)
