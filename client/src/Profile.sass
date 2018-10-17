@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:300')
 
 #Profile_wrapper
-    display: flex
     
     #Profile_block
         margin: 20px auto 80px auto
@@ -9,13 +8,10 @@
         max-width: 65vh
         min-width: 40vw
         background-color: white
-        border-radius: 15px
+        border-radius: 2vw
         box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77)
 
         #Profile_picture
-            height: 80vh
-            min-height: 50vw
-            max-height: 100vw
 
             #Profile_firstPicture
                 margin: 0 auto
@@ -27,14 +23,14 @@
                 max-width: 65vh
                 min-height: 40vw
                 min-width: 40vw
-                border-radius: 15px 15px 0 0
+                border-radius: 2vw 2vw 0 0
                 box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77)
 
             
             #Profile_secondPicture
                 margin: 2vw 0
                 display: flex
-                justify-content: space-around
+                justify-content: space-between
                 height: 17vw
                 min-height: 10vh
                 max-height: 12.5vh
@@ -49,7 +45,7 @@
                     min-width: 7.5vw
                     min-height: 7.5vw
                     margin: auto 0
-                    border-radius: 2vh
+                    border-radius: 2vw
                     box-shadow: 0 5px 16px 0 rgba(0,0,0,.09)
                     display: flex
                     cursor: pointer
@@ -79,30 +75,132 @@
             font-size: 14px
             font-weight: 300
         
-
-// @media screen and (min-width: 800px)
-//     #Profile_wrapper
-//         margin-top: 6vh
-//         height: calc(100vh - 6vh)
+@media screen and (min-width: 1050px) and (min-height: 800px)
+    #Profile_wrapper
+        height: calc(100vh - 40px)
+        margin-top: 40px !important
+        display: flex
     
-//         #Profile_block
-//             flex-direction: initial
-//             margin: auto
-//             width: 80vw
-//             max-height: 90vh
-//             max-width: initial
+        #Profile_block
+            margin: auto
+            display: flex
+            max-width: none
+            width: 80vw
+            max-height: 80vh
+            min-width: 40vw
 
-//             #Profile_picture
-        
-//             #Profile_firstPicture
-//                 border-radius: 15px 15px 15px 0
-            
-//             #Profile_secondPicture
-//                 margin: 0.7vh 0 auto 0
+            #Profile_picture
+                height: 80vh
+                min-height: none
+                // max-height: none
+                height: 100% !important
+                display: flex
+                flex-direction: column
+                justify-content: space-between
+
+                #Profile_firstPicture
+                    border-radius: 2vh 0 0 0
+                    width: 40vw
+                    height: 40vw
+                    min-width: initial
+                    min-height: initial
+
+                #Profile_secondPicture
+                    padding-top: 2vh
+                    height: initial
+                    min-height: initial
+                    max-height: initial
+                    margin: initial
                 
-//             #Profile_about
-//                 width: 100%
-//                 display: flex
-//                 flex-direction: column
-//                 justify-content: space-between
+                    .Profile_boxPictures
+                        height: 8vw
+                        width: 8vw
+                        margin: 0
+                        min-width: initial
+                        min-height: initial
+                        border-radius: 1.5vw
+
+                    .Profile_emptyPictures
+                        width: 5vh
+                        height: 5vh
+                        min-width: initial
+                        min-height: initial
+
+            #Profile_about
+                margin: 0 2vw
+                max-height: 50vw
+                width: 100%
+                overflow: auto
+                display: flex
+                &::-webkit-scrollbar
+                    background: transparent
+                    width: 8px
+                &::-webkit-scrollbar-thumb
+                    background-color: rgb(220, 220, 220)
+                    border-radius: 1.5vw
             
+
+@media screen and (min-width: 800px) and (max-height: 800px)
+    #Profile_wrapper
+        height: calc(100vh - 40px)
+        margin-top: 40px !important
+        display: flex
+    
+        #Profile_block
+            margin: auto
+            display: flex
+            max-width: none
+            width: 80vw
+            max-height: 80vh
+            min-width: 40vw
+            min-height: initial
+
+            #Profile_picture
+                height: 80vh
+                min-height: none
+                // max-height: none
+                height: 100% !important
+                display: flex
+                flex-direction: column
+                justify-content: space-between
+
+                #Profile_firstPicture
+                    border-radius: 2vw 0 0 0
+                    width: 40vw
+                    height: 40vw
+                    min-width: initial
+                    min-height: initial
+
+                #Profile_secondPicture
+                    padding-top: 2vh
+                    height: initial
+                    min-height: initial
+                    max-height: initial
+                    margin: initial
+                
+                    .Profile_boxPictures
+                        height: 8vw
+                        width: 8vw
+                        margin: 0
+                        min-width: initial
+                        min-height: initial
+                        border-radius: 1.5vw
+
+                    .Profile_emptyPictures
+                        width: 5vh
+                        height: 5vh
+                        min-width: initial
+                        min-height: initial
+
+            #Profile_about
+                margin: 0 2vw
+                max-height: 50vw
+                width: 100%
+                display: flex
+                overflow: auto
+                &::-webkit-scrollbar
+                    background: transparent
+                    width: 8px
+                &::-webkit-scrollbar-thumb
+                    background-color: rgb(220, 220, 220)
+                    border-radius: 1.5vw

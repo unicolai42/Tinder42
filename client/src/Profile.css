@@ -1,68 +1,175 @@
 @import url("https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:300");
-#Profile_wrapper {
-  display: flex; }
-  #Profile_wrapper #Profile_block {
-    margin: 20px auto 80px auto;
+#Profile_wrapper #Profile_block {
+  margin: 20px auto 80px auto;
+  width: 80vw;
+  max-width: 65vh;
+  min-width: 40vw;
+  background-color: white;
+  border-radius: 2vw;
+  box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77); }
+  #Profile_wrapper #Profile_block #Profile_picture #Profile_firstPicture {
+    margin: 0 auto;
+    background-position: center;
+    background-size: cover;
     width: 80vw;
+    height: 80vw;
+    max-height: 65vh;
     max-width: 65vh;
+    min-height: 40vw;
     min-width: 40vw;
-    background-color: white;
-    border-radius: 15px;
+    border-radius: 2vw 2vw 0 0;
     box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77); }
-    #Profile_wrapper #Profile_block #Profile_picture {
-      height: 80vh;
-      min-height: 50vw;
-      max-height: 100vw; }
-      #Profile_wrapper #Profile_block #Profile_picture #Profile_firstPicture {
-        margin: 0 auto;
-        background-position: center;
-        background-size: cover;
-        width: 80vw;
-        height: 80vw;
-        max-height: 65vh;
-        max-width: 65vh;
-        min-height: 40vw;
-        min-width: 40vw;
-        border-radius: 15px 15px 0 0;
-        box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77); }
-      #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture {
-        margin: 2vw 0;
+  #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture {
+    margin: 2vw 0;
+    display: flex;
+    justify-content: space-between;
+    height: 17vw;
+    min-height: 10vh;
+    max-height: 12.5vh; }
+    #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_boxPictures {
+      background-position: center;
+      background-size: cover;
+      width: 15.5vw;
+      height: 15.5vw;
+      max-width: 12.5vh;
+      max-height: 12.5vh;
+      min-width: 7.5vw;
+      min-height: 7.5vw;
+      margin: auto 0;
+      border-radius: 2vw;
+      box-shadow: 0 5px 16px 0 rgba(0, 0, 0, 0.09);
+      display: flex;
+      cursor: pointer; }
+      #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_boxPictures:hover .Profile_emptyPictures {
+        background-image: url("./ressources/add_green.png"); }
+      #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_boxPictures input {
+        width: 100%; }
+    #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_emptyPictures {
+      background-position: center;
+      background-size: cover;
+      background-image: url("./ressources/add.png");
+      width: 5.2vw;
+      height: 5.2vw;
+      max-width: 4.2vh;
+      max-height: 4.2vh;
+      min-width: 2.5vw;
+      min-height: 2.5vw;
+      margin: auto; }
+  #Profile_wrapper #Profile_block #Profile_about {
+    margin: 0 10px;
+    font-family: 'Encode Sans Semi Expanded', sans-serif;
+    font-size: 14px;
+    font-weight: 300; }
+
+@media screen and (min-width: 1050px) and (min-height: 800px) {
+  #Profile_wrapper {
+    height: calc(100vh - 40px);
+    margin-top: 40px !important;
+    display: flex; }
+    #Profile_wrapper #Profile_block {
+      margin: auto;
+      display: flex;
+      max-width: none;
+      width: 80vw;
+      max-height: 80vh;
+      min-width: 40vw; }
+      #Profile_wrapper #Profile_block #Profile_picture {
+        height: 80vh;
+        min-height: none;
+        height: 100% !important;
         display: flex;
-        justify-content: space-around;
-        height: 17vw;
-        min-height: 10vh;
-        max-height: 12.5vh; }
-        #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_boxPictures {
-          background-position: center;
-          background-size: cover;
-          width: 15.5vw;
-          height: 15.5vw;
-          max-width: 12.5vh;
-          max-height: 12.5vh;
-          min-width: 7.5vw;
-          min-height: 7.5vw;
-          margin: auto 0;
-          border-radius: 2vh;
-          box-shadow: 0 5px 16px 0 rgba(0, 0, 0, 0.09);
-          display: flex;
-          cursor: pointer; }
-          #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_boxPictures:hover .Profile_emptyPictures {
-            background-image: url("./ressources/add_green.png"); }
-          #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_boxPictures input {
-            width: 100%; }
-        #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_emptyPictures {
-          background-position: center;
-          background-size: cover;
-          background-image: url("./ressources/add.png");
-          width: 5.2vw;
-          height: 5.2vw;
-          max-width: 4.2vh;
-          max-height: 4.2vh;
-          min-width: 2.5vw;
-          min-height: 2.5vw;
-          margin: auto; }
-    #Profile_wrapper #Profile_block #Profile_about {
-      margin: 0 10px;
-      font-family: 'Encode Sans Semi Expanded', sans-serif;
-      font-size: 14px;
-      font-weight: 300; }
+        flex-direction: column;
+        justify-content: space-between; }
+        #Profile_wrapper #Profile_block #Profile_picture #Profile_firstPicture {
+          border-radius: 2vh 0 0 0;
+          width: 40vw;
+          height: 40vw;
+          min-width: initial;
+          min-height: initial; }
+        #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture {
+          padding-top: 2vh;
+          height: initial;
+          min-height: initial;
+          max-height: initial;
+          margin: initial; }
+          #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_boxPictures {
+            height: 8vw;
+            width: 8vw;
+            margin: 0;
+            min-width: initial;
+            min-height: initial;
+            border-radius: 1.5vw; }
+          #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_emptyPictures {
+            width: 5vh;
+            height: 5vh;
+            min-width: initial;
+            min-height: initial; }
+      #Profile_wrapper #Profile_block #Profile_about {
+        margin: 0 2vw;
+        max-height: 50vw;
+        width: 100%;
+        overflow: auto;
+        display: flex; }
+        #Profile_wrapper #Profile_block #Profile_about::-webkit-scrollbar {
+          background: transparent;
+          width: 8px; }
+        #Profile_wrapper #Profile_block #Profile_about::-webkit-scrollbar-thumb {
+          background-color: gainsboro;
+          border-radius: 1.5vw; } }
+
+@media screen and (min-width: 800px) and (max-height: 800px) {
+  #Profile_wrapper {
+    height: calc(100vh - 40px);
+    margin-top: 40px !important;
+    display: flex; }
+    #Profile_wrapper #Profile_block {
+      margin: auto;
+      display: flex;
+      max-width: none;
+      width: 80vw;
+      max-height: 80vh;
+      min-width: 40vw;
+      min-height: initial; }
+      #Profile_wrapper #Profile_block #Profile_picture {
+        height: 80vh;
+        min-height: none;
+        height: 100% !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; }
+        #Profile_wrapper #Profile_block #Profile_picture #Profile_firstPicture {
+          border-radius: 2vw 0 0 0;
+          width: 40vw;
+          height: 40vw;
+          min-width: initial;
+          min-height: initial; }
+        #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture {
+          padding-top: 2vh;
+          height: initial;
+          min-height: initial;
+          max-height: initial;
+          margin: initial; }
+          #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_boxPictures {
+            height: 8vw;
+            width: 8vw;
+            margin: 0;
+            min-width: initial;
+            min-height: initial;
+            border-radius: 1.5vw; }
+          #Profile_wrapper #Profile_block #Profile_picture #Profile_secondPicture .Profile_emptyPictures {
+            width: 5vh;
+            height: 5vh;
+            min-width: initial;
+            min-height: initial; }
+      #Profile_wrapper #Profile_block #Profile_about {
+        margin: 0 2vw;
+        max-height: 50vw;
+        width: 100%;
+        display: flex;
+        overflow: auto; }
+        #Profile_wrapper #Profile_block #Profile_about::-webkit-scrollbar {
+          background: transparent;
+          width: 8px; }
+        #Profile_wrapper #Profile_block #Profile_about::-webkit-scrollbar-thumb {
+          background-color: gainsboro;
+          border-radius: 1.5vw; } }

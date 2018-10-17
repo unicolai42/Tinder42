@@ -13,7 +13,7 @@
 .InfoUser_box {
   display: flex;
   justify-content: space-between;
-  margin: 2vh; }
+  margin: 2vh 0; }
 
 #InfoUser_NameAgeText {
   font-size: calc(5px + 2vh);
@@ -112,7 +112,9 @@
       outline: none; }
   #InfoUser_modify #InfoUser_sex {
     display: flex;
-    margin: 1vh;
+    width: 95%;
+    height: initial;
+    margin: 1vh auto;
     cursor: pointer; }
     #InfoUser_modify #InfoUser_sex .InfoUser_sexText {
       margin: 1vh auto auto auto;
@@ -125,10 +127,10 @@
   #InfoUser_modify .react-tags {
     display: flex;
     flex-direction: column;
-    height: 100%;
     border-radius: 1px;
     font-size: 1em;
-    cursor: text; }
+    cursor: text;
+    margin: 10px 0; }
   #InfoUser_modify .react-tags__selected {
     display: inline;
     display: flex;
@@ -150,7 +152,7 @@
     cursor: pointer; }
   #InfoUser_modify .react-tags__search {
     width: 95%;
-    margin: auto;
+    margin: 0 auto;
     border: calc(1px + 0.05vh) solid;
     border-image: linear-gradient(210deg, #68efc6 40%, #3be961 70%, #18e23a 90%) 1;
     border-top: none;
@@ -175,11 +177,11 @@
   #InfoUser_modify #InfoUser_submit {
     background: linear-gradient(170deg, #68efc6 20%, #3be961 70%, #18e23a 90%);
     color: white;
-    margin: 10px auto;
+    margin: 2vh auto 1vh auto;
     cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 3px;
-    font-size: 18px;
+    padding: 1vh 2vh;
+    border-radius: 0.5vh;
+    font-size: 1.7vh;
     font-family: 'Encode Sans Semi Expanded', sans-serif; }
 
 .InfoUser_button {
@@ -211,3 +213,51 @@ li {
 
 li:before {
   content: "#"; }
+
+@media screen and (min-width: 1050px) and (min-height: 800px) {
+  #InfoUser_block {
+    margin: auto;
+    width: 100%;
+    height: 98%;
+    padding: 0;
+    display: flex;
+    flex-direction: column; }
+    #InfoUser_block .InfoUser_line {
+      width: 98%; }
+    #InfoUser_block .InfoUser_input {
+      margin: 0 auto; }
+  #InfoUser_modify {
+    justify-content: space-around;
+    min-height: initial;
+    height: 100%;
+    overflow: auto; }
+    #InfoUser_modify::-webkit-scrollbar {
+      background: transparent;
+      width: 8px; }
+    #InfoUser_modify::-webkit-scrollbar-thumb {
+      background-color: gainsboro;
+      border-radius: 1.5vh; } }
+
+@media screen and (min-width: 800px) and (max-height: 800px) {
+  #InfoUser_block {
+    margin: auto;
+    width: 100%;
+    height: 98%;
+    padding: 0;
+    display: flex;
+    flex-direction: column; }
+    #InfoUser_block .InfoUser_line {
+      width: 98%; }
+    #InfoUser_block .InfoUser_input {
+      margin: 0 auto; }
+  #InfoUser_modify {
+    justify-content: space-around;
+    min-height: initial;
+    height: 100%;
+    overflow: auto; }
+    #InfoUser_modify::-webkit-scrollbar {
+      background: transparent;
+      width: 8px; }
+    #InfoUser_modify::-webkit-scrollbar-thumb {
+      background-color: gainsboro;
+      border-radius: 1.5vh; } }

@@ -43,7 +43,7 @@
         margin: auto 0; }
     #Chat_wrapper #Chat_boxAllMatchs #Chat_allMatchs {
       height: calc(100vh - 57px);
-      overflow: scroll; }
+      overflow: auto; }
       #Chat_wrapper #Chat_boxAllMatchs #Chat_allMatchs .Chat_profile {
         display: flex;
         justify-content: space-between;
@@ -110,7 +110,7 @@
           font-weight: 300;
           font-size: 16px; }
     #Chat_wrapper #Chat_box #Chat_conversation {
-      overflow: scroll;
+      overflow: auto;
       display: flex;
       flex-direction: column;
       height: calc(100vh - 120px); }
