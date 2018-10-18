@@ -75,12 +75,19 @@
             white-space: nowrap;
             font-weight: 200;
             font-size: 12px; }
+          #Chat_wrapper #Chat_boxAllMatchs #Chat_allMatchs .Chat_profile .Chat_text .Chat_connectedOrNot {
+            font-family: 'Encode Sans Semi Expanded', sans-serif;
+            font-size: 11px;
+            font-weight: 200;
+            font-style: italic;
+            color: #646464;
+            margin-top: 2px; }
   #Chat_wrapper #Chat_box {
     display: flex;
     flex-direction: column; }
     #Chat_wrapper #Chat_box #Chat_header {
       background-color: white;
-      height: 60px;
+      height: 66px;
       width: 100vw;
       border-bottom: 1px solid #EAEAEA;
       display: flex;
@@ -110,10 +117,11 @@
           font-weight: 300;
           font-size: 16px; }
     #Chat_wrapper #Chat_box #Chat_conversation {
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
-      height: calc(100vh - 120px); }
+      height: calc(100% - 120px); }
       #Chat_wrapper #Chat_box #Chat_conversation .Chat_message {
         font-family: 'Roboto';
         margin: 5px 10px;
@@ -171,3 +179,23 @@
         height: 35px;
         background-position: center;
         background-size: cover; }
+
+@media screen and (min-width: 1050px) and (min-height: 800px) {
+  #Chat_wrapper {
+    height: calc(100vh - 40px);
+    margin-top: 40px !important; }
+    #Chat_wrapper #Chat_boxAllMatchs {
+      height: calc(100vh - 39px);
+      bottom: 0; }
+      #Chat_wrapper #Chat_boxAllMatchs #Chat_allMatchs {
+        height: calc(100vh - 39px); } }
+
+@media screen and (min-width: 800px) and (max-height: 800px) {
+  #Chat_wrapper {
+    height: calc(100vh - 40px);
+    margin-top: 40px !important; }
+    #Chat_wrapper #Chat_boxAllMatchs {
+      height: calc(100vh - 39px);
+      bottom: 0; }
+      #Chat_wrapper #Chat_boxAllMatchs #Chat_allMatchs {
+        height: calc(100vh - 39px); } }

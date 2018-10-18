@@ -317,8 +317,6 @@ class Chat extends React.Component {
             blackOpacity: 'none' 
         })
 
-        console.log(this.state.usersInfo[div.dataset.id].readNotif)
-
         if (this.state.usersInfo[div.dataset.id].readNotif === 0) {
             axios.post('http://localhost:3001/match_read', {
                 "userId": Cookies.get('id'),
@@ -361,7 +359,7 @@ class Chat extends React.Component {
 
     messagesConversationRead() {
         let k = 0
-        console.log(this.state.usersChat[this.state.idChatPrincipal])
+
         if (this.state.usersChat[this.state.idChatPrincipal][0]) {
             this.state.usersChat[this.state.idChatPrincipal].forEach( (message, i) => {
                 if (message.read_message === 0 && message.receiver_id === parseInt(Cookies.get('id'), 10)) {
@@ -389,7 +387,7 @@ class Chat extends React.Component {
     changeInput(event) {
         this.setState({
             valueInput: event.target.value,
-            sendButton: (event.target.value) ? sendBlue : sendWhite
+            sendButton: (event.target.value.trim()) ? sendBlue : sendWhite
         })
         const oneConversationData = (this.state.usersChat[this.state.idChatPrincipal][0]) ? this.state.usersChat[this.state.idChatPrincipal][0] : this.state.usersChat[this.state.idChatPrincipal]
         let senderId = parseInt(Cookies.get('id'), 10)
@@ -416,7 +414,7 @@ class Chat extends React.Component {
                     "senderId": senderId,
                     "receiverId": receiverId,
                     "matchId": matchId,
-                    "message": `${this.state.valueInput}`
+                    "message": `${this.state.valueInput.trim()}`
                 })
             })
             .then(response => response.json())
@@ -495,7 +493,10 @@ class Chat extends React.Component {
                     return id === usersInfo[i].id
                 })
 
-                const dateLastLog = new Date(usersInfo[i].last_connection).toString()
+                console.log(usersInfo[i].last_connection)
+                const arrayDateLastLog = new Date(usersInfo[i].last_connection).toString().split(' ')
+                const dateLastLog = `Unactive since ${arrayDateLastLog[2]} ${arrayDateLastLog[1]} at ${arrayDateLastLog[4].substr(0, arrayDateLastLog[4].length - 3)}`
+                console.log(dateLastLog)
                 const userConnectedOrNot = (res) ? 'Connected' : dateLastLog
 
                 if (this.state.usersChat[i][0]) {
