@@ -56,7 +56,6 @@ router.post('/load_preferences', (req, res) => {
 })
 
 router.post('/set_preferences', (req, res) => {
-    console.log(req.body.maxDistance)
     req.db.query("UPDATE Preferences SET age_min = ?, age_max = ?, max_distance = ?, sex = ?, popularity_min = ? WHERE user_id = ?;",
     [req.body.ageMin, req.body.ageMax, req.body.maxDistance, req.body.sex, req.body.popularityMin, req.body.userId], (err, rows, fields) => {
         if (err)
@@ -67,7 +66,6 @@ router.post('/set_preferences', (req, res) => {
 })
 
 router.post('/add_hashtag_settings', (req, res) => {
-    console.log('add')
     req.db.query("SELECT * FROM Hashtags WHERE name = ?;",
     [req.body.hashtagName], (err, rows, fields) => {
         if (err)
@@ -94,7 +92,6 @@ router.post('/add_hashtag_settings', (req, res) => {
 })
 
 router.post('/remove_hashtag_settings', (req, res) => {
-    console.log('remove')
     req.db.query("SELECT * FROM Hashtags WHERE name = ?;",
     [req.body.hashtagName], (err, rows, fields) => {
         if (err)
@@ -128,7 +125,6 @@ router.post('/change_new_pwd', (req, res) => {
     const password = req.body.pwd
 
     bcrypt.hash(password, saltRounds, function(err, hashPassword) {
-        console.log(hashPassword, req.body.userId)
         req.db.query(`UPDATE Users SET password = ? WHERE username = ?;`,
         [hashPassword, req.body.username], (err, rows, fields) => {
             if(err)
@@ -182,6 +178,5 @@ function sendPwdValidation(userData) {
         if (error) {
             return console.log(error)
         }
-        console.log('Message sent: %s', info.messageId)
     });
 }

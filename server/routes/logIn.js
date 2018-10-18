@@ -59,7 +59,6 @@ router.post('/check_valid_user', (req, res) => {
             if (rows[i].username.toUpperCase() === req.body.username.toUpperCase()) {
                 find = 1
                 bcrypt.compare(req.body.password, rows[i].password, function(err, result) {
-                    console.log(rows[i].randomKey, 'defe')
                     if (result && rows[i].randomKey !== '1') {
                         res.json(3)
                     }
@@ -71,7 +70,6 @@ router.post('/check_valid_user', (req, res) => {
                     }                
                 })
             }
-            console.log(find)
             if (i === rows.length - 1 && find === 0)
                 res.json(0)
         }
@@ -153,10 +151,6 @@ function selectUserData(rows, key, value) {
         if (row[key].toUpperCase() === value.toUpperCase())
             userData = row;
     });
-
-    // for(let key in userData) {
-    //     console.log(userData[key]);
-    // }
     return (userData)
 }
 
@@ -197,14 +191,11 @@ function sendMailValidation(userData) {
         if (error) {
             return console.log(error)
         }
-        console.log('Message sent: %s', info.messageId)
     });
 }
 
 
 function sendMailChangePwd(userData) {
-    console.log(userData.username)
-
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         port: 25,
@@ -231,11 +222,5 @@ function sendMailChangePwd(userData) {
         if (error) {
             return console.log(error);
         }
-        console.log('Message sent: %s', info.messageId);
-        // Preview only available when sending through an Ethereal account
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-        // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
     });
 }

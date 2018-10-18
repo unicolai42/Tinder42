@@ -27,11 +27,8 @@ class SignIn extends React.Component {
   }
 
   componentDidMount() {
-    console.log(typeof this.props.activateMail)
     if (typeof this.props.activateMail !== 'object')
       this.setState({validMessage: `A link to validate your inscription has been sent at : ${this.props.activateMail}`});
-
-    console.log(this.state.validMessage)
   }
 
   changeUsername(event) {
@@ -52,12 +49,10 @@ class SignIn extends React.Component {
   }
 
   resendValidationMail() {
-    console.log(this.state.valueUsername)
     axios.post('http://localhost:3001/resend_activation_mail', {
       "username": this.state.valueUsername
     })
     .then(response => {
-      console.log(response)
       this.setState({ validMessage: `A link to change validate your account has been sent at : ${response.data.mail}` })
       this.setState({ validLog: '_'})
     })
@@ -72,7 +67,6 @@ class SignIn extends React.Component {
     })
     .then(response => {
       let match = response.data
-      console.log(match)
       if (match === 1) {
         this.setState({validLog: 'Wrong password'});
         this.setState({validMessage: 'Forgot it ? Click here'})
@@ -103,7 +97,6 @@ class SignIn extends React.Component {
     let validLogColor;
     let validMessageColor;
     let validMessage = this.state.validMessage;
-    console.log(this.props.activateMail)
 
     if (this.state.validLog === '_')
       validLogColor = 'SignIn_validNone';

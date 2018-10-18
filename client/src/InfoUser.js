@@ -146,11 +146,6 @@ class InfoUser extends React.Component {
             this.setState({work: e.target.value})
     }
 
-    // changeTags(e) {
-    //     // this.setState({tags: e.target.value})
-    //     console.log(e.target.value)
-    // }
-
     changeLanguage(e) {
         if (e.target.value.length < 60)
             this.setState({language: e.target.value})
@@ -158,7 +153,6 @@ class InfoUser extends React.Component {
 
     changeSex(value) {
         this.setState({sex: value})
-        console.log(value)
     }
 
     handleDelete(i) {
@@ -167,15 +161,15 @@ class InfoUser extends React.Component {
           "hashtagName": this.state.tags[i].name
         })
         const tags = this.state.tags.slice(0)
-        console.log(i)
+
         tags.splice(i, 1)
         this.setState({tags: tags})
       }
       
       handleAddition(tag) {
         tag.name = tag.name.charAt(0).toUpperCase() + tag.name.slice(1)
-        console.log(tag.name)
         const tags = [].concat(this.state.tags, tag)
+
         this.setState({tags: tags})
         axios.post('http://localhost:3001/add_hashtag_profile', {
           "userId": Cookies.get('id'),
@@ -185,25 +179,6 @@ class InfoUser extends React.Component {
 
       
     render() {
-
-///////////////////////////////////////////// 
-        // console.log(this.state.latitude, this.state.longitude)
-        // Geocode.fromLatLng(43.6578919, 7.122337).then(response => {
-        //     const address = response.results[0].formatted_address
-        //     console.log(address);
-        // }, error => {
-        //     console.error(error);
-        // })
-            
-        //     // Get latidude & longitude from address.
-        // Geocode.fromAddress("Villeneuve-loubet").then(response => {
-        //     const { lat, lng } = response.results[0].geometry.location;
-        //     console.log(lat, lng);
-        // }, error => {
-        //     console.error(error);
-        // })
-
-//////////////////////////////////////////
         let tags_li = []
         if (this.state.tags)
             this.state.tags.forEach(element => {

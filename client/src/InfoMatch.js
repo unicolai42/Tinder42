@@ -68,7 +68,6 @@ class InfoMatch extends React.Component {
 
       
     render() {
-        console.log(this.state.tags)
         let tags_li = []
         if (this.state.tags)
             this.state.tags.forEach(element => {

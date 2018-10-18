@@ -117,7 +117,6 @@ class SignUp extends React.Component {
         password: this.state.valuePassword,
         username: this.state.valueUsername
       }
-      console.log(newUser)
     }
   
     render() {

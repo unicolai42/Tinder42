@@ -5,7 +5,7 @@ export default class Square extends Component {
     const { black } = this.props;
     const fill = black ? 'black' : 'white';
     const stroke = black ? 'white' : 'black';
-console.log(stroke)
+
     return (
         <div style={{
             backgroundColor: fill,

@@ -1,5 +1,4 @@
 import React from 'react'
-// import axios from 'axios'
 import queryString from 'query-string'
 
 
@@ -20,11 +19,6 @@ class ResetPwd extends React.Component {
   componentDidMount() {
     const param = queryString.parse(this.props.location.search)
 
-    console.log(param)
-    // axios.post('http://localhost:3001/compare_old_pwd', {
-    //   "username": decodeURI(param.username),
-    //   "oldPwd": decodeURI(param.key)
-    // })
     fetch(`http://localhost:3001/compare_old_pwd?username=${param.username}&key=${param.key}`)
     .then(response => response.json())
     .then(data => {
@@ -48,9 +42,7 @@ class ResetPwd extends React.Component {
   }
 
   submitChangePwd() {
-    console.log('ppppp')
     const param = queryString.parse(this.props.location.search)
-    
   
     if (this.state.valuePwd.length > 15)
       this.setState({validPwd: 'The new password is too long'})
@@ -59,12 +51,7 @@ class ResetPwd extends React.Component {
       this.setState({validPwd: 'New password too weak'})
     
     else {
-      console.log('ok')
       this.setState({validPwd: 'Password has been modify'})
-      // axios.post('http://localhost:3001/change_new_pwd', {
-      //   "username": decodeURI(param.username),
-      //   "pwd": this.state.valuePwd
-      // })
       fetch('/change_new_pwd', {
         method: 'post',
         headers: {'Content-Type':'application/json'},

@@ -23,9 +23,6 @@ class NavLogOut extends React.Component {
         axios.post('http://localhost:3001/maj_last_connection_and_deconnect_user', {
             "userId": Cookies.get('id')
         })
-        console.log('ASDFGHJ')
-        //new date insert in last log out then in chat if user not connected display last login time
-        // VIDER DASN LA DB LES USERS CONNECTES
         Cookies.remove('id')
         Cookies.remove('username')
         window.location = '/'

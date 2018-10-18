@@ -30,17 +30,16 @@ router.post('/load_info_user', (req, res) => {
     [req.body.userId], (err, rows, fields) => {
         if (err)
             return (res.send(err) && console.log(err))
-        // console.log(rows)
         let userData = rows[0]
-        // res.json(rows)
+
         req.db.query("SELECT hashtag_id FROM HashtagUsers WHERE user_id = ?;",
         [req.body.userId], (err, rows, fields) => {
             const hashtagId = []
             rows.forEach(e => {
                 hashtagId.push(e.hashtag_id)
             });
-            // console.log(rows.length, hashtagId)
             let hashtags = []
+
             req.db.query("SELECT name FROM Hashtags WHERE id IN (?);",
             [hashtagId], (err, rows, fields) => {
                 if (rows) {
@@ -101,7 +100,6 @@ router.post('/edit_info_user', (req, res) => {
 })
 
 router.post('/add_hashtag_profile', (req, res) => {
-    console.log('add')
     req.db.query("SELECT * FROM Hashtags WHERE name = ?;",
     [req.body.hashtagName], (err, rows, fields) => {
         if (err)
@@ -128,7 +126,6 @@ router.post('/add_hashtag_profile', (req, res) => {
 })
 
 router.post('/remove_hashtag_profile', (req, res) => {
-    console.log('remove')
     req.db.query("SELECT * FROM Hashtags WHERE name = ?;",
     [req.body.hashtagName], (err, rows, fields) => {
         if (err)
@@ -160,7 +157,7 @@ router.post('/upload_picture', (req, res) => {
     cloudinary.v2.uploader.upload(picture, (err, result) => {
         if (err)
             console.log(err)
-        console.log(result.url)
+            
         const url = result.url
 
         req.db.query("SELECT * FROM Users WHERE id = ?;",
@@ -178,7 +175,6 @@ router.post('/upload_picture', (req, res) => {
                 newPicture = 'picture4'
             else if (rows[0].picture5 === null)
                 newPicture = 'picture5'
-            console.log(newPicture)
 
             req.db.query(`UPDATE Users SET ?? = ? WHERE id = ?;`,
             [newPicture, url, userId], (err, rows, fields) => {

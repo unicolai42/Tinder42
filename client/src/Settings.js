@@ -55,11 +55,9 @@ class Settings extends React.Component {
     .then(response => {
       let popularityMax = 0
       response.data.forEach(elem => {
-        console.log(elem.popularity)
         if (elem.popularity > popularityMax)
           popularityMax = elem.popularity
       })
-      console.log(popularityMax)
       this.setState({
         users: response.data,
         maxPopularity: popularityMax
@@ -89,7 +87,6 @@ class Settings extends React.Component {
             suggestions: response.data.suggestions,
             popularity: response.data.popularity_min
         })
-        console.log(response.data)
     })
   }
 
@@ -133,14 +130,13 @@ class Settings extends React.Component {
       "hashtagName": this.state.tags[i].name
     })
     const tags = this.state.tags.slice(0)
-    console.log(i)
+
     tags.splice(i, 1)
     this.setState({tags: tags})
   }
   
   handleAddition(tag) {
     tag.name = tag.name.charAt(0).toUpperCase() + tag.name.slice(1)
-    console.log(tag.name)
     const tags = [].concat(this.state.tags, tag)
     this.setState({tags: tags})
     axios.post('http://localhost:3001/add_hashtag_settings', {

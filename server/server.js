@@ -21,7 +21,7 @@ app.use(cookieParser())
 app.use(fileUpload())
 app.use(cors())
 app.use((req, res, next) => {
-    req.db = mysql.createConnection({
+    req.db = mysql.createPool({
         host: 'localhost',
         user: 'root',
         password: '00000000',
@@ -56,44 +56,30 @@ server.listen(3002)
 
 io.on('connection', (socket) => {
     socket.on('getId', data => {
-        console.log(data.userId, 'HHHHHHHHHHHHH')
         socket.broadcast.emit('newUserConnected', {
             id: data.userId
         })
     })
 
-    // socket.on('idUsersAlreadyConnected', data => {
-    //     console.log(data.userId, 'YEAH')
-
-    // })
-    
     socket.on('userLogOut', data => {
-        console.log(data.userId)
         socket.broadcast.emit('userDisconnected', {
             id: data.userId
         })
     })
 
     socket.on('writeMessage', data => {
-        console.log(data)
-        if (data.message)
-            console.log('...')
         io.sockets.emit('displayWrite', data)
     })
     socket.on('newMessage', data => {
-        console.log(data)
         io.sockets.emit('displayMessage', data)
     })
     socket.on('newNotif1', data => {
-        console.log(data, 'newNotif1')
         io.sockets.emit('displayNotif1', data)
     })
     socket.on('newNotif2', data => {
-        console.log(data, 'newNotif2')
         io.sockets.emit('displayNotif2', data)
     })
     socket.on('countRemoveNotif1', data => {
-        console.log(data, 'countRemoveNotif1')
         io.sockets.emit('deleteNotif1', data)
     })
 })

@@ -49,7 +49,6 @@ class Profile extends React.Component {
         newOrderPictures[i + 1] = swap
       }
     }
-    console.log(newOrderPictures)
     axios.post('http://localhost:3001/update_order_pictures', {
       "userId": Cookies.get('id'),
       "newOrderPictures": newOrderPictures
@@ -69,7 +68,6 @@ class Profile extends React.Component {
           })
           .then(response => {
             const pictures = this.state.pictures
-            console.log(pictures)
             let i
             for (i = 0; i < pictures.length; i++) {
               if (pictures[i] === null)
@@ -85,21 +83,15 @@ class Profile extends React.Component {
   }
 
   removePicture(picture) {
-    console.log(picture.target.parentElement.id)
     const removeId = picture.target.parentElement.id
     let newOrderPictures = this.state.pictures
     const removeUrl = newOrderPictures[removeId]
     let removePublicId
 
-    console.log(removeUrl.lastIndexOf("/"))
-    console.log(removeUrl.lastIndexOf("."))
     removePublicId = removeUrl.slice(removeUrl.lastIndexOf("/") + 1, removeUrl.lastIndexOf("."))
 
     newOrderPictures.splice(removeId, 1)
     newOrderPictures.push(null)
-    // console.log(newOrderPictures)
-    console.log(removeUrl)
-    console.log(removePublicId)
 
     axios.post('http://localhost:3001/update_order_pictures', {
       "userId": Cookies.get('id'),

@@ -5,7 +5,6 @@ const router = express.Router()
 
 
 router.post('/update_location', (req, res) => {
-    console.log(req.body.latitude, req.body.longitude, req.body.userId)
     let latitude = req.body.latitude
     let longitude = req.body.longitude
     if (!latitude && !longitude) {
@@ -15,10 +14,7 @@ router.post('/update_location', (req, res) => {
                 longitude = data.longitude
             }
           })
-        
-        // console.log(req.socket.address().address, 'ko')
     }
-    console.log(latitude, longitude, '4')
     if (latitude && longitude) {
         req.db.query("UPDATE Users SET latitude = ?, longitude = ? WHERE id = ?;",
         [latitude, longitude, req.body.userId], (err, rows, fields) => {
@@ -33,7 +29,6 @@ router.post('/update_location', (req, res) => {
 })
 
 router.post('/load_user_data_match', (req, res) => {
-    console.log('fergrddfevrgddf')
     req.db.query("SELECT * FROM Users WHERE id = ?;",
     [req.body.userId], (err, rows, fields) => {
         const userLatitude = rows[0].latitude
@@ -44,9 +39,6 @@ router.post('/load_user_data_match', (req, res) => {
             let preferences = rows[0]
             let sexPreference = (preferences.sex === 1) ? [0, 2] : [preferences.sex]
 
-            rows.forEach(elem => {
-                console.log(elem.latitude, elem.longitude)
-            })
             req.db.query("SELECT hashtag_id FROM HashtagPreferences WHERE user_id = ?;",
             [req.body.userId], (err, rows, fields) => {
                 if (err)
@@ -54,7 +46,6 @@ router.post('/load_user_data_match', (req, res) => {
 
                 const hashtagId = []
                 if (rows[0]) {
-                    console.log(rows, 'LLLLLLLLLLL')
                     rows.forEach(e => {
                         hashtagId.push(e.hashtag_id)
                     });
@@ -125,7 +116,6 @@ router.post('/load_user_data_match', (req, res) => {
                     })
                 }
                 else {
-                    console.log(req.body.userId, sexPreference, preferences.age_min, preferences.age_max, preferences.popularity_min, 'KKKKKKKKKK')              
                     req.db.query("SELECT * FROM Users WHERE id != ? AND sex IN (?) AND age > ? AND age < ? AND popularity >= ? ORDER BY popularity DESC;",
                     [req.body.userId, sexPreference, preferences.age_min, preferences.age_max, preferences.popularity_min], (err, rows, fields) => {
                         if (err)
@@ -167,8 +157,7 @@ router.post('/load_user_data_match', (req, res) => {
                                 if (distance < preferences.max_distance)
                                     if (checkedId.findIndex(e => { return e === userData.id}))
                                         usersData.push(userData)
-                            })
-                            console.log(usersData, 'lll')                                                        
+                            })                                                     
                             res.json(usersData)
                         })
                     })
@@ -179,7 +168,6 @@ router.post('/load_user_data_match', (req, res) => {
 })
 
 router.post('/check_match', (req, res) => {
-    console.log(req.body.matcher)
     req.db.query("INSERT INTO CheckedUsers (checker_id, checked_id) VALUES (?, ?);",
     [req.body.userId, req.body.matcher.id], (err, rows, fields) => {
         if (err)
@@ -227,7 +215,6 @@ router.post('/check_match', (req, res) => {
 })
 
 router.post('/report_user', (req, res) => {
-    console.log('lllllll')
     req.db.query("UPDATE Users SET report = report + 1 WHERE id = ?;",
     [req.body.userId], (err, rows, fields) => {
         if (err)
@@ -237,7 +224,6 @@ router.post('/report_user', (req, res) => {
         [req.body.userId], (err, rows, fields) => {
             if (err)
                 return (res.send(err) && console.log(err))
-            console.log(rows[0].report)
             if (rows[0].report > 19) {
                 req.db.query("DELETE FROM Chat WHERE sender_id = ? OR receiver_id = ?;",
                 [req.body.userId, req.body.userId], (err, rows, fields) => {

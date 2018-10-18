@@ -38,9 +38,7 @@ class Match extends React.Component {
     axios.get('https://randomuser.me/api/?results=5&nat=fr', {
       "userId": Cookies.get('id')
     })
-    .then(response => {
-      console.log(response.data.results)
-    })
+
     axios.post('http://localhost:3001/load_info_user', {
       "userId": Cookies.get('id')
     })

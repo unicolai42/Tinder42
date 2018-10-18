@@ -38,16 +38,13 @@ class Chat extends React.Component {
 
     componentDidMount() {
         socket.removeListener('displayNotif1')
-        // socket.on('userDisconnected', data => {
-        //     console.log(data, 'BBBB') 
-        // })
+
         socket.on('displayMessage', data => {
             const oldLastUser = this.state.usersInfo[this.state.usersInfo.length - 1]
 
             if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
                 let conversationOpen = 0
 
-                console.log(window.location)
                 if (data.senderId === this.state.usersInfo[this.state.idChatPrincipal].id && window.location.href === 'http://localhost:3000/chat') {
                     axios.post('http://localhost:3001/chat_read', {
                         "userId": Cookies.get('id'),
@@ -57,7 +54,6 @@ class Chat extends React.Component {
                 }
                 
                 if (this.state.usersChat[0][0]) {
-                    console.log(this.state.usersChat[0][0])
                     let newUsersChat = this.state.usersChat
                     
                     this.state.usersChat.forEach((elem, i) => {
@@ -88,7 +84,7 @@ class Chat extends React.Component {
                             let userChatChange = newUsersChat[i]
                             newUsersChat.splice(i, 1)
                             newUsersChat.push(userChatChange)
-                            console.log(window.location.href)
+
                             if (window.location.href === 'http://localhost:3000/chat') {
                                 this.setState({
                                     usersChat: newUsersChat,
@@ -112,7 +108,6 @@ class Chat extends React.Component {
                     let newUsersInfo = this.state.usersInfo
                     let newUsersChat = []
                     newUsersInfo.forEach((elem, i) => {
-                        console.log(elem)
                         if (elem.id === data.senderId) {
                             newUsersChat.push([{
                                 match_id: data.matchId,
@@ -143,10 +138,11 @@ class Chat extends React.Component {
                             newUsersInfo.splice(i, 1)
                             newUsersInfo.push(elem)
                             newUsersChat = this.state.usersChat
+
                             let userChatChange = newUsersChat[i]
+                            
                             newUsersChat.splice(i, 1)
                             newUsersChat.push(userChatChange)
-                            console.log(window.location.href)
                             if (window.location.href === 'http://localhost:3000/chat') {
                                 this.setState({
                                     usersChat: newUsersChat,
@@ -460,7 +456,6 @@ class Chat extends React.Component {
         const usersInfo = this.state.usersInfo
         let users = []
         const id = this.state.idChatPrincipal
-        console.log(id)
         const picturePrincipal = (!this.state.usersInfo[id]) ? '' : this.state.usersInfo[id].picture1
         const messages = this.state.usersChat
         const username = (!this.state.usersInfo[id]) ? '' : this.state.usersInfo[id].username
@@ -493,10 +488,8 @@ class Chat extends React.Component {
                     return id === usersInfo[i].id
                 })
 
-                console.log(usersInfo[i].last_connection)
                 const arrayDateLastLog = new Date(usersInfo[i].last_connection).toString().split(' ')
                 const dateLastLog = `Unactive since ${arrayDateLastLog[2]} ${arrayDateLastLog[1]} at ${arrayDateLastLog[4].substr(0, arrayDateLastLog[4].length - 3)}`
-                console.log(dateLastLog)
                 const userConnectedOrNot = (res) ? 'Connected' : dateLastLog
 
                 if (this.state.usersChat[i][0]) {
@@ -533,7 +526,6 @@ class Chat extends React.Component {
         const pictureOrNoMatch = (this.state.usersChat[0]) ? <div id='Chat_stripPicture' style={urlPicturePrincipal}></div> : <div id='Chat_noMatch'>No match yet</div>
         let userWriting = (this.state.usersInfo[this.state.idChatPrincipal]) ?<div id='Chat_otherUserWritingMessage' style={{display: this.state.writing}}>{this.state.usersInfo[this.state.idChatPrincipal].username} writing a message...</div> : null
 
-        console.log(this.props.usersConnected, 'HERE')
         return (
         <div id='Chat_wrapper'>
             <div id='Chat_blackOpacity' style={{display: this.state.blackOpacity}} onClick={this.removeAllMatchs}></div>

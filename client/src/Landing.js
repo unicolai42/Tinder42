@@ -46,7 +46,6 @@ class Landing extends React.Component {
   }
 
   render() {
-    console.log(this.state.users)
     return (
       <div id='Landing_wrapper'>
         <div id='Landing_block'>

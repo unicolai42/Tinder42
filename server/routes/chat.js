@@ -185,7 +185,6 @@ router.post('/get_users_connected', (req, res) => {
                     usersConnected.push(elem.user2)             
             }
         })
-        console.log(usersConnected, 'pps')
         res.json(usersConnected)
     })
 })
