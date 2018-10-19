@@ -15,12 +15,21 @@
   justify-content: space-between;
   margin: 2vh 0; }
 
+#InfoUser_nameAge {
+  margin-bottom: 4vh; }
+
 #InfoUser_NameAgeText {
   font-size: calc(5px + 2vh);
   background: linear-gradient(210deg, #68efc6 40%, #3be961 70%, #18e23a 90%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-right: 20px; }
+
+#InfoMatch_NameAgeText {
+  font-size: 2.7vh;
+  background: linear-gradient(210deg, #68efc6 40%, #3be961 70%, #18e23a 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; }
 
 #InfoUser_NameAgeEdit {
   margin: auto 0;
@@ -56,6 +65,13 @@
   background-position: center;
   background-size: cover; }
 
+.InfoMatch_aboutImg {
+  width: 2.8vh;
+  height: 2.8vh;
+  margin: auto 0;
+  background-position: center;
+  background-size: cover; }
+
 .InfoUser_aboutText {
   padding: 2px;
   flex-wrap: wrap;
@@ -65,6 +81,17 @@
   min-width: 40px;
   font-size: calc(5px + 1.2vh); }
   .InfoUser_aboutText:focus {
+    outline: none; }
+
+.InfoMatch_aboutText {
+  padding: 2px;
+  flex-wrap: wrap;
+  word-break: break-all;
+  border-radius: 2px;
+  max-width: 90%;
+  min-width: 40px;
+  font-size: 1.8vh; }
+  .InfoMatch_aboutText:focus {
     outline: none; }
 
 #InfoUser_aboutLocation {

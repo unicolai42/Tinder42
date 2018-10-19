@@ -6,6 +6,7 @@
     height: calc(100vh - 57px)
     display: flex
     flex-direction: column
+    overflow: hidden
 
     #Match_frame
         margin: auto
@@ -60,26 +61,18 @@
     
         #Match_like
             background-image: url('./ressources/like.png')
-            margin-left: 70px
+            margin-left: 8vh
         
         #Match_dislike
             background-image: url('./ressources/dislike.png')
 
 
-@media (max-height: 300px)
-    #Match_informations
-        display: none !important
+@media screen and (min-width: 1050px) and (min-height: 800px)
+    #Match_wrapper
+        height: calc(100vh - 40px)
+        margin-top: 40px !important
 
-        #Match_frameBulletpoint
-            bottom: 3px !important
-
-@media (min-width: 800px)
-    #Match_number
-        order: 3
-        margin: auto
-    
-    #Match_picture
-        margin: 70px auto auto auto !important
-
-    #Match_button
-        margin: auto !important
+@media screen and (min-width: 800px) and (max-height: 800px)
+    #Match_wrapper
+        height: calc(100vh - 40px)
+        margin-top: 40px !important

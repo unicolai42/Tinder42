@@ -224,6 +224,7 @@ class Match extends React.Component {
   }
 
   render() {
+    console.log(this.state.nbUsersNoMatched)
     let arrayUserMatch = []
 
     if (this.state.allUsers.length > 0) {
@@ -253,7 +254,7 @@ class Match extends React.Component {
           <div id='Match_frame'>
             <div id='Match_number'>
               <div id='Match_numberLogo'></div>
-              <div id='Match_numberText'>{(this.state.nbUsersNoMatched === 0) ? 'No' : this.state.allUsers.length} more matches found</div>
+              <div id='Match_numberText'>{(this.state.nbUsersNoMatched === 0) ? 'No' : this.state.nbUsersNoMatched} more matches found</div>
             </div>
             <div id='Match_framePictures'>
               {arrayUserMatch}

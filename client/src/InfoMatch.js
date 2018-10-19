@@ -76,8 +76,8 @@ class InfoMatch extends React.Component {
 
         let info = []
         info.push(
-            <div key={1} className='InfoUser_box'>
-                <div id='InfoUser_NameAgeText'>
+            <div key={1} id='InfoUser_nameAge' className='InfoUser_box'>
+                <div id='InfoMatch_NameAgeText'>
                     <span style={this.state.borderEdit}>
                         {this.state.name}
                     </span>
@@ -94,7 +94,7 @@ class InfoMatch extends React.Component {
         )
         if (this.state.description)
             info.push(
-                <div key={2} id='InfoUser_aboutDescription' className='InfoUser_box InfoUser_aboutText' style={this.state.borderEdit}>
+                <div key={2} id='InfoUser_aboutDescription' className='InfoUser_box InfoMatch_aboutText' style={this.state.borderEdit}>
                     {this.state.description}
                 </div> 
             )
@@ -105,10 +105,10 @@ class InfoMatch extends React.Component {
                 )
             info.push(
                 <div key={4} className='InfoUser_box'>
-                    <div className='InfoUser_aboutText' style={this.state.borderEdit}>
+                    <div className='InfoMatch_aboutText' style={this.state.borderEdit}>
                         {this.state.location}
                     </div>
-                    <div id='InfoUser_aboutLocation' className='InfoUser_aboutImg'/>
+                    <div id='InfoUser_aboutLocation' className='InfoMatch_aboutImg'/>
                 </div>
             )
         }
@@ -118,10 +118,10 @@ class InfoMatch extends React.Component {
             )
             info.push(
                 <div key={12} className='InfoUser_box'>
-                    <div className='InfoUser_aboutText' style={this.state.borderEdit}>
+                    <div className='InfoMatch_aboutText' style={this.state.borderEdit}>
                         {(this.state.sex === 0) ? 'Men' : (this.state.sex !== 1) ? 'Women' : 'Other'}
                     </div>
-                    <div id='InfoUser_aboutSex' className='InfoUser_aboutImg'/>
+                    <div id='InfoUser_aboutSex' className='InfoMatch_aboutImg'/>
                 </div>
             )
         }
@@ -131,10 +131,10 @@ class InfoMatch extends React.Component {
             )
             info.push(
                 <div key={6} className='InfoUser_box'>
-                    <div className='InfoUser_aboutText' style={this.state.borderEdit}>
+                    <div className='InfoMatch_aboutText' style={this.state.borderEdit}>
                         {this.state.work}
                     </div>
-                    <div id='InfoUser_aboutWork' className='InfoUser_aboutImg'/>
+                    <div id='InfoUser_aboutWork' className='InfoMatch_aboutImg'/>
                 </div>
             )
         }
@@ -144,10 +144,10 @@ class InfoMatch extends React.Component {
             )
             info.push(
                 <div key={8} className='InfoUser_box'>
-                    <ul className='InfoUser_aboutText' style={this.state.borderEdit}>
+                    <ul className='InfoMatch_aboutText' style={this.state.borderEdit}>
                         {tags_li}
                     </ul>
-                    <div id='InfoUser_aboutHashtags' className='InfoUser_aboutImg'/>
+                    <div id='InfoUser_aboutHashtags' className='InfoMatch_aboutImg'/>
                 </div>
             )
         }
@@ -157,10 +157,10 @@ class InfoMatch extends React.Component {
             )
             info.push(
                 <div key={10} className='InfoUser_box'>
-                    <div className='InfoUser_aboutText' style={this.state.borderEdit}>
+                    <div className='InfoMatch_aboutText' style={this.state.borderEdit}>
                         {this.state.language}
                     </div>
-                    <div id='InfoUser_aboutLanguage' className='InfoUser_aboutImg'/>
+                    <div id='InfoUser_aboutLanguage' className='InfoMatch_aboutImg'/>
                 </div>
             )
         }
@@ -169,21 +169,10 @@ class InfoMatch extends React.Component {
         )
         info.push(
             <div key={14} className='InfoUser_box'>
-                <div className='InfoUser_aboutText' style={this.state.borderEdit}>
+                <div className='InfoMatch_aboutText' style={this.state.borderEdit}>
                     {this.state.popularity}
                 </div>
-                <div id='InfoUser_aboutPopularity' className='InfoUser_aboutImg'/>
-            </div>
-        )
-
-        info.push(
-            <div key={15} className='InfoUser_button'>
-                <div className='InfoUser_blockUser' style={this.state.borderEdit} onClick={this.props.dislikeUser}>
-                    BLOCK
-                </div>
-                <div className='InfoUser_reportUser' style={this.state.borderEdit} onClick={this.reportUser}>
-                    REPORT
-                </div>
+                <div id='InfoUser_aboutPopularity' className='InfoMatch_aboutImg'/>
             </div>
         )
 
