@@ -224,10 +224,9 @@ class Match extends React.Component {
   }
 
   render() {
-    console.log(this.state.nbUsersNoMatched)
     let arrayUserMatch = []
 
-    if (this.state.allUsers.length > 0) {
+    if (this.state.nbUsersNoMatched > 0) {
       if (this.state.allUsers[this.state.indexUser1])
         arrayUserMatch.push(<MatchUser key={this.state.indexUser1} userInfo={this.state.allUsers[this.state.indexUser1]} liked={this.state.likedFirstUser} disliked={this.state.dislikedFirstUser} addStyle={this.state.styleFirstUser} dislikeUser={this.dislikeClick}/>)
       if (this.state.allUsers[this.state.indexUser2])
@@ -236,13 +235,10 @@ class Match extends React.Component {
         arrayUserMatch.push(<MatchUser key={this.state.indexUser3} userInfo={this.state.allUsers[this.state.indexUser3]} liked={this.state.likedThirdUser} disliked={this.state.dislikedThirdUser} addStyle={this.state.styleThirdUser} dislikeUser={this.dislikeClick}/>)
     }
     else {
-      arrayUserMatch.push(<div id='Match_noMoreMatch' key={0}>Adjust your parameters if you looking for new matches</div>)
-    }
-
-    let displayButtons = []
-    if (this.state.nbUsersNoMatched) {
-      displayButtons.push(<div id='Match_dislike' className='Match_buttons' key='Match_dislike' style={this.state.displayButtons} onClick={this.dislikeClick}></div>)
-      displayButtons.push(<div id='Match_like' className='Match_buttons' key='Match_like' style={this.state.displayButtons} onClick={this.likeClick}></div>)
+      arrayUserMatch.push(<div id='Match_noMoreMatch' key={0}>
+                            <div id='Match_noMoreMatchLogo'></div>
+                            <div id='Match_noMoreMatchText' key={1}>Adjust your parameters to find new matches</div>
+                          </div>)
     }
 
     if ((this.state.user.username && !this.state.user.picture1) || (this.state.user.username && !this.state.user.age) || (this.state.user.username && this.state.user.sex === 1)) {
@@ -253,14 +249,15 @@ class Match extends React.Component {
         <div id='Match_wrapper'>
           <div id='Match_frame'>
             <div id='Match_number'>
-              <div id='Match_numberLogo'></div>
+              {(this.state.nbUsersNoMatched) ? <div id='Match_numberLogo'></div> : null}
               <div id='Match_numberText'>{(this.state.nbUsersNoMatched === 0) ? 'No' : this.state.nbUsersNoMatched} more matches found</div>
             </div>
             <div id='Match_framePictures'>
               {arrayUserMatch}
             </div>
-            <div key={0} id='Match_button'>
-              {displayButtons}
+            <div id='Match_button'>
+              <div id='Match_dislike' className='Match_buttons' style={this.state.displayButtons} onClick={(this.state.nbUsersNoMatched) ? this.dislikeClick : null}></div>
+              <div id='Match_like' className='Match_buttons' style={this.state.displayButtons} onClick={(this.state.nbUsersNoMatched) ? this.likeClick : null}></div>
             </div>
           </div>
       </div>

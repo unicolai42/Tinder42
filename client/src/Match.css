@@ -34,8 +34,19 @@
     position: relative;
     display: flex; }
     #Match_wrapper #Match_framePictures #Match_noMoreMatch {
-      margin: auto;
-      border: 1px solid red; }
+      margin: auto; }
+      #Match_wrapper #Match_framePictures #Match_noMoreMatch #Match_noMoreMatchLogo {
+        margin: auto;
+        width: 12vh;
+        height: 12vh;
+        background-image: url("./ressources/logo.png");
+        background-position: center;
+        background-size: cover; }
+      #Match_wrapper #Match_framePictures #Match_noMoreMatch #Match_noMoreMatchText {
+        margin-top: 2vh;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        font-size: 2vh; }
   #Match_wrapper #Match_button {
     margin: 3vh auto auto auto;
     display: flex;
