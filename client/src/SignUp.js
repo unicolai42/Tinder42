@@ -112,11 +112,11 @@ class SignUp extends React.Component {
       if (!this.state.valueUsername || this.state.validUsername === false || this.state.validUsername === 'taken')
         this.setState({valueUsername: ''})
 
-      const newUser = {
-        mail: this.state.valueMail,
-        password: this.state.valuePassword,
-        username: this.state.valueUsername
-      }
+      // const newUser = {
+      //   mail: this.state.valueMail,
+      //   password: this.state.valuePassword,
+      //   username: this.state.valueUsername
+      // }
     }
   
     render() {

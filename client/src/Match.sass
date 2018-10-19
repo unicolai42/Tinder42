@@ -1,41 +1,40 @@
 @import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:300')
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400')
 
-body
-    overflow: hidden
-
 #Match_wrapper
     width: 100vw
-    height: 100vh
+    height: calc(100vh - 57px)
     display: flex
     flex-direction: column
 
-    #Match_number
+    #Match_frame
         margin: auto
         display: flex
-        height: 50px
+        flex-direction: column
+
+    #Match_number
+        margin: auto auto 3vh auto
+        display: flex
     
         #Match_numberLogo
-            width: 25px
-            height: 25px
+            width: 2.8vh
+            height: 2.8vh
             background-image: url('./ressources/logo.png')
             background-position: center
             background-size: cover
-            margin: auto
             margin-right: 5px
         
         #Match_numberText
             font-family: 'Roboto', sans-serif
             font-weight: 300
-            font-size: 18px
-            margin: auto
+            font-size: 2vh
+            margin: auto 0
     
-
     #Match_framePictures
-        width: 80vw
-        max-width: 450px
-        height: 65%
-        max-height: 800px
+        width: 50vh
+        max-width: 95vw
+        height: 65vh
+        max-height: 160vw
         margin: auto
         position: relative
         display: flex
@@ -45,34 +44,26 @@ body
             border: 1px solid red
             
     #Match_button
-        margin: 20px auto 80px auto
+        margin: 3vh auto auto auto
         display: flex
         justify-content: center
-        height: 65px !important
+
+        .Match_buttons
+            background-position: center
+            background-size: cover
+            width: 7vh
+            height: 7vh
+            border-radius: 100%
+            box-shadow: 0 2px 10px 1px rgba(155,155,155,0.77)
+            border: 1px solid white
+            cursor: pointer
     
         #Match_like
             background-image: url('./ressources/like.png')
-            background-position: center
-            background-size: cover
-            width: 65px
-            height: 65px
-            border-radius: 100%
-            box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77)
             margin-left: 70px
-            border: 1px solid white
-            cursor: pointer
-            transition: transform 0.5s linear 0.5s
         
         #Match_dislike
             background-image: url('./ressources/dislike.png')
-            background-position: center
-            background-size: cover
-            width: 65px
-            height: 65px
-            border-radius: 100%
-            box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77)
-            border: 1px solid white
-            cursor: pointer
 
 
 @media (max-height: 300px)

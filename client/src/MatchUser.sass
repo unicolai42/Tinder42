@@ -7,7 +7,7 @@
 
     #MatchUser_frame
         box-shadow: 0 2px 10px 0 rgba(155,155,155,0.77)
-        border-radius: 8px
+        border-radius: 0 0 1.5vh 1.5vh
         font-family: 'Encode Sans Semi Expanded', sans-serif
         color: white
         width: 100%
@@ -18,15 +18,15 @@
         flex-direction: column
         flex-wrap: wrap
         overflow: hidden
+        background-color: white
 
         .MatchUser_picture
             background-position: center
             background-size: cover
             width: 100%
-            height: 100%
+            height: 85%
             // animation: 10s linear 1s slidein
             transition: all 0.3s ease-out
-
 
         #MatchUser_liked
             position: absolute
@@ -85,18 +85,19 @@
             display: flex
             flex-direction: column
             position: absolute
-            bottom: 30px
-            left: 20px
+            bottom: 1.5vh
+            left: 2vh
+            color: #1a0049
         
             #MatchUser_nameAge
-                font-size: 22px
-                margin-bottom: 5px
+                font-size: 2.5vh
+                margin-bottom: 1vh
             
             #MatchUser_location
                 display: flex
             
                 #MatchUser_locationLogo
-                    background-image: url('./ressources/location_white.png')
+                    background-image: url('./ressources/location_blue.png')
                     background-position: center
                     background-size: cover
                     width: 24px

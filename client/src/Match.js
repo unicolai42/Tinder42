@@ -79,7 +79,6 @@ class Match extends React.Component {
             })
         })
         navigator.geolocation.getCurrentPosition(position => {
-          console.log(position.coords.latitude, position.coords.longitude)
           axios.post('http://localhost:3001/update_location', {
             "userId": Cookies.get('id'),
             "latitude": position.coords.latitude,
@@ -240,10 +239,9 @@ class Match extends React.Component {
     }
 
     let displayButtons = []
-    // foutre ca quand il ny a plus dusers pour que les bouttons se arrent vers le bas{transform: 'translateY(-200px)'}
     if (this.state.nbUsersNoMatched) {
-      displayButtons.push(<div id='Match_dislike' key='Match_dislike' style={this.state.displayButtons} onClick={this.dislikeClick}></div>)
-      displayButtons.push(<div id='Match_like' key='Match_like' style={this.state.displayButtons} onClick={this.likeClick}></div>)
+      displayButtons.push(<div id='Match_dislike' className='Match_buttons' key='Match_dislike' style={this.state.displayButtons} onClick={this.dislikeClick}></div>)
+      displayButtons.push(<div id='Match_like' className='Match_buttons' key='Match_like' style={this.state.displayButtons} onClick={this.likeClick}></div>)
     }
 
     if ((this.state.user.username && !this.state.user.picture1) || (this.state.user.username && !this.state.user.age) || (this.state.user.username && this.state.user.sex === 1)) {
@@ -252,15 +250,17 @@ class Match extends React.Component {
     }
     return (
         <div id='Match_wrapper'>
-          <div id='Match_number'>
-            <div id='Match_numberLogo'></div>
-            <div id='Match_numberText'>{(this.state.nbUsersNoMatched === 0) ? 'No' : this.state.allUsers.length} more matches found</div>
-          </div>
-          <div id='Match_framePictures'>
-            {arrayUserMatch}
-          </div>
-          <div key={0} id='Match_button'>
-            {displayButtons}
+          <div id='Match_frame'>
+            <div id='Match_number'>
+              <div id='Match_numberLogo'></div>
+              <div id='Match_numberText'>{(this.state.nbUsersNoMatched === 0) ? 'No' : this.state.allUsers.length} more matches found</div>
+            </div>
+            <div id='Match_framePictures'>
+              {arrayUserMatch}
+            </div>
+            <div key={0} id='Match_button'>
+              {displayButtons}
+            </div>
           </div>
       </div>
     );
