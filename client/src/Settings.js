@@ -34,7 +34,6 @@ class Settings extends React.Component {
     this.changeValuesAge = this.changeValuesAge.bind(this)
     this.changeValuesMaxDistance = this.changeValuesMaxDistance.bind(this)
     this.changeValuesPopularityMin = this.changeValuesPopularityMin.bind(this)
-    this.changeValuesSex = this.changeValuesSex.bind(this)
     this.setValuesDb = this.setValuesDb.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.handleAddition = this.handleAddition.bind(this)
@@ -109,8 +108,17 @@ class Settings extends React.Component {
     })
   }
 
-  changeValuesSex(value) {
-    this.setState({sex: value})
+  changeSex = async (value) => {
+    if (value === 0 && this.state.sex === 1)
+      await this.setState({sex: 0})
+    else if (value === 2 && this.state.sex === 1)
+      await this.setState({sex: 2})
+    else if ((value === 0 && this.state.sex === 2) || (value === 2 && this.state.sex === 0))
+      await this.setState({sex: 1})
+    else
+      return
+    
+    this.setValuesDb()
   }
 
   setValuesDb() {
@@ -272,6 +280,7 @@ class Settings extends React.Component {
     return (
       <div id='Settings_wrapper'>
         <div id='Settings_block'>
+          <div id='Settings_title'>Settings</div>
           <div id='Settings_age'>
             <div className='Settings_description'>
               <div id='Settings_ageText'>Age Range</div>
@@ -279,29 +288,25 @@ class Settings extends React.Component {
             </div>
             <Range min={16} max={70} value={[this.state.ageMin, this.state.ageMax]} onChange={this.changeValuesAge} onAfterChange={this.setValuesDb} />
           </div>
-          <div id='Settings_maxDistance'>
+          <div id='Settings_maxDistance' className='Settings_box'>
             <div className='Settings_description'>
               <div id='Settings_maxDistanceText'>Maximum Distance</div>
               <div id='Settings_maxDistanceNumber'>{this.state.maxDistance}km</div>
             </div>
             <Slider min={1} max={1000} value={this.state.maxDistance} onChange={this.changeValuesMaxDistance} onAfterChange={this.setValuesDb} />
           </div>
-          <div id='Settings_sex'>
-            <div className='Settings_description'>
-              <div className='Settings_sexText'>Men</div>
-              <div className='Settings_sexText'>Both</div>
-              <div className='Settings_sexText'>Women</div>
-            </div>
-            <Slider style={{width: '90%', margin: 'auto'}} min={0} max={2} value={this.state.sex} onChange={this.changeValuesSex} onAfterChange={this.setValuesDb} />
-          </div>
-          <div id='Settings_popularityMin'>
+          <div id='Settings_popularityMin' className='Settings_box'>
             <div className='Settings_description'>
               <div id='Settings_popularityMinText'>Popularity minimum</div>
               <div id='Settings_popularityMinNumber'>{this.state.popularity} / {this.state.maxPopularity}</div>
             </div>
             <Slider min={0} max={this.state.maxPopularity} value={this.state.popularity} onChange={this.changeValuesPopularityMin} onAfterChange={this.setValuesDb} />
           </div>
-          <div>
+          <div id='Settings_sex'>
+              <div className='Settings_sexText' onClick={() => this.changeSex(0)} style={(this.state.sex < 2) ? {background: 'linear-gradient(175deg,#afe7ff 10%,#dfefff 70%,#c1f1ff 90%)', color: 'white'} : null}>Men</div>
+              <div className='Settings_sexText' onClick={() => this.changeSex(2)} style={(this.state.sex > 0) ? {background: 'linear-gradient(175deg,#afe7ff 10%,#dfefff 70%,#c1f1ff 90%)', color: 'white'} : null}>Women</div>
+          </div>
+          <div className='Settings_box'>
             <ReactTags delimiterChars={[',', ' ', '.', '  ']} allowBackspace={false} minQueryLength={1} placeholder='Add new # or click to delete it' tags={this.state.tags} suggestions={this.state.suggestions} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />
           </div>
           <input className='Settings_changeMail' onChange={this.changeMailValue} value={this.state.valueMail} onKeyDown={this.onEnterPressMail} type="text"/>

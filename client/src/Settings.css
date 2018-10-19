@@ -1,22 +1,99 @@
+@import url("https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:300");
 #Settings_wrapper {
   display: flex;
-  border: 1px solid red;
   height: calc(100vh - 57px); }
   #Settings_wrapper #Settings_block {
+    padding: 3vh;
     margin: auto;
     width: 500px;
-    height: 300px;
-    border: 1px solid blue;
     display: flex;
-    flex-direction: column; }
+    flex-direction: column;
+    background-color: white;
+    border-radius: 1vw;
+    box-shadow: 0 2px 10px 0 rgba(155, 155, 155, 0.77); }
+    #Settings_wrapper #Settings_block .Settings_box {
+      margin: 1vh 0; }
+    #Settings_wrapper #Settings_block #Settings_title {
+      font-family: 'Encode Sans Semi Expanded', sans-serif;
+      font-weight: 300;
+      font-size: 2.2vh;
+      margin: 0 auto 3vh auto; }
     #Settings_wrapper #Settings_block #Settings_age {
       display: flex;
-      flex-direction: column;
-      border: 1px solid red; }
+      flex-direction: column; }
     #Settings_wrapper #Settings_block #Settings_location {
       display: flex;
       flex-direction: column;
       border: 1px solid blue; }
+    #Settings_wrapper #Settings_block #Settings_sex {
+      display: flex;
+      width: 100%;
+      height: initial;
+      cursor: pointer; }
+      #Settings_wrapper #Settings_block #Settings_sex .Settings_sexText {
+        margin: 1vh auto auto auto;
+        text-align: center;
+        padding: 0.6vh 0;
+        width: 50%;
+        border: calc(1px + 0.05vh) solid;
+        border-image: linear-gradient(170deg, #afe7ff 10%, #dfefff 70%, #c1f1ff 90%) 1;
+        font-size: 1.5vh;
+        font-family: 'Encode Sans Semi Expanded', sans-serif;
+        font-weight: 300;
+        font-size: 1.5vh; }
+    #Settings_wrapper #Settings_block .react-tags {
+      display: flex;
+      flex-direction: column;
+      border-radius: 1px;
+      font-size: 1em;
+      cursor: text; }
+    #Settings_wrapper #Settings_block .react-tags__selected {
+      display: inline;
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      margin: 1vh 0; }
+    #Settings_wrapper #Settings_block .react-tags__selected-tag {
+      display: inline-block;
+      box-sizing: border-box;
+      margin-right: 5px;
+      padding: 0.5vh 1vh;
+      border-radius: 2px;
+      font-family: 'Encode Sans Semi Expanded', sans-serif;
+      font-size: 1.4vh;
+      font-weight: 300;
+      color: white;
+      border: none;
+      background: linear-gradient(170deg, #afe7ff 10%, #dfefff 70%, #c1f1ff 90%);
+      cursor: pointer; }
+    #Settings_wrapper #Settings_block .react-tags__search {
+      width: 100%;
+      border: calc(1px + 0.05vh) solid;
+      border-image: linear-gradient(170deg, #afe7ff 10%, #dfefff 70%, #c1f1ff 90%) 1;
+      border-top: none;
+      border-right: none;
+      border-left: none; }
+    #Settings_wrapper #Settings_block .react-tags__search input {
+      border: none;
+      font-family: 'Encode Sans Semi Expanded', sans-serif;
+      font-size: 1.5vh;
+      font-weight: 200;
+      width: 100%; }
+      #Settings_wrapper #Settings_block .react-tags__search input:focus {
+        outline: none; }
+      #Settings_wrapper #Settings_block .react-tags__search input input {
+        border: 1px solid red; }
+    #Settings_wrapper #Settings_block .react-tags__suggestions {
+      cursor: pointer;
+      margin: -10px auto; }
+      #Settings_wrapper #Settings_block .react-tags__suggestions #ReactTags-listbox li:hover {
+        background: linear-gradient(170deg, #afe7ff 10%, #dfefff 70%, #c1f1ff 90%);
+        color: white; }
+      #Settings_wrapper #Settings_block .react-tags__suggestions #ReactTags-listbox li mark {
+        background-color: transparent; }
     #Settings_wrapper #Settings_block .Settings_description {
       display: flex;
-      justify-content: space-between; }
+      justify-content: space-between;
+      font-family: 'Encode Sans Semi Expanded', sans-serif;
+      font-weight: 300;
+      font-size: 1.5vh; }
