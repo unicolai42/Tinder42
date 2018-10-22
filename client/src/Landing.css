@@ -22,7 +22,7 @@
     }
 
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1050px) and (min-height: 800px) {
     #Landing_block {
         min-width: 40vw;
     }
@@ -46,5 +46,31 @@
         width: auto;
         height: 80vh;
     }
+}
 
+
+@media screen and (min-width: 800px) and (max-height: 800px) {
+    #Landing_block {
+        min-width: 40vw;
+    }
+        .Landing_logo {
+            margin: 2vh auto 2vh calc(-2vw + 11.8%) !important;
+        }
+        #Landing_baseline {
+            display: flex;
+            margin: auto;
+            color: #1a0049;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+            font-size: 5vh;
+            text-align: center;
+            line-height: 7vh;
+        }
+
+    #Landing_img {
+        display: flex;
+        margin: auto 0 auto auto;
+        width: auto;
+        height: 80vh;
+    }
 }
