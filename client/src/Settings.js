@@ -7,8 +7,6 @@ import 'rc-slider/assets/index.css'
 import ReactTags from 'react-tag-autocomplete'
 
 
-
-
 class Settings extends React.Component {
   constructor(props) {
     super(props)  
@@ -29,7 +27,7 @@ class Settings extends React.Component {
       valueNewPwd1: '',
       valueNewPwd2: '',
       validPwd: '',
-      validMail: ''
+      validMail: '',
     }
     this.changeValuesAge = this.changeValuesAge.bind(this)
     this.changeValuesMaxDistance = this.changeValuesMaxDistance.bind(this)
@@ -182,6 +180,7 @@ class Settings extends React.Component {
   }
 
   onEnterPressMail(event) {
+    console.log('fefer')
     if(event.keyCode === 13) {
         event.preventDefault()
         this.submitChangeMail()
@@ -309,17 +308,17 @@ class Settings extends React.Component {
           <div className='Settings_box'>
             <ReactTags delimiterChars={[',', ' ', '.', '  ']} allowBackspace={false} minQueryLength={1} placeholder='Add new # or click to delete it' tags={this.state.tags} suggestions={this.state.suggestions} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />
           </div>
-          <input className='Settings_changeMail' onChange={this.changeMailValue} value={this.state.valueMail} onKeyDown={this.onEnterPressMail} type="text"/>
-          <input id='Settings_submitMail' value="Change mail" onClick={this.submitChangeMail} type='submit'/>
-          <div id='Settings_validMail'>{this.state.validMail}</div>
-
-          <input className='Settings_changePwd' onChange={this.changeOldPwdValue} value={this.state.valueOldPwd} onKeyDown={this.onEnterPressPwd} type="password"/>
-          <input className='Settings_changePwd' onChange={this.changeNewPwd1Value} value={this.state.valueNewPwd1} onKeyDown={this.onEnterPressPwd} type="password"/>
-          <input className='Settings_changePwd' onChange={this.changeNewPwd2Value} value={this.state.valueNewPwd2} onKeyDown={this.onEnterPressPwd} type="password"/>          
-          <input id='Settings_submitPwd' value="Change password" onClick={this.submitChangePwd} type='submit'/>
-          <div id='Settings_validPwd'>{this.state.validPwd}</div>
+          <div id='Settings_mail'>
+            <input id='Settings_input' placeholder="Enter your new mail address" name='message' type='text' onKeyDown={this.onEnterPressMail} value={this.state.valueMail} onChange={this.changeMailValue}/>
+            <div id='Settings_submit' onClick={this.submitChangeMail}/>
+            <div id='Settings_validMail'>{this.state.validMail}</div>
+          </div>
+          <input className='Settings_changePwd' placeholder='Old password' onChange={this.changeOldPwdValue} value={this.state.valueOldPwd} onKeyDown={this.onEnterPressPwd} type="password"/>
+          <input className='Settings_changePwd' placeholder='New password' onChange={this.changeNewPwd1Value} value={this.state.valueNewPwd1} onKeyDown={this.onEnterPressPwd} type="password"/>
+          <input className='Settings_changePwd' placeholder='Confirmation' onChange={this.changeNewPwd2Value} value={this.state.valueNewPwd2} onKeyDown={this.onEnterPressPwd} type="password"/>          
+          <div id='Settings_validPwd'>{this.state.validPwd}</div>          
+          <input id='Settings_submitPwd' value="EDIT PASSWORD" onClick={this.submitChangePwd} type='submit'/>
           {resendPwd}
-          {/* <div id='Settings_logOut' onClick={this.logOut}>Log Out</div> */}
         </div>
       </div>
     )

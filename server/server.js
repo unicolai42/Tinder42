@@ -22,6 +22,7 @@ app.use(fileUpload())
 app.use(cors())
 app.use((req, res, next) => {
     req.db = mysql.createPool({
+        connectionLimit : 10,
         host: 'localhost',
         user: 'root',
         password: '00000000',
