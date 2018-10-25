@@ -199,16 +199,16 @@ router.post('/check_match', (req, res) => {
                                 if (err)
                                     return (res.send(err) && console.log(err))
                                 
-                                req.db.query("INSERT INTO Notifications (sender_id, receiver_id, content) VALUES (?, ?, 'matched');",
-                                [req.body.userId, req.body.matcher.id], (err, rows, fields) => {
-                                    if (err)
-                                        return (res.send(err) && console.log(err))
-                                    res.end()
-                                })
+                                // req.db.query("INSERT INTO Notifications (sender_id, receiver_id, content) VALUES (?, ?, 'matched');",
+                                // [req.body.userId, req.body.matcher.id], (err, rows, fields) => {
+                                //     if (err)
+                                //         return (res.send(err) && console.log(err))
+                                res.json(1)
+                                // })
                             })
                         }
                         else
-                            res.end()
+                            res.json(0)
                     })
                 })
             })

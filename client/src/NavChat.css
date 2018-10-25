@@ -74,6 +74,10 @@
             font-weight: 500;
             margin: auto;
         }
+            .NavChat_notifications {
+                bottom: -1px;
+                left: 18px;
+            }
 }
 
 @media screen and (min-width: 800px) and (max-height: 800px) {
@@ -92,4 +96,8 @@
             font-weight: 500;
             margin: auto;
         }
+            .NavChat_notifications {
+                bottom: -1px;
+                left: 18px;
+            }
 }

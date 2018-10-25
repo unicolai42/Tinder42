@@ -50,9 +50,6 @@ class Chat extends React.Component {
                         "userId": Cookies.get('id'),
                         "matcherId": data.senderId
                     })
-                    .then(() => {
-                        socket.disconnect() 
-                    })
                     conversationOpen = 1
                 }
                 

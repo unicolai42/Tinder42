@@ -99,17 +99,18 @@ class Match extends React.Component {
         "liked": 1
       })
       .then(({data}) => {
-        if (1) {
-          this.setState({
-            matchedLogoStyle: {display: 'initial'},
-            matchedTxtStyle: {display: 'initial'},
-            matchedLogo: 'animated zoomInDown delay-0.1s',
-            matchedTxt: 'animated zoomInDown delay-0.1s'
-          })
-        }
+        console.log(data, 'dwefwf')
+        this.setState({
+          matchedLogoStyle: {display: 'initial'},
+          matchedTxtStyle: {display: 'initial'},
+          matchedLogo: 'animated zoomInDown delay-0.1s',
+          matchedTxt: 'animated zoomInDown delay-0.1s'
+        })
+        return data
       })
-      .then(() => {
-        setTimeout(() => {
+      .then((data) => {
+        console.log(data, 'iiii')
+        if (!data) {
           this.setState(
             (prevState) => ({
               styleThirdUser: {zIndex: '1'},
@@ -127,7 +128,28 @@ class Match extends React.Component {
               matchedTxt: ''
             })
           )
-        }, 1500)
+        }
+        else {
+          setTimeout(()=> {
+            this.setState(
+              (prevState) => ({
+                styleThirdUser: {zIndex: '1'},
+                styleFirstUser: {transition: 'transform 0.5s linear 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(30deg)'},
+                likedFirstUser: {display: 'initial'},
+                styleSecondUser: {zIndex: '2'},
+                likedThirdUser: {display: 'none'},
+                dislikedThirdUser: {display: 'none'},
+                actualUser: 'SecondUser',
+                indexUser3: prevState.indexUser3 + 3,
+                nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
+                matchedLogoStyle: {display: 'none'},
+                matchedTxtStyle: {display: 'none'},
+                matchedLogo: '',
+                matchedTxt: ''
+              })
+            )
+          }, 1500)
+        }
       })
     }
 
@@ -138,17 +160,18 @@ class Match extends React.Component {
         "liked": 1
       })
       .then(({data}) => {
-        if (1) {
-          this.setState({
-            matchedLogoStyle: {display: 'initial'},
-            matchedTxtStyle: {display: 'initial'},
-            matchedLogo: 'animated zoomInDown delay-0.1s',
-            matchedTxt: 'animated zoomInDown delay-0.1s'
-          })
-        }
+        console.log(data, 'dwefwf')
+        this.setState({
+          matchedLogoStyle: {display: 'initial'},
+          matchedTxtStyle: {display: 'initial'},
+          matchedLogo: 'animated zoomInDown delay-0.1s',
+          matchedTxt: 'animated zoomInDown delay-0.1s'
+        })
+        return data
       })
-      .then(() => {
-        setTimeout(() => {
+      .then((data) => {
+        console.log(data, 'iiii')
+        if (!data) {
           this.setState(
             (prevState) => ({
               styleFirstUser: {zIndex: '1'},
@@ -166,7 +189,28 @@ class Match extends React.Component {
               matchedTxt: ''
             })
           )
-        }, 1500)
+        }
+        else {
+          setTimeout(()=> {
+            this.setState(
+              (prevState) => ({
+                styleFirstUser: {zIndex: '1'},
+                styleSecondUser: {transition: 'transform 0.5s linear 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(30deg)'},
+                likedSecondUser: {display: 'initial'},
+                styleThirdUser: {zIndex: '2'},
+                likedFirstUser: {display: 'none'},
+                dislikedFirstUser: {display: 'none'},
+                actualUser: 'ThirdUser',
+                indexUser1: prevState.indexUser1 + 3,
+                nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
+                matchedLogoStyle: {display: 'none'},
+                matchedTxtStyle: {display: 'none'},
+                matchedLogo: '',
+                matchedTxt: ''
+              })
+            )
+          }, 1500)
+        }
       })
     }
 
@@ -177,17 +221,18 @@ class Match extends React.Component {
         "liked": 1
       })
       .then(({data}) => {
-        if (1) {
-          this.setState({
-            matchedLogoStyle: {display: 'initial'},
-            matchedTxtStyle: {display: 'initial'},
-            matchedLogo: 'animated zoomInDown delay-0.1s',
-            matchedTxt: 'animated zoomInDown delay-0.1s'
-          })
-        }
+        console.log(data, 'dwefwf')
+        this.setState({
+          matchedLogoStyle: {display: 'initial'},
+          matchedTxtStyle: {display: 'initial'},
+          matchedLogo: 'animated zoomInDown delay-0.1s',
+          matchedTxt: 'animated zoomInDown delay-0.1s'
+        })
+        return data
       })
-      .then(() => {
-        setTimeout(() => {
+      .then((data) => {
+        console.log(data, 'iiii')
+        if (!data) {
           this.setState(
             (prevState) => ({
               styleSecondUser: {zIndex: '1'},
@@ -205,7 +250,28 @@ class Match extends React.Component {
               matchedTxt: ''
             })
           )
-        }, 1500)
+        }
+        else {
+          setTimeout(()=> {
+            this.setState(
+              (prevState) => ({
+                styleSecondUser: {zIndex: '1'},
+                styleThirdUser: {transition: 'transform 0.5s linear 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(30deg)'},
+                likedThirdUser: {display: 'initial'},
+                styleFirstUser: {zIndex: '2'},
+                likedSecondUser: {display: 'none'},
+                dislikedSecondUser: {display: 'none'},
+                actualUser: 'FirstUser',
+                indexUser2: prevState.indexUser2 + 3,
+                nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
+                matchedLogoStyle: {display: 'none'},
+                matchedTxtStyle: {display: 'none'},
+                matchedLogo: '',
+                matchedTxt: ''
+              })
+            )
+          }, 1500)
+        }
       })
     }
   }
