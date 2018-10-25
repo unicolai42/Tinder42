@@ -26,7 +26,11 @@ class Match extends React.Component {
       dislikedSecondUser: {display: 'none'},
       likedThirdUser: {display: 'none'},
       dislikedThirdUser: {display: 'none'},
-      displayButtons: null
+      displayButtons: null,
+      matchedLogo: '',
+      matchedTxt: '',
+      matchedLogoStyle: {display: 'none'},
+      matchedTxtStyle: {display: 'none'}
     }
 
     this.likeClick = this.likeClick.bind(this)
@@ -43,13 +47,10 @@ class Match extends React.Component {
       "userId": Cookies.get('id')
     })
     .then(response => {
-      console.log(response.data)
       this.setState({user: response.data})
       
       if (!response.data.latitude && !response.data.longitude) {
-        console.log('ddefergrerfwesLLLLL')
         navigator.geolocation.getCurrentPosition(position => {
-          console.log(position.coords.latitude, position.coords.longitude)
           axios.post('http://localhost:3001/update_location', {
             "userId": Cookies.get('id'),
             "latitude": position.coords.latitude,
@@ -91,65 +92,120 @@ class Match extends React.Component {
   
   likeClick() {
     if (this.state.actualUser === 'FirstUser') {
-      this.setState(
-        (prevState) => ({
-          styleThirdUser: {zIndex: '1'},
-          styleFirstUser: {transition: 'transform 0.5s linear 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(30deg)'},
-          likedFirstUser: {display: 'initial'},
-          styleSecondUser: {zIndex: '2'},
-          likedThirdUser: {display: 'none'},
-          dislikedThirdUser: {display: 'none'},
-          actualUser: 'SecondUser',
-          indexUser3: prevState.indexUser3 + 3,
-          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
-        })
-      )
+      
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
         "matcher": this.state.allUsers[this.state.indexUser1],
         "liked": 1
       })
+      .then(({data}) => {
+        if (1) {
+          this.setState({
+            matchedLogoStyle: {display: 'initial'},
+            matchedTxtStyle: {display: 'initial'},
+            matchedLogo: 'animated zoomInDown delay-0.1s',
+            matchedTxt: 'animated zoomInDown delay-0.1s'
+          })
+        }
+      })
+      .then(() => {
+        setTimeout(() => {
+          this.setState(
+            (prevState) => ({
+              styleThirdUser: {zIndex: '1'},
+              styleFirstUser: {transition: 'transform 0.5s linear 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(30deg)'},
+              likedFirstUser: {display: 'initial'},
+              styleSecondUser: {zIndex: '2'},
+              likedThirdUser: {display: 'none'},
+              dislikedThirdUser: {display: 'none'},
+              actualUser: 'SecondUser',
+              indexUser3: prevState.indexUser3 + 3,
+              nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
+              matchedLogoStyle: {display: 'none'},
+              matchedTxtStyle: {display: 'none'},
+              matchedLogo: '',
+              matchedTxt: ''
+            })
+          )
+        }, 1500)
+      })
     }
 
     else if (this.state.actualUser === 'SecondUser') {
-      this.setState(
-        (prevState) => ({
-          styleFirstUser: {zIndex: '1'},
-          styleSecondUser: {transition: 'transform 0.5s linear 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(30deg)'},
-          likedSecondUser: {display: 'initial'},
-          styleThirdUser: {zIndex: '2'},
-          likedFirstUser: {display: 'none'},
-          dislikedFirstUser: {display: 'none'},
-          actualUser: 'ThirdUser',
-          indexUser1: prevState.indexUser1 + 3,
-          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
-        })
-      )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
         "matcher": this.state.allUsers[this.state.indexUser2],
         "liked": 1
       })
+      .then(({data}) => {
+        if (1) {
+          this.setState({
+            matchedLogoStyle: {display: 'initial'},
+            matchedTxtStyle: {display: 'initial'},
+            matchedLogo: 'animated zoomInDown delay-0.1s',
+            matchedTxt: 'animated zoomInDown delay-0.1s'
+          })
+        }
+      })
+      .then(() => {
+        setTimeout(() => {
+          this.setState(
+            (prevState) => ({
+              styleFirstUser: {zIndex: '1'},
+              styleSecondUser: {transition: 'transform 0.5s linear 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(30deg)'},
+              likedSecondUser: {display: 'initial'},
+              styleThirdUser: {zIndex: '2'},
+              likedFirstUser: {display: 'none'},
+              dislikedFirstUser: {display: 'none'},
+              actualUser: 'ThirdUser',
+              indexUser1: prevState.indexUser1 + 3,
+              nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
+              matchedLogoStyle: {display: 'none'},
+              matchedTxtStyle: {display: 'none'},
+              matchedLogo: '',
+              matchedTxt: ''
+            })
+          )
+        }, 1500)
+      })
     }
 
     else if (this.state.actualUser === 'ThirdUser') {
-      this.setState(
-        (prevState) => ({
-          styleSecondUser: {zIndex: '1'},
-          styleThirdUser: {transition: 'transform 0.5s linear 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(30deg)'},
-          likedThirdUser: {display: 'initial'},
-          styleFirstUser: {zIndex: '2'},
-          likedSecondUser: {display: 'none'},
-          dislikedSecondUser: {display: 'none'},
-          actualUser: 'FirstUser',
-          indexUser2: prevState.indexUser2 + 3,
-          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
-        })
-      )
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
         "matcher": this.state.allUsers[this.state.indexUser3],
         "liked": 1
+      })
+      .then(({data}) => {
+        if (1) {
+          this.setState({
+            matchedLogoStyle: {display: 'initial'},
+            matchedTxtStyle: {display: 'initial'},
+            matchedLogo: 'animated zoomInDown delay-0.1s',
+            matchedTxt: 'animated zoomInDown delay-0.1s'
+          })
+        }
+      })
+      .then(() => {
+        setTimeout(() => {
+          this.setState(
+            (prevState) => ({
+              styleSecondUser: {zIndex: '1'},
+              styleThirdUser: {transition: 'transform 0.5s linear 0.5s', zIndex: '3', transform: 'translateX(2000px) rotate(30deg)'},
+              likedThirdUser: {display: 'initial'},
+              styleFirstUser: {zIndex: '2'},
+              likedSecondUser: {display: 'none'},
+              dislikedSecondUser: {display: 'none'},
+              actualUser: 'FirstUser',
+              indexUser2: prevState.indexUser2 + 3,
+              nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
+              matchedLogoStyle: {display: 'none'},
+              matchedTxtStyle: {display: 'none'},
+              matchedLogo: '',
+              matchedTxt: ''
+            })
+          )
+        }, 1500)
       })
     }
   }
@@ -236,7 +292,7 @@ class Match extends React.Component {
     }
     else {
       arrayUserMatch.push(<div id='Match_noMoreMatch' key={0}>
-                            <div id='Match_noMoreMatchLogo'></div>
+                            <div id='Match_noMoreMatchLogo' className='animated infinite pulse'></div>
                             <div id='Match_noMoreMatchText' key={1}>Adjust your parameters to find new matches</div>
                           </div>)
     }
@@ -253,6 +309,8 @@ class Match extends React.Component {
               <div id='Match_numberText'>{(this.state.nbUsersNoMatched === 0) ? 'No' : this.state.nbUsersNoMatched} more matches found</div>
             </div>
             <div id='Match_framePictures'>
+              <div id='Match_matched_logo' style={this.state.matchedLogoStyle} className={this.state.matchedLogo}/>
+              <div id='Match_matched_txt' style={this.state.matchedTxtStyle} className={this.state.matchedTxt}>New Match !</div>
               {arrayUserMatch}
             </div>
             <div id='Match_button'>

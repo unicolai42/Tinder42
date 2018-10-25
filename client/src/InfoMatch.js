@@ -101,7 +101,7 @@ class InfoMatch extends React.Component {
         if (this.state.location) {
             if (this.state.description)
                 info.push(
-                    <div key={3} className='InfoUser_line'/>
+                    <div key={3} className='InfoMatch_line'/>
                 )
             info.push(
                 <div key={4} className='InfoUser_box'>
@@ -114,7 +114,7 @@ class InfoMatch extends React.Component {
         }
         if (this.state.sex === 0 || this.state.sex === 1 || this.state.sex === 2) {
             info.push(
-                <div key={11} className='InfoUser_line'/>
+                <div key={11} className='InfoMatch_line'/>
             )
             info.push(
                 <div key={12} className='InfoUser_box'>
@@ -127,7 +127,7 @@ class InfoMatch extends React.Component {
         }
         if (this.state.work) {
             info.push(
-                <div key={5} className='InfoUser_line'/>
+                <div key={5} className='InfoMatch_line'/>
             )
             info.push(
                 <div key={6} className='InfoUser_box'>
@@ -140,7 +140,7 @@ class InfoMatch extends React.Component {
         }
         if (this.state.tags[0]) {
             info.push(
-                <div key={7} className='InfoUser_line'/>
+                <div key={7} className='InfoMatch_line'/>
             )
             info.push(
                 <div key={8} className='InfoUser_box'>
@@ -153,7 +153,7 @@ class InfoMatch extends React.Component {
         }
         if (this.state.language) {
             info.push(
-                <div key={9} className='InfoUser_line'/>
+                <div key={9} className='InfoMatch_line'/>
             )
             info.push(
                 <div key={10} className='InfoUser_box'>
@@ -165,7 +165,7 @@ class InfoMatch extends React.Component {
             )
         }
         info.push(
-            <div key={13} className='InfoUser_line'/>
+            <div key={13} className='InfoMatch_line'/>
         )
         info.push(
             <div key={14} className='InfoUser_box'>

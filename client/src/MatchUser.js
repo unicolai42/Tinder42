@@ -116,7 +116,7 @@ class MatchUser extends React.Component {
                 <div id='MatchUser_frame'>
                     {pictures}
                     <div id='MatchUser_liked' style={this.props.liked}>LIKE</div>
-                    <div id='MatchUser_disliked' style={this.props.disliked}>NOPE</div>
+                    <div id='MatchUser_disliked' style={this.props.disliked}>NOPE</div>                   
                     {arrows}
                     <div id='MatchUser_informations'>
                         <div id='MatchUser_nameAge' style={{display: this.state.about}}>{this.props.userInfo.username}, {this.props.userInfo.age}</div>

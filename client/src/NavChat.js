@@ -18,14 +18,12 @@ class NavChat extends React.Component {
     }
     componentDidMount() {
         socket.on('displayNotif2', data => {
-            console.log(this.props.chatActiv)
             if (data.receiverId === parseInt(Cookies.get('id'), 10) && !this.props.chatActiv) {
                 this.setState(prevState => ({notifications: prevState.notifications + 1}))
             }
         })
         socket.on('deleteNotif1', data => {
             if (parseInt(Cookies.get('id'), 10) === data.userId) {
-                console.log(data, 'dededededededededeed')
                 this.setState(prevState => ({notifications: prevState.notifications - data.removeNotif}))
             }
         })
@@ -37,7 +35,6 @@ class NavChat extends React.Component {
         })
     }
     render() {
-        console.log(this.props.chatActiv)
         let notifications = (this.state.notifications) ? <div className='NavChat_notifications'><span className='NavChat_notifcationsNumber'>{this.state.notifications}</span></div> : null
         return (
             <div id='NavChat' onClick={this.props.selectChat}>

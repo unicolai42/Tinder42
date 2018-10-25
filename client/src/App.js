@@ -41,6 +41,9 @@ class App extends React.Component {
                     "userSignInId": data.id,
                     "userAlreadySignInId": Cookies.get('id')
                 })
+                .then(() => {
+                    socket.disconnect() 
+                })
                 this.setState({usersConnected: newUsersConnected})
             })
             socket.on('userDisconnected', data => {

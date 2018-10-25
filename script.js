@@ -8,7 +8,7 @@ const randomString = require('randomstring')
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '00000000',
+    password: '',
     database: 'Matcha',    
     multipleStatements: true
 })

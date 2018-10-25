@@ -35,9 +35,11 @@ router.post('/load_info_user', (req, res) => {
         req.db.query("SELECT hashtag_id FROM HashtagUsers WHERE user_id = ?;",
         [req.body.userId], (err, rows, fields) => {
             const hashtagId = []
-            rows.forEach(e => {
-                hashtagId.push(e.hashtag_id)
-            });
+            if (rows.length > 0) {
+                rows.forEach(e => {
+                    hashtagId.push(e.hashtag_id)
+                });
+            }  
             let hashtags = []
 
             req.db.query("SELECT name FROM Hashtags WHERE id IN (?);",

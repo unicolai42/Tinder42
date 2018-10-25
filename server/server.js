@@ -25,7 +25,7 @@ app.use((req, res, next) => {
         connectionLimit : 10,
         host: 'localhost',
         user: 'root',
-        password: '00000000',
+        password: '',
         database: 'Matcha'
     })
     next()
