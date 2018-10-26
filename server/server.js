@@ -15,19 +15,21 @@ const routerSettings = require('./routes/settings')
 
 const app = express()
 
+const connectionPool = mysql.createPool({
+    connectionLimit : 10,
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'Matcha'
+})
+
 app.use(bodyParser.json({limit: '10mb'}))
 app.use(bodyParser.urlencoded({extended: false, limit: '10mb'}))
 app.use(cookieParser())
 app.use(fileUpload())
 app.use(cors())
 app.use((req, res, next) => {
-    req.db = mysql.createPool({
-        connectionLimit : 10,
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'Matcha'
-    })
+    req.db = connectionPool
     next()
 })
 
