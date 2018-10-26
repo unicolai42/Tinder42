@@ -3,7 +3,7 @@
   display: flex;
   height: calc(100vh - 57px); }
   #Settings_wrapper #Settings_block {
-    padding: 3vh;
+    padding: 5vh 6vh;
     margin: auto;
     width: 80%;
     max-width: 60vh;
@@ -17,7 +17,7 @@
     #Settings_wrapper #Settings_block #Settings_title {
       font-family: 'Encode Sans Semi Expanded', sans-serif;
       font-weight: 300;
-      font-size: 2.2vh;
+      font-size: 4vh;
       margin: 0 auto 3vh auto; }
     #Settings_wrapper #Settings_block #Settings_age {
       display: flex;
@@ -30,7 +30,8 @@
       display: flex;
       width: 100%;
       height: initial;
-      cursor: pointer; }
+      cursor: pointer;
+      margin-top: 1.5vh; }
       #Settings_wrapper #Settings_block #Settings_sex .Settings_sexText {
         margin: 1vh auto auto auto;
         text-align: center;
@@ -38,17 +39,16 @@
         width: 50%;
         border: calc(1px + 0.05vh) solid;
         border-image: linear-gradient(170deg, #afe7ff 10%, #dfefff 70%, #c1f1ff 90%) 1;
-        font-size: 1.5vh;
+        font-size: 1.8vh;
         font-family: 'Encode Sans Semi Expanded', sans-serif;
-        font-weight: 300;
-        font-size: 1.5vh; }
+        font-weight: 300; }
     #Settings_wrapper #Settings_block .react-tags {
       display: flex;
       flex-direction: column;
       border-radius: 1px;
       font-size: 1em;
       cursor: text;
-      margin-top: 1vh; }
+      margin-top: 1.5vh; }
     #Settings_wrapper #Settings_block .react-tags__selected {
       display: inline;
       display: flex;
@@ -78,7 +78,7 @@
     #Settings_wrapper #Settings_block .react-tags__search input {
       border: none;
       font-family: 'Encode Sans Semi Expanded', sans-serif;
-      font-size: 1.5vh;
+      font-size: 1.8vh;
       font-weight: 200;
       width: 100%; }
       #Settings_wrapper #Settings_block .react-tags__search input:focus {
@@ -98,11 +98,11 @@
       justify-content: space-between;
       font-family: 'Encode Sans Semi Expanded', sans-serif;
       font-weight: 300;
-      font-size: 1.5vh; }
+      font-size: 1.8vh; }
     #Settings_wrapper #Settings_block #Settings_mail {
       display: flex;
       justify-content: space-between;
-      margin: 2vh 0;
+      margin: 3vh 0;
       border-bottom: calc(1px + 0.05vh) solid;
       border-image: linear-gradient(170deg, #afe7ff 10%, #dfefff 70%, #c1f1ff 90%) 1;
       position: relative; }
@@ -112,7 +112,7 @@
         width: 100%;
         font-family: 'Encode Sans Semi Expanded', sans-serif;
         font-weight: 300;
-        font-size: 1.5vh; }
+        font-size: 1.8vh; }
       #Settings_wrapper #Settings_block #Settings_mail #Settings_submit {
         transition: all 0.3s ease-in-out;
         width: 2.5vh;
@@ -142,17 +142,16 @@
       margin-bottom: 0.3vh;
       padding: 0; }
       #Settings_wrapper #Settings_block .Settings_changePwd::placeholder {
-        font-size: 1.2vh; }
+        font-size: 1.6vh; }
     #Settings_wrapper #Settings_block #Settings_submitPwd {
       background: linear-gradient(175deg, #afe7ff 10%, #dfefff 70%, #c1f1ff 90%);
       color: white;
       border: none;
       outline: none;
       font-family: 'Encode Sans Semi Expanded', sans-serif;
-      font-weight: 300;
-      font-size: 1.5vh;
+      font-size: 2vh;
       padding: 0.6vh 0;
-      margin-top: 1vh;
+      margin-top: 1.5vh;
       cursor: pointer; }
     #Settings_wrapper #Settings_block #Settings_validPwd {
       font-family: 'Encode Sans Semi Expanded', sans-serif;
@@ -171,3 +170,13 @@
       padding-top: 0.5vh;
       text-decoration: underline;
       cursor: pointer; }
+
+@media screen and (min-width: 1050px) and (min-height: 800px) {
+  #Settings_wrapper {
+    height: calc(100vh - 40px);
+    margin-top: 40px !important; } }
+
+@media screen and (min-width: 800px) and (max-height: 800px) {
+  #Settings_wrapper {
+    height: calc(100vh - 40px);
+    margin-top: 40px !important; } }
