@@ -8,6 +8,7 @@ import Cookies from 'js-cookie'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
 
+import NoPhoto from './ressources/no-photo.png'
 
 class Profile extends React.Component {
   constructor(props) {
@@ -108,7 +109,7 @@ class Profile extends React.Component {
     for (let i = 0; i < 5; i++) {
       pictures.push((this.state.pictures[i]) ? <ProfileDragPictures picture={this.state.pictures[i]} removePicture={this.removePicture} key={i} id={i} movePicture={this.movePicture}/> : <Dropzone ref={(ref) => { this.uploadInput = ref; }} type="file" onDrop={(files) => this.uploadPicture(files)} className='Profile_boxPictures' key={i}><div className='Profile_emptyPictures'/></Dropzone>)
     }
-    let urlFirstPicture = (firstPicture) ? {backgroundImage: `url('${firstPicture}')`} : null
+    let urlFirstPicture = (firstPicture) ? {backgroundImage: `url('${firstPicture}')`} : {backgroundImage: `url('${NoPhoto}')`}
     return (
       <div id='Profile_wrapper'>
         <div id='Profile_block'>

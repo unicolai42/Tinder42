@@ -85,4 +85,7 @@ io.on('connection', (socket) => {
     socket.on('countRemoveNotif1', data => {
         io.sockets.emit('deleteNotif1', data)
     })
+    socket.on('newMatch1', data => {
+        io.emit('displayMatch1', data)
+    })
 })

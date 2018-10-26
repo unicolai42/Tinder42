@@ -3,6 +3,10 @@ import './Match.css'
 import MatchUser from './MatchUser';
 import Cookies from 'js-cookie'
 import axios from 'axios'
+import socketIOClient from "socket.io-client"
+
+
+const socket = socketIOClient('http://127.0.0.1:3002')
 
 
 class Match extends React.Component {
@@ -35,7 +39,6 @@ class Match extends React.Component {
 
     this.likeClick = this.likeClick.bind(this)
     this.dislikeClick = this.dislikeClick.bind(this)
-    this.redirectToProfile = this.redirectToProfile.bind(this)
   }
 
   componentDidMount() {
@@ -99,7 +102,6 @@ class Match extends React.Component {
         "liked": 1
       })
       .then(({data}) => {
-        console.log(data, 'dwefwf')
         this.setState({
           matchedLogoStyle: {display: 'initial'},
           matchedTxtStyle: {display: 'initial'},
@@ -109,7 +111,6 @@ class Match extends React.Component {
         return data
       })
       .then((data) => {
-        console.log(data, 'iiii')
         if (!data) {
           this.setState(
             (prevState) => ({
@@ -130,6 +131,10 @@ class Match extends React.Component {
           )
         }
         else {
+          socket.emit('newMatch1', {
+            senderId: parseInt(Cookies.get('id'), 10),
+            receiverId: this.state.allUsers[this.state.indexUser1].id
+          })
           setTimeout(()=> {
             this.setState(
               (prevState) => ({
@@ -160,7 +165,6 @@ class Match extends React.Component {
         "liked": 1
       })
       .then(({data}) => {
-        console.log(data, 'dwefwf')
         this.setState({
           matchedLogoStyle: {display: 'initial'},
           matchedTxtStyle: {display: 'initial'},
@@ -170,7 +174,6 @@ class Match extends React.Component {
         return data
       })
       .then((data) => {
-        console.log(data, 'iiii')
         if (!data) {
           this.setState(
             (prevState) => ({
@@ -191,6 +194,10 @@ class Match extends React.Component {
           )
         }
         else {
+          socket.emit('newMatch1', {
+            senderId: parseInt(Cookies.get('id'), 10),
+            receiverId: this.state.allUsers[this.state.indexUser2].id
+          })
           setTimeout(()=> {
             this.setState(
               (prevState) => ({
@@ -221,7 +228,6 @@ class Match extends React.Component {
         "liked": 1
       })
       .then(({data}) => {
-        console.log(data, 'dwefwf')
         this.setState({
           matchedLogoStyle: {display: 'initial'},
           matchedTxtStyle: {display: 'initial'},
@@ -231,7 +237,6 @@ class Match extends React.Component {
         return data
       })
       .then((data) => {
-        console.log(data, 'iiii')
         if (!data) {
           this.setState(
             (prevState) => ({
@@ -252,6 +257,10 @@ class Match extends React.Component {
           )
         }
         else {
+          socket.emit('newMatch1', {
+            senderId: parseInt(Cookies.get('id'), 10),
+            receiverId: this.state.allUsers[this.state.indexUser3].id
+          })
           setTimeout(()=> {
             this.setState(
               (prevState) => ({
@@ -341,10 +350,6 @@ class Match extends React.Component {
     }
   }
 
-  redirectToProfile() {
-    setTimeout(() => {window.location = '/profile'}, 3000)
-  }
-
   render() {
     let arrayUserMatch = []
 
@@ -364,8 +369,14 @@ class Match extends React.Component {
     }
 
     if ((this.state.user.username && !this.state.user.picture1) || (this.state.user.username && !this.state.user.age) || (this.state.user.username && this.state.user.sex === 1)) {
-      this.redirectToProfile()
-      arrayUserMatch = <div id='Match_missInfo' key={1}>You have to add your age, and a profil picture to start matching users</div>
+      arrayUserMatch =
+      <div id='Match_missInfoBlock' onClick={() => {window.location = '/profile'}} key={1}>
+        <div id='Match_missInfoFirstTxt' className='Match_missInfoTxt'>We need more informations to find the good one for you :</div>
+        <div className='Match_missInfoTxt'>A profil picture</div>
+        <div className='Match_missInfoTxt'>Your age</div>
+        <div className='Match_missInfoTxt'>Your sex</div>
+        <div id='Match_missInfoButton'>UPDATE MY PROFILE</div>
+      </div>
     }
     return (
         <div id='Match_wrapper'>

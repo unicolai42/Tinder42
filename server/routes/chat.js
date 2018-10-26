@@ -91,26 +91,41 @@ router.post('/find_match_info', (req, res) => {
         if(err)
             return(res.send(err) && console.log(err));
         let data = rows
-        req.db.query("SELECT * FROM Matchs WHERE user1 = ? AND user2 IN (?) OR user1 IN (?) AND user2 = ?;",
-        [req.body.userLogin, usersMatchedId, usersMatchedId, req.body.userLogin], (err, rows, fields) => {
+        req.db.query("SELECT * FROM Matchs WHERE user1 = ? AND user2 IN (?);",
+        [req.body.userLogin, usersMatchedId], (err, rows, fields) => {
             if(err)
                 return(res.send(err) && console.log(err))
             
-            for (let i = 0; i < data.length; i++) {
-                data[i].date = rows[i].date
-                data[i].readNotif = rows[i].read_match
+            let y = 0
+
+            for (let i = 0; i < rows.length; i++) {
+                data[y].date = rows[i].date
+                data[y].readNotif = rows[i].read_match_1
+                y++
             }
 
-            let usersInfo = []
-            let i = 0
-            while (i < usersMatchedId.length) {
-                let y = 0
-                while (data[y].id !== usersMatchedId[i])
+            req.db.query("SELECT * FROM Matchs WHERE user1 IN (?) AND user2 = ?;",
+            [usersMatchedId, req.body.userLogin], (err, rows, fields) => {
+                if(err)
+                    return(res.send(err) && console.log(err))
+
+                for (let i = 0; i < rows.length; i++) {
+                    data[y].date = rows[i].date
+                    data[y].readNotif = rows[i].read_match_1
                     y++
-                usersInfo.push(data[y])
-                i++
-            }
-            res.json(usersInfo);
+                }
+
+                let usersInfo = []
+                let i = 0
+                while (i < usersMatchedId.length) {
+                    let y = 0
+                    while (data[y].id !== usersMatchedId[i])
+                        y++
+                    usersInfo.push(data[y])
+                    i++
+                }
+                res.json(usersInfo);
+            })
         })
     })
 })
@@ -135,7 +150,7 @@ router.post('/load_notifications', (req, res) => {
         
         let nbNotifs = rows[0].nbNotifs
         
-        req.db.query('SELECT COUNT (id) AS nbNotifs FROM Matchs WHERE (user1 = ? OR user2 = ?) AND read_match = 0;',
+        req.db.query('SELECT COUNT (id) AS nbNotifs FROM Matchs WHERE (user1 = ? AND read_match_1 = 0) OR (user2 = ? AND read_match_2 = 0) ;',
         [req.body.userId, req.body.userId], (err, rows, fields) => {
             if(err)
                 return(res.send(err) && console.log(err));
@@ -147,12 +162,29 @@ router.post('/load_notifications', (req, res) => {
 })
 
 router.post('/match_read', (req, res) => {
-    req.db.query('UPDATE Matchs SET read_match = 1 WHERE user1 = ? AND user2 = ? OR user1 = ? AND user2 = ?;',
+    req.db.query('SELECT * FROM Matchs WHERE user1 = ? AND user2 = ? OR user1 = ? AND user2 = ?;',
     [req.body.userId, req.body.matcherId, req.body.matcherId, req.body.userId], (err, rows, fields) => {
         if(err)
             return(res.send(err) && console.log(err))
-        
-        res.end()
+        console.log(rows)
+        if (rows[0].user1 === req.body.userId) {
+            req.db.query('UPDATE Matchs SET read_match_1 = 1 WHERE user1 = ? AND user2 = ?;',
+            [req.body.userId, req.body.matcherId], (err, rows, fields) => {
+                if(err)
+                    return(res.send(err) && console.log(err))
+                
+                res.end()
+            })
+        }
+        else {
+            req.db.query('UPDATE Matchs SET read_match_2 = 1 WHERE user2 = ? AND user1 = ?;',
+            [req.body.userId, req.body.matcherId], (err, rows, fields) => {
+                if(err)
+                    return(res.send(err) && console.log(err))
+                
+                res.end()
+            })
+        }
     })
 })
 

@@ -7,6 +7,7 @@ import axios from 'axios'
 
 import sendBlue from './ressources/send.png'
 import sendWhite from './ressources/send_white.png'
+import NoPhoto from './ressources/no-photo.png'
 
 
 const socket = socketIOClient('http://127.0.0.1:3002')
@@ -355,6 +356,7 @@ class Chat extends React.Component {
 
     messagesConversationRead() {
         let k = 0
+        console.log(this.state.usersInfo[this.state.idChatPrincipal]) ///////////////////////////////////////////////////////////////////
 
         if (this.state.usersChat[this.state.idChatPrincipal][0]) {
             this.state.usersChat[this.state.idChatPrincipal].forEach( (message, i) => {
@@ -522,7 +524,7 @@ class Chat extends React.Component {
             </form>
             :  null
 
-        let urlPicturePrincipal = (picturePrincipal) ? {backgroundImage: `url(${picturePrincipal})`} : null
+        let urlPicturePrincipal = (picturePrincipal) ? {backgroundImage: `url(${picturePrincipal})`} : {backgroundImage: `url('${NoPhoto}')`}
         const pictureOrNoMatch = (this.state.usersChat[0]) ? <div id='Chat_stripPicture' style={urlPicturePrincipal}></div> : <div id='Chat_noMatch'>No match yet</div>
         let userWriting = (this.state.usersInfo[this.state.idChatPrincipal]) ?<div id='Chat_otherUserWritingMessage' style={{display: this.state.writing}}>{this.state.usersInfo[this.state.idChatPrincipal].username} writing a message...</div> : null
 
