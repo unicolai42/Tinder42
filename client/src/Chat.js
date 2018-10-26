@@ -314,7 +314,7 @@ class Chat extends React.Component {
             blackOpacity: 'none' 
         })
 
-        if (this.state.usersInfo[div.dataset.id].readNotif === 0) {
+        if (this.state.usersInfo[div.dataset.id].readNotif === 1) {
             axios.post('http://localhost:3001/match_read', {
                 "userId": Cookies.get('id'),
                 "matcherId": this.state.usersInfo[div.dataset.id].id
@@ -369,7 +369,8 @@ class Chat extends React.Component {
             })
         }
 
-        if (this.state.usersInfo[this.state.idChatPrincipal].readNotif === 0) {
+        console.log(this.state.usersInfo[this.state.idChatPrincipal].readNotif)
+        if (this.state.usersInfo[this.state.idChatPrincipal].readNotif === 1) {
             axios.post('http://localhost:3001/match_read', {
                 "userId": Cookies.get('id'),
                 "matcherId": this.state.usersInfo[this.state.idChatPrincipal].id
@@ -512,8 +513,9 @@ class Chat extends React.Component {
                 }
                 let readLastMessage = (j === -1) ? 1 : (lastMessageOtherUserSend === 0 || !lastMessageOtherUserSend) ? 0 : (lastMessageOtherUserSend.read_message === 0) ? 0 : 1
                 let urlPicture1 = (this.state.usersInfo[i].picture1) ? {backgroundImage: `url(${this.state.usersInfo[i].picture1})`} : null
+                console.log(usersInfo[i].readNotif, readLastMessage, parseInt(usersInfo[i].readNotif, 10), parseInt(readLastMessage, 10))
                 users.push(
-                <div className='Chat_profile' style={(!usersInfo[i].readNotif || !readLastMessage) ? {backgroundColor: 'rgba(67, 166, 252, 0.1)'} : {}} onClick={this.selectUser} data-id={i} key={i}>
+                <div className='Chat_profile' style={(parseInt(usersInfo[i].readNotif, 10) || parseInt(readLastMessage, 10)) ? {backgroundColor: 'rgba(67, 166, 252, 0.1)'} : {}} onClick={this.selectUser} data-id={i} key={i}>
                     <div className='Chat_picture' style={urlPicture1}></div>
                     <div className='Chat_text'>
                         <div className='Chat_username'>{this.state.usersInfo[i].username}</div>
