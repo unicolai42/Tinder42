@@ -369,6 +369,13 @@ class Chat extends React.Component {
             })
         }
 
+        if (this.state.usersInfo[this.state.idChatPrincipal].readNotif === 0) {
+            axios.post('http://localhost:3001/match_read', {
+                "userId": Cookies.get('id'),
+                "matcherId": this.state.usersInfo[this.state.idChatPrincipal].id
+            })
+        }
+
         socket.emit('countRemoveNotif1', {
             userId: parseInt(Cookies.get('id'), 10),
             removeNotif: k
