@@ -35,7 +35,7 @@ router.post('/load_info_user', (req, res) => {
         req.db.query("SELECT hashtag_id FROM HashtagUsers WHERE user_id = ?;",
         [req.body.userId], (err, rows, fields) => {
             const hashtagId = []
-            if (rows.length > 0) {
+            if (rows && rows.length > 0) {
                 rows.forEach(e => {
                     hashtagId.push(e.hashtag_id)
                 });
@@ -71,17 +71,19 @@ router.post('/load_info_user', (req, res) => {
                     let i = 0
                     let y = 1
 
-                    while (i < rows.length) {
-                        while (y < rows.length) {
-                            if (rows[y].name < rows[y - 1].name) {
-                                let swap = rows[y - 1]
-                                rows.splice(y - 1, 1)
-                                rows.splice(y, 0, swap)
+                    if (rows) {
+                        while (i < rows.length) {
+                            while (y < rows.length) {
+                                if (rows[y].name < rows[y - 1].name) {
+                                    let swap = rows[y - 1]
+                                    rows.splice(y - 1, 1)
+                                    rows.splice(y, 0, swap)
+                                }
+                                y++
                             }
-                            y++
+                            y = 1
+                            i++
                         }
-                        y = 1
-                        i++
                     }
 
                     userData.suggestions = rows
