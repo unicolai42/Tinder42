@@ -102,15 +102,6 @@ class Match extends React.Component {
         "liked": 1
       })
       .then(({data}) => {
-        this.setState({
-          matchedLogoStyle: {display: 'initial'},
-          matchedTxtStyle: {display: 'initial'},
-          matchedLogo: 'animated zoomInDown delay-0.1s',
-          matchedTxt: 'animated zoomInDown delay-0.1s'
-        })
-        return data
-      })
-      .then((data) => {
         if (!data) {
           this.setState(
             (prevState) => ({
@@ -122,18 +113,31 @@ class Match extends React.Component {
               dislikedThirdUser: {display: 'none'},
               actualUser: 'SecondUser',
               indexUser3: prevState.indexUser3 + 3,
-              nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
               matchedLogoStyle: {display: 'none'},
               matchedTxtStyle: {display: 'none'},
               matchedLogo: '',
               matchedTxt: ''
             })
-          )
+          , () => {
+              setTimeout(() => {
+                this.setState(
+                  (prevState) => ({
+                    nbUsersNoMatched: prevState.nbUsersNoMatched - 1
+                })
+              )
+              }, 900)
+          })
         }
         else {
           socket.emit('newMatch1', {
             senderId: parseInt(Cookies.get('id'), 10),
             receiverId: this.state.allUsers[this.state.indexUser1].id
+          })
+          this.setState({
+            matchedLogoStyle: {display: 'initial'},
+            matchedTxtStyle: {display: 'initial'},
+            matchedLogo: 'animated zoomInDown delay-0.1s',
+            matchedTxt: 'animated zoomInDown delay-0.1s'
           })
           setTimeout(()=> {
             this.setState(
@@ -146,13 +150,20 @@ class Match extends React.Component {
                 dislikedThirdUser: {display: 'none'},
                 actualUser: 'SecondUser',
                 indexUser3: prevState.indexUser3 + 3,
-                nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
                 matchedLogoStyle: {display: 'none'},
                 matchedTxtStyle: {display: 'none'},
                 matchedLogo: '',
                 matchedTxt: ''
               })
-            )
+              , () => {
+                setTimeout(() => {
+                  this.setState(
+                    (prevState) => ({
+                      nbUsersNoMatched: prevState.nbUsersNoMatched - 1
+                  })
+                )
+                }, 900)
+            })
           }, 1500)
         }
       })
@@ -165,15 +176,6 @@ class Match extends React.Component {
         "liked": 1
       })
       .then(({data}) => {
-        this.setState({
-          matchedLogoStyle: {display: 'initial'},
-          matchedTxtStyle: {display: 'initial'},
-          matchedLogo: 'animated zoomInDown delay-0.1s',
-          matchedTxt: 'animated zoomInDown delay-0.1s'
-        })
-        return data
-      })
-      .then((data) => {
         if (!data) {
           this.setState(
             (prevState) => ({
@@ -185,18 +187,31 @@ class Match extends React.Component {
               dislikedFirstUser: {display: 'none'},
               actualUser: 'ThirdUser',
               indexUser1: prevState.indexUser1 + 3,
-              nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
               matchedLogoStyle: {display: 'none'},
               matchedTxtStyle: {display: 'none'},
               matchedLogo: '',
               matchedTxt: ''
             })
-          )
+            , () => {
+              setTimeout(() => {
+                this.setState(
+                  (prevState) => ({
+                    nbUsersNoMatched: prevState.nbUsersNoMatched - 1
+                })
+              )
+              }, 900)
+          })
         }
         else {
           socket.emit('newMatch1', {
             senderId: parseInt(Cookies.get('id'), 10),
             receiverId: this.state.allUsers[this.state.indexUser2].id
+          })
+          this.setState({
+            matchedLogoStyle: {display: 'initial'},
+            matchedTxtStyle: {display: 'initial'},
+            matchedLogo: 'animated zoomInDown delay-0.1s',
+            matchedTxt: 'animated zoomInDown delay-0.1s'
           })
           setTimeout(()=> {
             this.setState(
@@ -209,13 +224,20 @@ class Match extends React.Component {
                 dislikedFirstUser: {display: 'none'},
                 actualUser: 'ThirdUser',
                 indexUser1: prevState.indexUser1 + 3,
-                nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
                 matchedLogoStyle: {display: 'none'},
                 matchedTxtStyle: {display: 'none'},
                 matchedLogo: '',
                 matchedTxt: ''
               })
-            )
+              , () => {
+                setTimeout(() => {
+                  this.setState(
+                    (prevState) => ({
+                      nbUsersNoMatched: prevState.nbUsersNoMatched - 1
+                  })
+                )
+                }, 900)
+            })
           }, 1500)
         }
       })
@@ -228,15 +250,6 @@ class Match extends React.Component {
         "liked": 1
       })
       .then(({data}) => {
-        this.setState({
-          matchedLogoStyle: {display: 'initial'},
-          matchedTxtStyle: {display: 'initial'},
-          matchedLogo: 'animated zoomInDown delay-0.1s',
-          matchedTxt: 'animated zoomInDown delay-0.1s'
-        })
-        return data
-      })
-      .then((data) => {
         if (!data) {
           this.setState(
             (prevState) => ({
@@ -248,18 +261,31 @@ class Match extends React.Component {
               dislikedSecondUser: {display: 'none'},
               actualUser: 'FirstUser',
               indexUser2: prevState.indexUser2 + 3,
-              nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
               matchedLogoStyle: {display: 'none'},
               matchedTxtStyle: {display: 'none'},
               matchedLogo: '',
               matchedTxt: ''
             })
-          )
+            , () => {
+              setTimeout(() => {
+                this.setState(
+                  (prevState) => ({
+                    nbUsersNoMatched: prevState.nbUsersNoMatched - 1
+                })
+              )
+              }, 900)
+          })
         }
         else {
           socket.emit('newMatch1', {
             senderId: parseInt(Cookies.get('id'), 10),
             receiverId: this.state.allUsers[this.state.indexUser3].id
+          })
+          this.setState({
+            matchedLogoStyle: {display: 'initial'},
+            matchedTxtStyle: {display: 'initial'},
+            matchedLogo: 'animated zoomInDown delay-0.1s',
+            matchedTxt: 'animated zoomInDown delay-0.1s'
           })
           setTimeout(()=> {
             this.setState(
@@ -272,13 +298,20 @@ class Match extends React.Component {
                 dislikedSecondUser: {display: 'none'},
                 actualUser: 'FirstUser',
                 indexUser2: prevState.indexUser2 + 3,
-                nbUsersNoMatched: prevState.nbUsersNoMatched - 1,
                 matchedLogoStyle: {display: 'none'},
                 matchedTxtStyle: {display: 'none'},
                 matchedLogo: '',
                 matchedTxt: ''
               })
-            )
+              , () => {
+                setTimeout(() => {
+                  this.setState(
+                    (prevState) => ({
+                      nbUsersNoMatched: prevState.nbUsersNoMatched - 1
+                  })
+                )
+                }, 900)
+            })
           }, 1500)
         }
       })
@@ -297,9 +330,16 @@ class Match extends React.Component {
           dislikedThirdUser: {display: 'none'},
           actualUser: 'SecondUser',
           indexUser3: prevState.indexUser3 + 3,
-          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
         })
-      )
+        , () => {
+          setTimeout(() => {
+            this.setState(
+              (prevState) => ({
+                nbUsersNoMatched: prevState.nbUsersNoMatched - 1
+            })
+          )
+          }, 900)
+      })
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
         "matcher": this.state.allUsers[this.state.indexUser1],
@@ -318,9 +358,16 @@ class Match extends React.Component {
           dislikedFirstUser: {display: 'none'},
           actualUser: 'ThirdUser',
           indexUser1: prevState.indexUser1 + 3,
-          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
         })
-      )
+        , () => {
+          setTimeout(() => {
+            this.setState(
+              (prevState) => ({
+                nbUsersNoMatched: prevState.nbUsersNoMatched - 1
+            })
+          )
+          }, 900)
+      })
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
         "matcher": this.state.allUsers[this.state.indexUser2],
@@ -339,9 +386,16 @@ class Match extends React.Component {
           dislikedSecondUser: {display: 'none'},
           actualUser: 'FirstUser',
           indexUser2: prevState.indexUser2 + 3,
-          nbUsersNoMatched: prevState.nbUsersNoMatched - 1
         })
-      )
+        , () => {
+          setTimeout(() => {
+            this.setState(
+              (prevState) => ({
+                nbUsersNoMatched: prevState.nbUsersNoMatched - 1
+            })
+          )
+          }, 900)
+      })
       axios.post('http://localhost:3001/check_match', {
         "userId": Cookies.get('id'),
         "matcher": this.state.allUsers[this.state.indexUser3],
