@@ -172,6 +172,7 @@ router.post('/load_user_data_match', (req, res) => {
 })
 
 router.post('/check_match', (req, res) => {
+    console.log(req.body.userId, req.body.matcher.id, 'u', 'm')
     req.db.query("INSERT INTO CheckedUsers (checker_id, checked_id) VALUES (?, ?);",
     [req.body.userId, req.body.matcher.id], (err, rows, fields) => {
         if (err)
