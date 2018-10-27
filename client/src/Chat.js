@@ -43,16 +43,18 @@ class Chat extends React.Component {
         socket.on('displayMessage', data => {
             const oldLastUser = this.state.usersInfo[this.state.usersInfo.length - 1]
 
+            console.log(oldLastUser, data.receiverId)
             if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
-                let conversationOpen = 0
+                let conversationOpen = 1
 
                 if (data.senderId === this.state.usersInfo[this.state.idChatPrincipal].id && window.location.href === 'http://localhost:3000/chat') {
                     axios.post('http://localhost:3001/chat_read', {
                         "userId": Cookies.get('id'),
                         "matcherId": data.senderId
                     })
-                    conversationOpen = 1
+                    conversationOpen = 0
                 }
+                console.log(conversationOpen, 'conv')
                 
                 if (this.state.usersChat[0][0]) {
                     let newUsersChat = this.state.usersChat
@@ -176,6 +178,8 @@ class Chat extends React.Component {
             }
         })
         socket.on('displayNotif1', data => {
+            console.log('here')
+
             if ((data.receiverId === parseInt(Cookies.get('id'), 10) && data.senderId !== this.state.usersInfo[this.state.idChatPrincipal].id) || (data.receiverId === parseInt(Cookies.get('id'), 10) && window.location.href !== 'http://localhost:3000/chat')) {
                 socket.emit('newNotif2', {
                     receiverId: data.receiverId
@@ -347,7 +351,7 @@ class Chat extends React.Component {
             this.state.usersChat[div.dataset.id].forEach( (message, i) => {
                 if (message.read_message === 0 && message.receiver_id === senderId) {
                     const newUsersChat = this.state.usersChat
-                    newUsersChat[div.dataset.id][i].read_message = 1
+                    newUsersChat[div.dataset.id][i].read_message = 0
                     this.setState({usersChat: newUsersChat})
                     j++
                 }
@@ -361,20 +365,6 @@ class Chat extends React.Component {
     }
 
     messagesConversationRead() {
-        let k = 0
-        console.log(this.state.usersInfo[this.state.idChatPrincipal]) ///////////////////////////////////////////////////////////////////
-
-        if (this.state.usersChat[this.state.idChatPrincipal][0]) {
-            this.state.usersChat[this.state.idChatPrincipal].forEach( (message, i) => {
-                if (message.read_message === 0 && message.receiver_id === parseInt(Cookies.get('id'), 10)) {
-                    const newUsersChat = this.state.usersChat
-                    newUsersChat[this.state.idChatPrincipal][i].read_message = 1
-                    this.setState({usersChat: newUsersChat})
-                    k++
-                }
-            })
-        }
-
         if (this.state.usersInfo[this.state.idChatPrincipal].readNotif === 1) {
             axios.post('http://localhost:3001/match_read', {
                 "userId": Cookies.get('id'),
@@ -386,6 +376,20 @@ class Chat extends React.Component {
             let newUsersInfo = this.state.usersInfo
             newUsersInfo[this.state.idChatPrincipal].readNotif = 0
             this.setState({usersInfo: newUsersInfo})          
+        }
+
+        let k = 0
+        console.log(this.state.usersInfo[this.state.idChatPrincipal]) ///////////////////////////////////////////////////////////////////
+
+        if (this.state.usersChat[this.state.idChatPrincipal][0]) {
+            this.state.usersChat[this.state.idChatPrincipal].forEach( (message, i) => {
+                if (message.read_message === 0 && message.receiver_id === parseInt(Cookies.get('id'), 10)) {
+                    const newUsersChat = this.state.usersChat
+                    newUsersChat[this.state.idChatPrincipal][i].read_message = 0
+                    this.setState({usersChat: newUsersChat})
+                    k++
+                }
+            })
         }
 
         socket.emit('countRemoveNotif1', {
@@ -513,19 +517,23 @@ class Chat extends React.Component {
                 const dateLastLog = `Unactive since ${arrayDateLastLog[2]} ${arrayDateLastLog[1]} at ${arrayDateLastLog[4].substr(0, arrayDateLastLog[4].length - 3)}`
                 const userConnectedOrNot = (res) ? 'Connected' : dateLastLog
 
+                console.log('jjj', j)
                 if (this.state.usersChat[i][0]) {
                     lastMessageOtherUserSend = this.state.usersChat[i][this.state.usersChat[i].length - 1]
+                    console.log('last', lastMessageOtherUserSend)
+                    console.log(this.state.usersChat[i][0])
                     if (lastMessageOtherUserSend) {
-                        while (lastMessageOtherUserSend.receiver_id !== parseInt(Cookies.get('id'), 10) && j > -1) {
+                        while (j > -1 && this.state.usersChat[i][j].receiver_id !== parseInt(Cookies.get('id'), 10)) {
+                            console.log('jjjjjjk', j)
                             lastMessageOtherUserSend = this.state.usersChat[i][j]
                             j--
                         }
                     }
                 }
+                console.log('j', j)
                 let readLastMessage = (j === -1) ? 1 : (lastMessageOtherUserSend === 0 || !lastMessageOtherUserSend) ? 0 : (lastMessageOtherUserSend.read_message === 0) ? 0 : 1
                 let urlPicture1 = (this.state.usersInfo[i].picture1) ? {backgroundImage: `url(${this.state.usersInfo[i].picture1})`} : null
                 console.log('rn', usersInfo[i].readNotif, 'rlm', parseInt(readLastMessage, 10))
-                console.log('trn', this.state.usersInfo[i].readNotif)
                 users.push(
                 <div className='Chat_profile' style={(parseInt(usersInfo[i].readNotif, 10) || parseInt(readLastMessage, 10)) ? {backgroundColor: 'rgba(67, 166, 252, 0.1)'} : {}} onClick={this.selectUser} data-id={i} key={i}>
                     <div className='Chat_picture' style={urlPicture1}></div>

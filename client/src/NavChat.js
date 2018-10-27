@@ -29,12 +29,12 @@ class NavChat extends React.Component {
             }
         })
         socket.on('deleteNotif1', data => {
-            if (parseInt(Cookies.get('id'), 10) === data.userId) {
+            if (parseInt(Cookies.get('id'), 10) === data.userId && this.state.notifications) {
                 this.setState(prevState => ({notifications: prevState.notifications - data.removeNotif}))
             }
         })
         socket.on('removeNotifNewMatch', data => {
-            if (parseInt(Cookies.get('id'), 10) === data.userId) {
+            if (parseInt(Cookies.get('id'), 10) === data.userId && this.state.notifications) {
                 this.setState(prevState => ({notifications: prevState.notifications - 1}))
             }
         })
