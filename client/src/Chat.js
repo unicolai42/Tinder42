@@ -319,6 +319,12 @@ class Chat extends React.Component {
                 "userId": Cookies.get('id'),
                 "matcherId": this.state.usersInfo[div.dataset.id].id
             })
+            socket.emit('removeNotifNewMatch', {
+                userId: parseInt(Cookies.get('id'), 10)
+            })
+            let newUsersInfo = this.state.usersInfo
+            newUsersInfo[div.dataset.id].readNotif = 0
+            this.setState({usersInfo: newUsersInfo})  
         }
 
         let i = this.state.usersChat[div.dataset.id].length - 1
@@ -369,12 +375,17 @@ class Chat extends React.Component {
             })
         }
 
-        console.log(this.state.usersInfo[this.state.idChatPrincipal].readNotif)
         if (this.state.usersInfo[this.state.idChatPrincipal].readNotif === 1) {
             axios.post('http://localhost:3001/match_read', {
                 "userId": Cookies.get('id'),
                 "matcherId": this.state.usersInfo[this.state.idChatPrincipal].id
             })
+            socket.emit('removeNotifNewMatch', {
+                userId: parseInt(Cookies.get('id'), 10)
+            })
+            let newUsersInfo = this.state.usersInfo
+            newUsersInfo[this.state.idChatPrincipal].readNotif = 0
+            this.setState({usersInfo: newUsersInfo})          
         }
 
         socket.emit('countRemoveNotif1', {
@@ -513,7 +524,8 @@ class Chat extends React.Component {
                 }
                 let readLastMessage = (j === -1) ? 1 : (lastMessageOtherUserSend === 0 || !lastMessageOtherUserSend) ? 0 : (lastMessageOtherUserSend.read_message === 0) ? 0 : 1
                 let urlPicture1 = (this.state.usersInfo[i].picture1) ? {backgroundImage: `url(${this.state.usersInfo[i].picture1})`} : null
-                console.log(usersInfo[i].readNotif, readLastMessage, parseInt(usersInfo[i].readNotif, 10), parseInt(readLastMessage, 10))
+                console.log('rn', usersInfo[i].readNotif, 'rlm', parseInt(readLastMessage, 10))
+                console.log('trn', this.state.usersInfo[i].readNotif)
                 users.push(
                 <div className='Chat_profile' style={(parseInt(usersInfo[i].readNotif, 10) || parseInt(readLastMessage, 10)) ? {backgroundColor: 'rgba(67, 166, 252, 0.1)'} : {}} onClick={this.selectUser} data-id={i} key={i}>
                     <div className='Chat_picture' style={urlPicture1}></div>

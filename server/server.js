@@ -88,4 +88,7 @@ io.on('connection', (socket) => {
     socket.on('newMatch1', data => {
         io.emit('displayMatch1', data)
     })
+    socket.on('removeNotifNewMatch', data => {
+        io.sockets.emit('removeNotifNewMatch', data)
+    })
 })

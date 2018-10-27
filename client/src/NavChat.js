@@ -33,6 +33,11 @@ class NavChat extends React.Component {
                 this.setState(prevState => ({notifications: prevState.notifications - data.removeNotif}))
             }
         })
+        socket.on('removeNotifNewMatch', data => {
+            if (parseInt(Cookies.get('id'), 10) === data.userId) {
+                this.setState(prevState => ({notifications: prevState.notifications - 1}))
+            }
+        })
         axios.post('http://localhost:3001/load_notifications', {
             "userId": Cookies.get('id')
         })

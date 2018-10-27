@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded:300");
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400");
 #Settings_wrapper {
   display: flex;
   height: calc(100vh - 57px); }
@@ -46,7 +47,7 @@
       display: flex;
       flex-direction: column;
       border-radius: 1px;
-      font-size: 1em;
+      font-size: 1.3vh;
       cursor: text;
       margin-top: 1.5vh; }
     #Settings_wrapper #Settings_block .react-tags__selected {
@@ -77,10 +78,11 @@
       border-left: none; }
     #Settings_wrapper #Settings_block .react-tags__search input {
       border: none;
-      font-family: 'Encode Sans Semi Expanded', sans-serif;
-      font-size: 1.8vh;
-      font-weight: 200;
-      width: 100%; }
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.4vh;
+      font-weight: 100;
+      width: 100%;
+      margin-bottom: 0.7vh; }
       #Settings_wrapper #Settings_block .react-tags__search input:focus {
         outline: none; }
       #Settings_wrapper #Settings_block .react-tags__search input input {
