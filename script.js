@@ -90,7 +90,7 @@ db.connect(async function(err) {
                 let latitude = Math.random() * fr_coords.lat_diff + fr_coords.lat.min
 
                 db.query(`INSERT INTO Users (username, password, mail, randomKey, picture1, age, popularity, latitude, longitude, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                [elem.name, hashPassword, elem.email, randomKey, picturesGirlsWithoutCopy[i], elem.age, popularity, latitude, longitude, sex], (err, rows, fields) => {
+                [elem.name, hashPassword, 'test@sharklasers.com', randomKey, picturesGirlsWithoutCopy[i], elem.age, popularity, latitude, longitude, sex], (err, rows, fields) => {
                     if(err)
                         return(console.log(err))
                     
@@ -169,7 +169,7 @@ db.connect(async function(err) {
                     let latitude = Math.random() * fr_coords.lat_diff + fr_coords.lat.min
 
                     db.query(`INSERT INTO Users (username, password, mail, randomKey, picture1, age, popularity, latitude, longitude, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                [elem.name, hashPassword, elem.email, randomKey, picturesBoysWithoutCopy[i], elem.age, popularity, latitude, longitude, sex], (err, rows, fields) => {
+                [elem.name, hashPassword, 'test@sharklasers.com', randomKey, picturesBoysWithoutCopy[i], elem.age, popularity, latitude, longitude, sex], (err, rows, fields) => {
                         if(err)
                             return(console.log(err))
                         

@@ -506,36 +506,32 @@ class Chat extends React.Component {
                 const dotOrNot = (nbLetterLastMessage > 18) ? '...' : null
                 let lastMessage = (this.state.usersChat[i][this.state.usersChat[i].length - 1] && this.state.usersChat[i][this.state.usersChat[i].length - 1].read_message !== -1) ? <div className='Chat_lastMessage'>{this.state.usersChat[i][this.state.usersChat[i].length - 1].message.substr(0, 18)}{dotOrNot}</div> : <div className='Chat_lastMessage'>You've been connected</div>
 
-                let lastMessageOtherUserSend
-                let j = this.state.usersChat[i].length - 1
-
-                let res = this.props.usersConnected.find(id => {
+                let connected = this.props.usersConnected.find(id => {
                     return id === usersInfo[i].id
                 })
 
                 const arrayDateLastLog = new Date(usersInfo[i].last_connection).toString().split(' ')
                 const dateLastLog = `Unactive since ${arrayDateLastLog[2]} ${arrayDateLastLog[1]} at ${arrayDateLastLog[4].substr(0, arrayDateLastLog[4].length - 3)}`
-                const userConnectedOrNot = (res) ? 'Connected' : dateLastLog
+                const userConnectedOrNot = (connected) ? 'Connected' : dateLastLog
 
-                console.log('jjj', j)
+                let lastMessageOtherUserSend
+                let j = this.state.usersChat[i].length - 1
+
                 if (this.state.usersChat[i][0]) {
                     lastMessageOtherUserSend = this.state.usersChat[i][this.state.usersChat[i].length - 1]
-                    console.log('last', lastMessageOtherUserSend)
-                    console.log(this.state.usersChat[i][0])
+
                     if (lastMessageOtherUserSend) {
                         while (j > -1 && this.state.usersChat[i][j].receiver_id !== parseInt(Cookies.get('id'), 10)) {
-                            console.log('jjjjjjk', j)
                             lastMessageOtherUserSend = this.state.usersChat[i][j]
                             j--
                         }
                     }
                 }
-                console.log('j', j)
+
                 let readLastMessage = (j === -1) ? 1 : (lastMessageOtherUserSend === 0 || !lastMessageOtherUserSend) ? 0 : (lastMessageOtherUserSend.read_message === 0) ? 0 : 1
                 let urlPicture1 = (this.state.usersInfo[i].picture1) ? {backgroundImage: `url(${this.state.usersInfo[i].picture1})`} : null
-                console.log('rn', usersInfo[i].readNotif, 'rlm', parseInt(readLastMessage, 10))
                 users.push(
-                <div className='Chat_profile' style={(parseInt(usersInfo[i].readNotif, 10) || parseInt(readLastMessage, 10)) ? {backgroundColor: 'rgba(67, 166, 252, 0.1)'} : {}} onClick={this.selectUser} data-id={i} key={i}>
+                <div className='Chat_profile' style={(parseInt(usersInfo[i].readNotif, 10) && !readLastMessage) ? {backgroundColor: 'rgba(67, 166, 252, 0.1)'} : {}} onClick={this.selectUser} data-id={i} key={i}>
                     <div className='Chat_picture' style={urlPicture1}></div>
                     <div className='Chat_text'>
                         <div className='Chat_username'>{this.state.usersInfo[i].username}</div>

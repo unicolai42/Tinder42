@@ -99,9 +99,11 @@ router.post('/find_match_info', (req, res) => {
             let y = 0
 
             for (let i = 0; i < rows.length; i++) {
-                data[y].date = rows[i].date
-                data[y].readNotif = rows[i].read_match_1
-                y++
+                if (data[y]) {
+                    data[y].date = rows[i].date
+                    data[y].readNotif = rows[i].read_match_1
+                    y++
+                }
             }
 
             req.db.query("SELECT * FROM Matchs WHERE user1 IN (?) AND user2 = ?;",
