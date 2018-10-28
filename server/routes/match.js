@@ -110,6 +110,7 @@ router.post('/load_user_data_match', (req, res) => {
                                                 if (checkedId.findIndex(e => { return e === userData.id}))
                                                     usersData.push(userData)
                                         })
+                                        console.log(usersData)
                                         res.json(usersData)
                                     })
                                 })
@@ -124,7 +125,7 @@ router.post('/load_user_data_match', (req, res) => {
                     [req.body.userId, sexPreference, preferences.age_min, preferences.age_max, preferences.popularity_min], (err, rows, fields) => {
                         if (err)
                             return (res.send(err) && console.log(err))
-                            
+                        
                         const usersDataNoChecked = rows
 
                         req.db.query("SELECT * FROM checkedUsers WHERE checker_id = ?;",
@@ -172,7 +173,6 @@ router.post('/load_user_data_match', (req, res) => {
 })
 
 router.post('/check_match', (req, res) => {
-    console.log(req.body.userId, req.body.matcher.id, 'u', 'm')
     req.db.query("INSERT INTO CheckedUsers (checker_id, checked_id) VALUES (?, ?);",
     [req.body.userId, req.body.matcher.id], (err, rows, fields) => {
         if (err)

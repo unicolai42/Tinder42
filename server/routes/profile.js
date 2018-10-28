@@ -66,7 +66,8 @@ router.post('/load_info_user', (req, res) => {
                         i++
                     }
                 }
-                userData.hashtags = hashtags
+                if (userData)
+                    userData.hashtags = hashtags
 
                 req.db.query("SELECT * FROM Hashtags;", (err, rows, fields) => {
                     let i = 0
