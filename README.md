@@ -13,7 +13,7 @@ The backend is in Node JS / Express JS
 
 The frontend is in React and Sass
 
-The database is in sql
+The database is in mysql
 ```
 
 ### Result
