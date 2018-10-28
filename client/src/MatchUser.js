@@ -121,7 +121,7 @@ class MatchUser extends React.Component {
                     <div id='MatchUser_informations'>
                         <div id='MatchUser_nameAge' style={{display: this.state.about}}>{this.props.userInfo.username}, {this.props.userInfo.age}</div>
                         <div id='MatchUser_location' style={{display: this.state.about}}>
-                            <div id='MatchUser_locationLogo'></div>
+                            {(this.state.location) ? <div id='MatchUser_locationLogo'></div> : null}
                             <div id='MatchUser_locationText'>{this.state.location}</div>  
                         </div>
                     </div>

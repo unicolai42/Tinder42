@@ -1,13 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const cloudinary = require('cloudinary')
-// const ip = require('ip')
+
+const apiCloudinary = require('../key.js')
 
 
 cloudinary.config({ 
-    cloud_name: 'dzhnhtkyv', 
-    api_key: '139166436229766', 
-    api_secret: '1qcqxUa7qkfHxyW8R9FDO-bezfQ' 
+    cloud_name: apiCloudinary.cloudinary.cloud_name, 
+    api_key: apiCloudinary.cloudinary.api_key, 
+    api_secret: apiCloudinary.cloudinary.api_secret
 });
 
 
@@ -144,7 +145,7 @@ router.post('/remove_hashtag_profile', (req, res) => {
 
 router.post('/update_order_pictures', (req, res) => {
     if (req.body.removeUrl)
-        cloudinary.v2.uploader.destroy(req.body.removeUrl, function(error, result){console.log(result, error)})
+        cloudinary.v2.uploader.destroy(req.body.removeUrl, (error, result) => {if (error) console.log(error)})
 
     const pictures = req.body.newOrderPictures
     req.db.query("UPDATE Users SET picture1 = ?, picture2 = ?, picture3 = ?, picture4 = ?, picture5 = ? WHERE id = ?;",
