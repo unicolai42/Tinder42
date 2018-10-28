@@ -88,7 +88,9 @@ router.post('/load_info_user', (req, res) => {
                         }
                     }
 
-                    userData.suggestions = rows
+                    if (userData)
+                        userData.suggestions = rows
+                        
                     res.json(userData)
                 })
             })
