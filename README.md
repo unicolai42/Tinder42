@@ -19,7 +19,7 @@ The database is in sql
 ### Result
 
 <p align='center'><img src="https://media.giphy.com/media/BpvFQtqe1owBE0Rzmm/giphy.gif" alt='tinder42'/></p>
-<p align='center'><i>Sign up + setup profile and preferences + start to match</i></p>
+<p align='center'><i>Sign up + Setup profile and preferences + Start to match</i></p>
 <br/>
 <br/>
 <p align='center'><img src="https://media.giphy.com/media/1AjVkD6Akvqa44GQqY/giphy.gif" alt='instagram42'/></p>
