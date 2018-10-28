@@ -11,7 +11,7 @@ Create a script to implement 500 users in the databse
 ```
 The backend is in Node JS / Express JS
 
-The frontend is in React
+The frontend is in React and Sass
 
 The database is in sql
 ```
