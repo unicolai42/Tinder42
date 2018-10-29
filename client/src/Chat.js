@@ -45,6 +45,8 @@ class Chat extends React.Component {
 
             if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
                 let conversationOpen = 1
+                console.log(data)
+
 
                 if (data.senderId === this.state.usersInfo[this.state.idChatPrincipal].id && window.location.href === 'http://localhost:3000/chat') {
                     axios.post('http://localhost:3001/chat_read', {
@@ -54,24 +56,49 @@ class Chat extends React.Component {
                     conversationOpen = 0
                 }
                 
-                if (this.state.usersChat[0][0].sender_id === data.senderId || this.state.usersChat[0][0].receiver_id === data.senderId) {
+                if (this.state.usersChat[0][0]) {
                     let newUsersChat = this.state.usersChat
-                    
+                    console.log('okokokokokokok')
                     this.state.usersChat.forEach((elem, i) => {
-                        let matchId = (elem[0]) ? elem[0].match_id : elem.match_id
-                        if (matchId === data.matchId) {
-                            newUsersChat[i].push({
-                                match_id: data.matchId,
-                                sender_id: data.senderId,
-                                receiver_id: data.receiverId,
-                                read_message: conversationOpen,
-                                message: data.message
-                            })
-                            if (window.location.href === 'http://localhost:3000/chat') {
-                                this.setState({
-                                    usersChat: newUsersChat,
-                                    writing: 'none'
+                        if (elem[0]) {
+                            console.log(elem[0], 'elem')
+                            let matchId = elem[0].match_id
+                            if (matchId === data.matchId) {
+                                newUsersChat[i].push({
+                                    match_id: data.matchId,
+                                    sender_id: data.senderId,
+                                    receiver_id: data.receiverId,
+                                    read_message: conversationOpen,
+                                    message: data.message
                                 })
+                                console.log('3')
+                                if (window.location.href === 'http://localhost:3000/chat') {
+                                    console.log('4')
+                                    this.setState({
+                                        usersChat: newUsersChat,
+                                        writing: 'none'
+                                    })
+                                }
+                            }
+                        }
+                        else {
+                            let matchId = elem.match_id
+                            matchId = elem.matchId
+                            if (matchId === data.matchId) {
+                                newUsersChat[i].push([{
+                                    match_id: data.matchId,
+                                    sender_id: data.senderId,
+                                    receiver_id: data.receiverId,
+                                    read_message: conversationOpen,
+                                    message: data.message
+                                }])
+                                if (window.location.href === 'http://localhost:3000/chat') {
+                                    console.log('hereeeeeee')
+                                    this.setState({
+                                        usersChat: newUsersChat,
+                                        writing: 'none'
+                                    })
+                                }
                             }
                         }
                     })
@@ -433,6 +460,7 @@ class Chat extends React.Component {
             })
             .then(response => response.json())
             .then(data => {
+                console.log(data, 'data')
                 let newUsersChat = this.state.usersChat.slice()
                 newUsersChat.splice(this.state.idChatPrincipal, 1, data)
                 this.setState(
