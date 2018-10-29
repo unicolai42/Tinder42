@@ -54,9 +54,9 @@ class Chat extends React.Component {
                     })
                     conversationOpen = 0
                 }
-                console.log(conversationOpen, 'conv')
                 
-                if (this.state.usersChat[0][0]) {
+                if (this.state.usersChat[0][0].sender_id === data.senderId || this.state.usersChat[0][0].receiver_id === data.senderId) {
+                    console.log(this.state.usersChat[0][0], 'kkkkkk')
                     let newUsersChat = this.state.usersChat
                     
                     this.state.usersChat.forEach((elem, i) => {
