@@ -125,8 +125,8 @@ router.post('/change_new_pwd', (req, res) => {
     const password = req.body.pwd
 
     bcrypt.hash(password, saltRounds, function(err, hashPassword) {
-        req.db.query(`UPDATE Users SET password = ? WHERE username = ?;`,
-        [hashPassword, req.body.username], (err, rows, fields) => {
+        req.db.query(`UPDATE Users SET password = ? WHERE mail = ?;`,
+        [hashPassword, req.body.mail], (err, rows, fields) => {
             if(err)
                 return(res.send(err) && console.log(err))
             res.json(hashPassword)
@@ -139,8 +139,8 @@ router.post('/send_mail_forgot_pwd', (req, res) => {
 })
 
 router.get('/compare_old_pwd', (req, res) => {    
-    req.db.query(`SELECT password FROM Users WHERE username = ?;`,
-    [req.query.username], (err, rows, fields) => {
+    req.db.query(`SELECT password FROM Users WHERE mail = ?;`,
+    [req.query.mail], (err, rows, fields) => {
         if (rows[0].password === req.query.key)
             res.json('stay')
         else
@@ -170,7 +170,7 @@ function sendPwdValidation(userData) {
         from: '"no-reply" <matchamatcha12342@gmail.com>', // sender address
         to: userData.mail, // list of receivers
         subject: 'Reset Password',
-        text: `Click on this link to reset your password : http://localhost:3000/reset_pwd?username=${encodeURI(userData.username)}&key=${encodeURI(userData.password)}`
+        text: `Click on this link to reset your password : http://localhost:3000/reset_pwd?mail=${encodeURI(userData.mail)}&key=${encodeURI(userData.password)}`
     };
 
     // send mail with defined transport object

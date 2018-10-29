@@ -13,13 +13,13 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      valueUsername: '',
+      valueMail: '',
       valuePassword: '',
       validLog: '_',
       validMessage: '_'
     };
 
-    this.changeUsername = this.changeUsername.bind(this);
+    this.changeMail = this.changeMail.bind(this);
     this.changePassword = this.changePassword.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.resendPassword = this.resendPassword.bind(this)
@@ -31,8 +31,8 @@ class SignIn extends React.Component {
       this.setState({validMessage: `A link to validate your inscription has been sent at : ${this.props.activateMail}`});
   }
 
-  changeUsername(event) {
-    this.setState({valueUsername: event.target.value}); 
+  changeMail(event) {
+    this.setState({valueMail: event.target.value}); 
   }
 
   changePassword(event) {
@@ -40,7 +40,7 @@ class SignIn extends React.Component {
   }
 
   resendPassword() {
-    fetch(`/mail_change_password?username=${this.state.valueUsername}`)
+    fetch(`/mail_change_password?mail=${this.state.valueMail}`)
     .then(response => response.json())
     .then(data => {
       this.setState({ validMessage: `A link to change your password has been sent at : ${data.mail}` })
@@ -50,7 +50,7 @@ class SignIn extends React.Component {
 
   resendValidationMail() {
     axios.post('http://localhost:3001/resend_activation_mail', {
-      "username": this.state.valueUsername
+      "mail": this.state.valueMail
     })
     .then(response => {
       this.setState({ validMessage: `A link to change validate your account has been sent at : ${response.data.mail}` })
@@ -62,7 +62,7 @@ class SignIn extends React.Component {
     event.preventDefault()
     this.setState({valuePassword: ''})
     axios.post('http://localhost:3001/check_valid_user', {
-      "username": this.state.valueUsername,
+      "mail": this.state.valueMail,
       "password": this.state.valuePassword
     })
     .then(response => {
@@ -72,9 +72,9 @@ class SignIn extends React.Component {
         this.setState({validMessage: 'Forgot it ? Click here'})
       }
       else if (match === 2) {
-        Cookies.set('username', this.state.valueUsername)
+        Cookies.set('mail', this.state.valueMail)
         axios.post('http://localhost:3001/find_id_user', {
-          "username": this.state.valueUsername
+          "mail": this.state.valueMail
         })
         .then(response => {
           Cookies.set('id', response.data)
@@ -89,7 +89,7 @@ class SignIn extends React.Component {
         this.setState({validMessage: 'Resend me the activation link'})
       }
       else
-        this.setState({validLog: 'Username doesn\'t exist'})
+        this.setState({validLog: 'Mail doesn\'t exist'})
     })
   }
 
@@ -121,7 +121,7 @@ class SignIn extends React.Component {
       <div id='SignIn'>
         <form action='/connect_user' method='POST' id='SignIn_form' onSubmit={this.submitForm}>
             <div id='SignIn_emptyInput'></div>
-            <input type="text" placeholder="Username" name='username' value={this.state.valueUsername} onChange={this.changeUsername} />
+            <input type="text" placeholder="Mail" name='mail' value={this.state.valueMail} onChange={this.changeMail} />
             <input type="password" placeholder="Password" name='password' value={this.state.valuePassword} onChange={this.changePassword} />
             <input id='submit' type="submit" value="SIGN IN" />
         </form>

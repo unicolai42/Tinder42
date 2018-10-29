@@ -16,8 +16,8 @@ router.post('/check_signUp', (req, res) => {
             if(err)
                 return(res.send(err) && console.log(err))
             
-            req.db.query(`SELECT * FROM Users WHERE username = ?;`,
-            [req.body.username], (err, rows, fields) => {
+            req.db.query(`SELECT * FROM Users WHERE mail = ?;`,
+            [req.body.mail], (err, rows, fields) => {
                 if(err)
                     return(res.send(err) && console.log(err));
                 const userId = rows[0].id
@@ -56,7 +56,7 @@ router.post('/check_valid_user', (req, res) => {
         
         let find = 0
         for (let i = 0; i < rows.length; i++) {
-            if (rows[i].username.toUpperCase() === req.body.username.toUpperCase()) {
+            if (rows[i].mail === req.body.mail) {
                 find = 1
                 bcrypt.compare(req.body.password, rows[i].password, function(err, result) {
                     if (result && rows[i].randomKey !== '1') {
@@ -77,11 +77,13 @@ router.post('/check_valid_user', (req, res) => {
 })
 
 router.post('/resend_activation_mail', (req, res) => {
-    req.db.query(`SELECT * FROM users WHERE username = ?;`,
-    [req.body.username], (err, rows, fields) => {
+    req.db.query(`SELECT * FROM users WHERE mail = ?;`,
+    [req.body.mail], (err, rows, fields) => {
         if(err)
             return(res.send(err) && console.log(err));
 
+        console.log(rows[0], 'sendMailValidation')
+        
         sendMailValidation(rows[0])
         res.json(rows[0])
     })
@@ -89,7 +91,7 @@ router.post('/resend_activation_mail', (req, res) => {
 
 
 router.get('/mail_change_password', (req, res) => {
-    findUserData('username', req.query.username, req, (userData) => {
+    findUserData('mail', req.query.mail, req, (userData) => {
         sendMailChangePwd(userData)
         res.json(userData)
     })
@@ -102,23 +104,23 @@ router.post('/find_id_user', (req, res) => {
             return(res.send(err) && console.log(err));
 
         rows.forEach(elem => {
-            if (elem.username.toUpperCase() === req.body.username.toUpperCase())
+            if (elem.mail === req.body.mail)
                 res.json(elem.id)
         })
     })
 })
 
 router.get('/activate_user', (req, res) => {
-    req.db.query(`SELECT * FROM Users WHERE username = ?;`,
-    [req.query.username, req.query.key], (err, rows, fields) => {
+    console.log(req.query.mail, req.query.key, 'dede')
+    req.db.query(`SELECT * FROM Users WHERE mail = ?;`,
+    [req.query.mail, req.query.key], (err, rows, fields) => {
         if (rows[0]) {
-            req.db.query(`UPDATE Users SET randomKey = 1 WHERE username = ?;`,
-            [req.query.username], (err, rows, fields) => {
-                res.cookie('username', req.query.username)
-                findUserData('username', req.query.username, req, (userData) => {
-                    res.cookie('id', userData.id)
-                    res.redirect('http://localhost:3000')
-                })
+            req.db.query(`UPDATE Users SET randomKey = 1 WHERE mail = ?;`,
+            [req.query.mail], (err, rows, fields) => {
+                console.log(rows[0])
+                res.cookie('mail', rows[0].mail)
+                res.cookie('id', rows[0].id)
+                res.redirect('http://localhost:3000')
             })
         }
         else
@@ -183,7 +185,7 @@ function sendMailValidation(userData) {
         from: '"no-reply" <matchamatcha12342@gmail.com>', // sender address
         to: userData.mail, // list of receivers
         subject: 'Mail de validation',
-        text: `Cliquez sur ce lien pour finalisez la création de votre compte : http://localhost:3001/activate_user?username=${encodeURI(userData.username)}&key=${encodeURI(userData.randomKey)}`
+        text: `Cliquez sur ce lien pour finalisez la création de votre compte : http://localhost:3001/activate_user?mail=${encodeURI(userData.mail)}&key=${encodeURI(userData.randomKey)}`
     };
 
     // send mail with defined transport object
@@ -214,7 +216,7 @@ function sendMailChangePwd(userData) {
         from: '"no-reply" <matchamatcha12342@gmail.com>', // sender address
         to: userData.mail, // list of receivers
         subject: 'Change password', // Subject line
-        text: `Click on the link to change password : http://localhost:3000/reset_pwd?username=${encodeURI(userData.username)}&key=${encodeURI(userData.password)}`,
+        text: `Click on the link to change password : http://localhost:3000/reset_pwd?mail=${encodeURI(userData.mail)}&key=${encodeURI(userData.password)}`,
     };
 
     // send mail with defined transport object

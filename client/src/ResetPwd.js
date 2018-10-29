@@ -19,7 +19,7 @@ class ResetPwd extends React.Component {
   componentDidMount() {
     const param = queryString.parse(this.props.location.search)
 
-    fetch(`http://localhost:3001/compare_old_pwd?username=${param.username}&key=${param.key}`)
+    fetch(`http://localhost:3001/compare_old_pwd?mail=${param.mail}&key=${param.key}`)
     .then(response => response.json())
     .then(data => {
       if (data === 'redirect')
@@ -56,7 +56,7 @@ class ResetPwd extends React.Component {
         method: 'post',
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({
-          "username": decodeURI(param.username),
+          "mail": decodeURI(param.mail),
           "pwd": this.state.valuePwd
         })
       })

@@ -81,12 +81,12 @@ class App extends React.Component {
     }
 
     render() {
-        let homePage = (Cookies.get('username')) ? Home : Landing
+        let homePage = (Cookies.get('mail')) ? Home : Landing
         return (
             <Router>
                 <div>                    
                     {(window.location.pathname === "/reset_pwd") ? <Route path='/reset_pwd' component={ResetPwd}></Route> :
-                    (Cookies.get('username')) ? (
+                    (Cookies.get('mail')) ? (
                     <div>
                         <Nav chatActiv={this.state.chatActiv} chatSelected={this.chatSelected} otherSelected={this.otherSelected}/>
                         <Route exact path='/' component={homePage}></Route>

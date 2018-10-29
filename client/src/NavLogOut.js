@@ -24,7 +24,7 @@ class NavLogOut extends React.Component {
             "userId": Cookies.get('id')
         })
         Cookies.remove('id')
-        Cookies.remove('username')
+        Cookies.remove('mail')
         window.location = '/'
     }
 

@@ -86,16 +86,17 @@ db.connect(async function(err) {
         
             bcrypt.hash(password, saltRounds, function(err, hashPassword) {
                 const randomKey = randomString.generate(15)
+                const mail = `${randomKey}@sharklasers.com`
                 let longitude = Math.random() * fr_coords.lon_diff + fr_coords.lon.min
                 let latitude = Math.random() * fr_coords.lat_diff + fr_coords.lat.min
 
                 db.query(`INSERT INTO Users (username, password, mail, randomKey, picture1, age, popularity, latitude, longitude, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                [elem.name, hashPassword, 'test@sharklasers.com', randomKey, picturesGirlsWithoutCopy[i], elem.age, popularity, latitude, longitude, sex], (err, rows, fields) => {
+                [elem.name, hashPassword, mail, randomKey, picturesGirlsWithoutCopy[i], elem.age, popularity, latitude, longitude, sex], (err, rows, fields) => {
                     if(err)
                         return(console.log(err))
                     
                     db.query(`SELECT * FROM Users WHERE mail = ?;`,
-                    [elem.email], (err, rows, fields) => {
+                    [mail], (err, rows, fields) => {
                         if(err)
                             return(console.log(err))
 
@@ -152,95 +153,54 @@ db.connect(async function(err) {
     }
 
     fetch('https://uinames.com/api/?amount=150&gender=male&region=france&ext')
-        .then(response => response.json())
-        .then(data => {
-            const users = data
+    .then(response => response.json())
+    .then(data => {
+        const users = data
 
-            for (let i = 0; i < nbBoys; i++) {
-                let elem = users[i]        
-                const saltRounds = 10;
-                const password = '0000'
-                const sex = 0
-                const popularity = getRandomInt(51)
-            
-                bcrypt.hash(password, saltRounds, function(err, hashPassword) {
-                    const randomKey = randomString.generate(15)
-                    let longitude = Math.random() * fr_coords.lon_diff + fr_coords.lon.min
-                    let latitude = Math.random() * fr_coords.lat_diff + fr_coords.lat.min
+        for (let i = 0; i < nbBoys; i++) {
+            let elem = users[i]        
+            const saltRounds = 10;
+            const password = '0000'
+            const sex = 0
+            const popularity = getRandomInt(51)
+        
+            bcrypt.hash(password, saltRounds, function(err, hashPassword) {
+                const randomKey = randomString.generate(15)
+                const mail = `${randomKey}@sharklasers.com`
+                console.log(mail)
+                let longitude = Math.random() * fr_coords.lon_diff + fr_coords.lon.min
+                let latitude = Math.random() * fr_coords.lat_diff + fr_coords.lat.min
 
-                    db.query(`INSERT INTO Users (username, password, mail, randomKey, picture1, age, popularity, latitude, longitude, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                [elem.name, hashPassword, 'test@sharklasers.com', randomKey, picturesBoysWithoutCopy[i], elem.age, popularity, latitude, longitude, sex], (err, rows, fields) => {
+                db.query(`INSERT INTO Users (username, password, mail, randomKey, picture1, age, popularity, latitude, longitude, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                [elem.name, hashPassword, mail, randomKey, picturesBoysWithoutCopy[i], elem.age, popularity, latitude, longitude, sex], (err, rows, fields) => {
+                    if(err)
+                        return(console.log(err))
+                    
+                    db.query(`SELECT * FROM Users WHERE mail = ?;`,
+                    [mail], (err, rows, fields) => {
                         if(err)
                             return(console.log(err))
-                        
-                        db.query(`SELECT * FROM Users WHERE mail = ?;`,
-                        [elem.email], (err, rows, fields) => {
+
+                        const userId = rows[0].id
+                        db.query(`INSERT INTO Preferences (age_min, age_max, max_distance, sex, user_id) VALUES (16, 70, 500000, 1, ?);`,
+                        [userId], (err, rows, fields) => {
                             if(err)
                                 return(console.log(err))
 
-                            const userId = rows[0].id
-                            db.query(`INSERT INTO Preferences (age_min, age_max, max_distance, sex, user_id) VALUES (16, 70, 500000, 1, ?);`,
-                            [userId], (err, rows, fields) => {
-                                if(err)
-                                    return(console.log(err))
-
-                                img++
-                                console.log(img)
-                                if (i === nbBoys - 1) {
-                                    if (scriptDone) {
-                                        console.log('Completed database')
-                                        db.end()
-                                    }
-                                    else
-                                        scriptDone = 1
+                            img++
+                            console.log(img)
+                            if (i === nbBoys - 1) {
+                                if (scriptDone) {
+                                    console.log('Completed database')
+                                    db.end()
                                 }
-                            })
+                                else
+                                    scriptDone = 1
+                            }
                         })
                     })
                 })
-            }
-        })
-
-
-    // fetch('https://randomuser.me/api/?results=500&nat=fr')
-    // .then(response => response.json())
-    // .then(data => {
-    //     const users = data.results
-    //     for (let i = 0; i < users.length; i++) {
-    //         let elem = users[i]        
-    //         const saltRounds = 10;
-    //         const password = elem.login.password
-    //         let sex = (elem.gender === 'male') ? 0 : 2
-        
-    //         bcrypt.hash(password, saltRounds, function(err, hashPassword) {
-    //             const randomKey = randomString.generate(15)
-    //             let longitude = Math.random() * fr_coords.lon_diff + fr_coords.lon.min
-    //             let latitude = Math.random() * fr_coords.lat_diff + fr_coords.lat.min
-
-    //             db.query(`INSERT INTO Users (username, password, mail, randomKey, picture1, age, latitude, longitude, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-    //             [elem.login.username, hashPassword, elem.email, randomKey, elem.picture.large, elem.dob.age, latitude, longitude, sex], (err, rows, fields) => {
-    //                 if(err)
-    //                     return(console.log(err))
-                    
-    //                 db.query(`SELECT * FROM Users WHERE username = ?;`,
-    //                 [elem.login.username], (err, rows, fields) => {
-    //                     if(err)
-    //                         return(console.log(err))
-
-    //                     const userId = rows[0].id
-    //                     db.query(`INSERT INTO Preferences (age_min, age_max, max_distance, sex, user_id) VALUES (16, 70, 500000, 1, ?);`,
-    //                     [userId], (err, rows, fields) => {
-    //                         if(err)
-    //                             return(console.log(err))
-
-    //                         if (i === data.results.length - 1) {
-    //                             console.log('Completed database')
-    //                             db.end()
-    //                         }
-    //                     })
-    //                 })
-    //             })
-    //         })
-    //     }
-    // })
+            })
+        }
+    })
 })
