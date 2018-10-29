@@ -150,13 +150,15 @@ router.post('/load_notifications', (req, res) => {
         if(err)
             return(res.send(err) && console.log(err));
         
+        console.log(rows[0].nbNotifs, 'nbnotifchat')
         let nbNotifs = rows[0].nbNotifs
         
         req.db.query('SELECT COUNT (id) AS nbNotifs FROM Matchs WHERE (user1 = ? AND read_match_1 = 1) OR (user2 = ? AND read_match_2 = 1) ;',
         [req.body.userId, req.body.userId], (err, rows, fields) => {
             if(err)
                 return(res.send(err) && console.log(err));
-        
+
+            console.log(rows[0].nbNotifs, 'nbnotifmatch')            
             nbNotifs += rows[0].nbNotifs
             res.json(nbNotifs)
         })
@@ -169,7 +171,10 @@ router.post('/match_read', (req, res) => {
         if(err)
             return(res.send(err) && console.log(err))
 
+        console.log(rows[0].user1, rows[0].user2, req.body.userId, rows[0].user1 === parseInt(req.body.userId, 10), rows[0].user2 === parseInt(req.body.userId, 10), 'heredeeeeeeee')
+
         if (rows[0].user1 === parseInt(req.body.userId, 10)) {
+            console.log('1')
             req.db.query('UPDATE Matchs SET read_match_1 = 0 WHERE user1 = ? AND user2 = ?;',
             [req.body.userId, req.body.matcherId], (err, rows, fields) => {
                 if(err)
@@ -179,6 +184,7 @@ router.post('/match_read', (req, res) => {
             })
         }
         else {
+            console.log('2')
             req.db.query('UPDATE Matchs SET read_match_2 = 0 WHERE user2 = ? AND user1 = ?;',
             [req.body.userId, req.body.matcherId], (err, rows, fields) => {
                 if(err)

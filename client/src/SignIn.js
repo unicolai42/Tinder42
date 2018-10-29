@@ -77,7 +77,7 @@ class SignIn extends React.Component {
           "mail": this.state.valueMail
         })
         .then(response => {
-          Cookies.set('id', response.data)
+          Cookies.set('id', parseInt(response.data, 10))
           socket.emit('getId', {
             userId: Cookies.get('id')
           })
