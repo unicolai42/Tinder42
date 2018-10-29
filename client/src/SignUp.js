@@ -70,14 +70,12 @@ class SignUp extends React.Component {
       }
 
 
-      if (elem === 'mail' || elem === 'username') {
+      if (elem === 'mail') {
         let users = this.props.users;
         users.forEach((user) => {
           if (user[elem].toUpperCase() === value.toUpperCase()) {
             if (elem === 'mail')
               this.setState({validMail: 'taken'});
-            else if (elem === 'username')
-              this.setState({validUsername: 'taken'});
             return;
           }
         });
