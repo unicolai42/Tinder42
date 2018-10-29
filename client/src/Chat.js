@@ -365,21 +365,18 @@ class Chat extends React.Component {
     }
 
     messagesConversationRead() {
-        if (this.state.usersInfo[this.state.idChatPrincipal].readNotif === 1) {
-            axios.post('http://localhost:3001/match_read', {
-                "userId": Cookies.get('id'),
-                "matcherId": this.state.usersInfo[this.state.idChatPrincipal].id
-            })
-            socket.emit('removeNotifNewMatch', {
-                userId: parseInt(Cookies.get('id'), 10)
-            })
-            let newUsersInfo = this.state.usersInfo
-            newUsersInfo[this.state.idChatPrincipal].readNotif = 0
-            this.setState({usersInfo: newUsersInfo})          
-        }
+        axios.post('http://localhost:3001/match_read', {
+            "userId": Cookies.get('id'),
+            "matcherId": this.state.usersInfo[this.state.idChatPrincipal].id
+        })
+        socket.emit('removeNotifNewMatch', {
+            userId: parseInt(Cookies.get('id'), 10)
+        })
+        let newUsersInfo = this.state.usersInfo
+        newUsersInfo[this.state.idChatPrincipal].readNotif = 0
+        this.setState({usersInfo: newUsersInfo})          
 
         let k = 0
-        console.log(this.state.usersInfo[this.state.idChatPrincipal]) ///////////////////////////////////////////////////////////////////
 
         if (this.state.usersChat[this.state.idChatPrincipal][0]) {
             this.state.usersChat[this.state.idChatPrincipal].forEach( (message, i) => {
