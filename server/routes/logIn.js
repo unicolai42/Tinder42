@@ -116,8 +116,7 @@ router.get('/activate_user', (req, res) => {
     [req.query.mail, req.query.key], (err, rows, fields) => {
         if (rows[0]) {
             req.db.query(`UPDATE Users SET randomKey = 1 WHERE mail = ?;`,
-            [req.query.mail], (err, rows, fields) => {
-                console.log(rows[0])
+            [req.query.mail], () => {
                 res.cookie('mail', rows[0].mail)
                 res.cookie('id', rows[0].id)
                 res.redirect('http://localhost:3000')

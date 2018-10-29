@@ -115,10 +115,9 @@ class SignIn extends React.Component {
     }
     else {
       validMessageColor = 'SignIn_validBlue'
-      validMessage = <div class='SignIn_validBlue'>{this.state.validMessage}</div>
+      validMessage = <div className='SignIn_validBlue'>{this.state.validMessage}</div>
     }
 
-    console.log(validMessage)
     return (
       <div id='SignIn'>
         <form action='/connect_user' method='POST' id='SignIn_form' onSubmit={this.submitForm}>
