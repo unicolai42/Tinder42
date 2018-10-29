@@ -43,7 +43,6 @@ class Chat extends React.Component {
         socket.on('displayMessage', data => {
             const oldLastUser = this.state.usersInfo[this.state.usersInfo.length - 1]
 
-            console.log(oldLastUser, data.receiverId)
             if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
                 let conversationOpen = 1
 
@@ -56,7 +55,6 @@ class Chat extends React.Component {
                 }
                 
                 if (this.state.usersChat[0][0].sender_id === data.senderId || this.state.usersChat[0][0].receiver_id === data.senderId) {
-                    console.log(this.state.usersChat[0][0], 'kkkkkk')
                     let newUsersChat = this.state.usersChat
                     
                     this.state.usersChat.forEach((elem, i) => {
@@ -178,8 +176,6 @@ class Chat extends React.Component {
             }
         })
         socket.on('displayNotif1', data => {
-            console.log('here')
-
             if ((data.receiverId === parseInt(Cookies.get('id'), 10) && data.senderId !== this.state.usersInfo[this.state.idChatPrincipal].id) || (data.receiverId === parseInt(Cookies.get('id'), 10) && window.location.href !== 'http://localhost:3000/chat')) {
                 socket.emit('newNotif2', {
                     receiverId: data.receiverId

@@ -81,8 +81,6 @@ router.post('/resend_activation_mail', (req, res) => {
     [req.body.mail], (err, rows, fields) => {
         if(err)
             return(res.send(err) && console.log(err));
-
-        console.log(rows[0], 'sendMailValidation')
         
         sendMailValidation(rows[0])
         res.json(rows[0])
@@ -111,7 +109,6 @@ router.post('/find_id_user', (req, res) => {
 })
 
 router.get('/activate_user', (req, res) => {
-    console.log(req.query.mail, req.query.key, 'dede')
     req.db.query(`SELECT * FROM Users WHERE mail = ?;`,
     [req.query.mail, req.query.key], (err, rows, fields) => {
         if (rows[0]) {

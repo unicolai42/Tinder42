@@ -180,7 +180,6 @@ class Settings extends React.Component {
   }
 
   onEnterPressMail(event) {
-    console.log('fefer')
     if(event.keyCode === 13) {
         event.preventDefault()
         this.submitChangeMail()

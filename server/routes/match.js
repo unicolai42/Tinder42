@@ -110,7 +110,6 @@ router.post('/load_user_data_match', (req, res) => {
                                                 if (checkedId.findIndex(e => { return e === userData.id}))
                                                     usersData.push(userData)
                                         })
-                                        console.log(usersData)
                                         res.json(usersData)
                                     })
                                 })
