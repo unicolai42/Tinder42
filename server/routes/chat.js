@@ -78,6 +78,8 @@ router.post('/chat_conversation', (req, res) => {
                     chats.push(row)
                 })
             }
+            // console.log(chats[0], 'eeee')
+            
             res.json(chats)
         })
     })
@@ -126,7 +128,43 @@ router.post('/find_match_info', (req, res) => {
                     usersInfo.push(data[y])
                     i++
                 }
-                res.json(usersInfo);
+                res.json(usersInfo)
+                // let usersId = []
+                // usersInfo.forEach((e) => {
+                //     usersId.push(e.id)
+                // })
+
+                // req.db.query("SELECT * FROM Chat WHERE sender_id IN (?) AND receiver_id = ? OR sender_id = ? AND receiver_id IN (?) ORDER BY date DESC;",
+                // [usersId, req.body.userLogin, req.body.userLogin, usersId], (err, rows, fields) => {
+                //     if(err)
+                //         return(res.send(err) && console.log(err))
+                    
+                //     let usersInfoDateChat = usersInfo
+
+                //     usersInfo.forEach((userInfo, i) => {
+                //         rows.forEach((chat) => {
+                //             if ((userInfo.id === chat.sender_id && req.body.userLogin === chat.receiver_id) || (userInfo.id === chat.receiver_id && req.body.userLogin === chat.sender_id)) {
+                //                 if (chat.date > userInfo.date) {
+                //                     usersInfoDateChat[i].date = chat.date                               
+                //                 }
+                //             }
+                //         })
+                //         if (i === usersInfo.length - 1) {
+                //             let swap
+                //             for (let i = 0; i < usersInfoDateChat.length; i++) {
+                //                 for (let j = 1; j < usersInfoDateChat.length; j++) {
+                //                     if (usersInfoDateChat[j].date < usersInfoDateChat[j - 1].date) {
+                //                         swap = usersInfoDateChat[j]
+                //                         usersInfoDateChat[j] = usersInfoDateChat[j - 1]
+                //                         usersInfoDateChat[j - 1] = swap
+                //                     }
+                //                 }
+                //                 if (i === usersInfoDateChat.length - 1)
+                //                     res.json(usersInfoDateChat)
+                //             }
+                //         }
+                //     })
+                // })
             })
         })
     })

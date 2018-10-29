@@ -251,7 +251,6 @@ class Chat extends React.Component {
                         usersInfo: data,
                         idChatPrincipal: data.length - 1
                     })
-                    
                 })
             }
         })
