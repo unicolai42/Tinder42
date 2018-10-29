@@ -43,8 +43,6 @@ class SignIn extends React.Component {
     fetch(`/mail_change_password?mail=${this.state.valueMail}`)
     .then(response => response.json())
     .then(data => {
-      console.log(data)
-      ////////////////////////////////////////////////////ooooooo
       this.setState({ validMessage: `A link to change your password has been sent at : ${data.mail}` })
       this.setState({ validLog: '_'})
     })
@@ -115,10 +113,12 @@ class SignIn extends React.Component {
       validMessageColor = 'SignIn_validBlack'
       validMessage = <div onClick={this.resendValidationMail}>{this.state.validMessage}</div>
     }
-    else
+    else {
       validMessageColor = 'SignIn_validBlue'
+      validMessage = <div class='SignIn_validBlue'>{this.state.validMessage}</div>
+    }
 
-
+    console.log(validMessage)
     return (
       <div id='SignIn'>
         <form action='/connect_user' method='POST' id='SignIn_form' onSubmit={this.submitForm}>

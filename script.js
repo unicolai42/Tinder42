@@ -167,7 +167,6 @@ db.connect(async function(err) {
             bcrypt.hash(password, saltRounds, function(err, hashPassword) {
                 const randomKey = randomString.generate(15)
                 const mail = `${randomKey}@sharklasers.com`
-                console.log(mail)
                 let longitude = Math.random() * fr_coords.lon_diff + fr_coords.lon.min
                 let latitude = Math.random() * fr_coords.lat_diff + fr_coords.lat.min
 
