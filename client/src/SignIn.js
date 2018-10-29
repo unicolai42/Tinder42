@@ -43,6 +43,8 @@ class SignIn extends React.Component {
     fetch(`/mail_change_password?mail=${this.state.valueMail}`)
     .then(response => response.json())
     .then(data => {
+      console.log(data)
+      ////////////////////////////////////////////////////ooooooo
       this.setState({ validMessage: `A link to change your password has been sent at : ${data.mail}` })
       this.setState({ validLog: '_'})
     })
