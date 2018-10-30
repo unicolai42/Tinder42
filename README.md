@@ -38,7 +38,7 @@ The database is in mysql
 
 Install the project on your computer (open your terminal then paste this) :
 ```
-git clone https://github.com/unicolai42/Instagram42.git Instagram42
+git clone https://github.com/unicolai42/Tinder42.git Tinder42
 ```
 
 Install mysql and open it :
@@ -50,23 +50,21 @@ mysql -u [your username] -p
 
 Create a database and close mysql:
 ```
-CREATE DATABASE Instagram42;
+CREATE DATABASE Tinder42;
 
 quit;
 ```
 
 Download the database and launch the server:
 ```
-cd config
+node script.js
 
-./setup.php
+npm install
 
-../ (go to the root of the project)
-
-php -S localhost:8080 (if php isn't install tape this before -> brew install php)
+npm start (if nodeJS isn't install tape this before -> brew install node)
 ```
 
 Open the project in your Navigator :
 ```
-http://localhost:8080 (Paste this in the url)
+http://localhost:3000 (Paste this in the url)
 ```
