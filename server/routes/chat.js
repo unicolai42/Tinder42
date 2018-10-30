@@ -22,7 +22,22 @@ router.post('/chat_conversation', (req, res) => {
             arrayConversation.push(row)
         })
         arrayAllConversations.push(arrayConversation)
-        console.log(arrayAllConversations, 'llllllaaaaaaaaaa') ///////////////////////////////////////////////////////
+        // console.log(arrayAllConversations[1], 'llllllaaaaaaaaaa') ///////////////////////////////////////////////////////
+
+        let swap
+        for (let i = 0; i < arrayAllConversations.length; i++) {
+            for (let j = 1; j < arrayAllConversations.length; j++) {
+                console.log(arrayAllConversations[j][arrayAllConversations[j].length - 1].date)
+                if (arrayAllConversations[j][arrayAllConversations[j].length - 1].date < arrayAllConversations[j - 1][arrayAllConversations[j - 1].length - 1].date) {
+                    swap = arrayAllConversations[j]
+                    arrayAllConversations[j] = arrayAllConversations[j - 1]
+                    arrayAllConversations[j - 1] = swap
+                }
+            }
+        }
+
+        // console.log(arrayAllConversations[1], 'ssssss') ///////////////////////////////////////////////////////
+
 
         req.db.query("SELECT * FROM Matchs WHERE user1 = ? OR user2 = ? ORDER BY date;",
         [req.body.user, req.body.user], (err, rows, fields) => {
