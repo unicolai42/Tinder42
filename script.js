@@ -48,8 +48,6 @@ db.connect(async function(err) {
     let nbGirls
 
     for (let i = 1; i < 100; i++) {
-        while (i === 37 || i === 39 || i === 40 || i === 41 || i === 47 || i === 58 || i === 73 || i === 82 || i === 84 || i === 90 || i === 96 || i === 98)
-            i++
         unsplash.search.photos("female", i, 10)
         .then(toJson)
         .then(json => {
@@ -69,6 +67,8 @@ db.connect(async function(err) {
         })
         .then(() => {
             nbGirls = (picturesGirlsWithoutCopy.length >= 350) ? 350 : picturesGirls.length
+        })
+        .catch((err) => {
         })
     }
 
@@ -122,6 +122,8 @@ db.connect(async function(err) {
             })
         }
     })
+    .catch((err) => {
+    })
 
     
 
@@ -149,6 +151,8 @@ db.connect(async function(err) {
         })
         .then(() => {
             nbBoys = (picturesBoysWithoutCopy.length >= 150) ? 150 : picturesBoys.length
+        })
+        .catch((err) => {
         })
     }
 
@@ -201,5 +205,7 @@ db.connect(async function(err) {
                 })
             })
         }
+    })
+    .catch((err) => {
     })
 })
