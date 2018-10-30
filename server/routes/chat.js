@@ -22,12 +22,10 @@ router.post('/chat_conversation', (req, res) => {
             arrayConversation.push(row)
         })
         arrayAllConversations.push(arrayConversation)
-        // console.log(arrayAllConversations[1], 'llllllaaaaaaaaaa') ///////////////////////////////////////////////////////
 
         let swap
         for (let i = 0; i < arrayAllConversations.length; i++) {
             for (let j = 1; j < arrayAllConversations.length; j++) {
-                console.log(arrayAllConversations[j][arrayAllConversations[j].length - 1].date)
                 if (arrayAllConversations[j][arrayAllConversations[j].length - 1].date < arrayAllConversations[j - 1][arrayAllConversations[j - 1].length - 1].date) {
                     swap = arrayAllConversations[j]
                     arrayAllConversations[j] = arrayAllConversations[j - 1]
@@ -35,9 +33,6 @@ router.post('/chat_conversation', (req, res) => {
                 }
             }
         }
-
-        // console.log(arrayAllConversations[1], 'ssssss') ///////////////////////////////////////////////////////
-
 
         req.db.query("SELECT * FROM Matchs WHERE user1 = ? OR user2 = ? ORDER BY date;",
         [req.body.user, req.body.user], (err, rows, fields) => {
@@ -73,7 +68,6 @@ router.post('/chat_conversation', (req, res) => {
                 }
 
                 i = 0
-                console.log(matchsChecked)
                 if (matchsChecked[0]) {
                     chats.forEach(chat => {
                         if (i !== -1) {
@@ -146,42 +140,6 @@ router.post('/find_match_info', (req, res) => {
                     i++
                 }
                 res.json(usersInfo)
-                // let usersId = []
-                // usersInfo.forEach((e) => {
-                //     usersId.push(e.id)
-                // })
-
-                // req.db.query("SELECT * FROM Chat WHERE sender_id IN (?) AND receiver_id = ? OR sender_id = ? AND receiver_id IN (?) ORDER BY date DESC;",
-                // [usersId, req.body.userLogin, req.body.userLogin, usersId], (err, rows, fields) => {
-                //     if(err)
-                //         return(res.send(err) && console.log(err))
-                    
-                //     let usersInfoDateChat = usersInfo
-
-                //     usersInfo.forEach((userInfo, i) => {
-                //         rows.forEach((chat) => {
-                //             if ((userInfo.id === chat.sender_id && req.body.userLogin === chat.receiver_id) || (userInfo.id === chat.receiver_id && req.body.userLogin === chat.sender_id)) {
-                //                 if (chat.date > userInfo.date) {
-                //                     usersInfoDateChat[i].date = chat.date                               
-                //                 }
-                //             }
-                //         })
-                //         if (i === usersInfo.length - 1) {
-                //             let swap
-                //             for (let i = 0; i < usersInfoDateChat.length; i++) {
-                //                 for (let j = 1; j < usersInfoDateChat.length; j++) {
-                //                     if (usersInfoDateChat[j].date < usersInfoDateChat[j - 1].date) {
-                //                         swap = usersInfoDateChat[j]
-                //                         usersInfoDateChat[j] = usersInfoDateChat[j - 1]
-                //                         usersInfoDateChat[j - 1] = swap
-                //                     }
-                //                 }
-                //                 if (i === usersInfoDateChat.length - 1)
-                //                     res.json(usersInfoDateChat)
-                //             }
-                //         }
-                //     })
-                // })
             })
         })
     })
