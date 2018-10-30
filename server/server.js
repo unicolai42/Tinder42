@@ -20,7 +20,7 @@ const connectionPool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'Matcha'
+    database: 'Tinder42'
 })
 
 app.use(bodyParser.json({limit: '10mb'}))

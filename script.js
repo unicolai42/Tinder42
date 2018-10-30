@@ -18,7 +18,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'Matcha',    
+    database: 'Tinder42',    
     multipleStatements: true
 })
 
