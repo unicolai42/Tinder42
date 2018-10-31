@@ -41,6 +41,7 @@ class Chat extends React.Component {
         socket.removeListener('displayNotif1')
 
         socket.on('displayMessage', data => {
+            console.log(data, 'here') ///////////
             const oldLastUser = this.state.usersInfo[this.state.usersInfo.length - 1]
 
             if (data.receiverId === parseInt(Cookies.get('id'), 10)) {
@@ -161,7 +162,7 @@ class Chat extends React.Component {
                         if (elem.id === data.senderId) {
                             newUsersInfo.splice(i, 1)
                             newUsersInfo.push(elem)
-                            newUsersChat = this.state.usersChat
+                            newUsersChat = this.state.usersChat /////////////////////////// is not newusersinfo ?
 
                             let userChatChange = newUsersChat[i]
                             

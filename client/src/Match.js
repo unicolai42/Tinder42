@@ -125,10 +125,13 @@ class Match extends React.Component {
           })
         }
         else {
-          socket.emit('newMatch1', {
-            senderId: parseInt(Cookies.get('id'), 10),
-            receiverId: this.state.allUsers[this.state.indexUser1].id
-          })
+          console.log(this.state.allUsers[this.state.indexUser1], data)
+          // socket.emit('newMessage', {
+          //   senderId: parseInt(Cookies.get('id'), 10),
+          //   receiverId: this.state.allUsers[this.state.indexUser1].id,
+          //   matchId: matchId,
+          //   message: this.state.valueInput
+          // })
           this.setState({
             matchedLogoStyle: {display: 'initial'},
             matchedTxtStyle: {display: 'initial'},
