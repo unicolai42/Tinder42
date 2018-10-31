@@ -26,7 +26,7 @@ The database is in mysql
 <p align='center'><i>Set up Profile</i></p>
 <br/>
 <br/>
-<p align='center'><img src="https://media.giphy.com/media/WvuqZ64IcDw4Wed5oQ/giphy.gif" alt='instagram42'/></p>
+<p align='center'><img src="https://media.giphy.com/media/1zgv28rV8KXOBAf5cy/giphy.gif" alt='instagram42'/></p>
 <p align='center'><i>Notifications + display comments and likes in the home</i></p>
 <br/>
 <br/>
