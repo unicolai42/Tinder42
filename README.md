@@ -27,7 +27,7 @@ The database is in mysql
 <br/>
 <br/>
 <p align='center'><img src="https://media.giphy.com/media/2wWYJ2w7NDmyzsY939/giphy.gif" alt='tinder42'/></p>
-<p align='center'><i>Match + Chat</i></p>
+<p align='center'><i>Match + Chat + Settings</i></p>
 <br/>
 
 ### Installation
