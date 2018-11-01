@@ -26,7 +26,7 @@ The database is in mysql
 <p align='center'><i>Set up Profile</i></p>
 <br/>
 <br/>
-<p align='center'><img src="https://media.giphy.com/media/2wWYJ2w7NDmyzsY939/giphy.gif" alt='tinder42'/></p>
+<p align='center'><img src="https://media.giphy.com/media/ftd3PR2YcuNE5FQJ7j/giphy.gif" alt='tinder42'/></p>
 <p align='center'><i>Match + Chat + Settings</i></p>
 <br/>
 
